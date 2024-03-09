@@ -42,7 +42,7 @@
       {
         hostName = "corrino.emile.space";
         system = "x86_64-linux";
-        maxJobs = 1;
+        maxJobs = 8;
         speedFactor = 2;
 
         # Feature	      | Derivations requiring it
