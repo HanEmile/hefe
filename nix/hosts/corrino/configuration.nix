@@ -334,27 +334,27 @@
 
     # we need the below in order for hydra to be allowed to access the pages
     extraOptions = ''
-    allowed-uris = ssh://gitea@git.emile.space git+https://git.emile.space https://git.emile.space https://portswigger-cdn.net https://git.sr.ht/ https://gitlab.com/simple-nixos-mailserver https://github.com/nixos/nixpkgs
+  allowed-uris = ssh://gitea@git.emile.space git+https://git.emile.space https://git.emile.space https://portswigger-cdn.net https://git.sr.ht/ https://gitlab.com/simple-nixos-mailserver https://github.com/nixos/nixpkgs http:// https://
   		builders-use-substitutes = true
     '';
 
     buildMachines = [
       {
-    	 hostName = "localhost";
-    	 system = "x86_64-linux";
-       protocol = "ssh-ng";
-    	 maxJobs = 1;
-    	 supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
-    	}
+        hostName = "localhost";
+        system = "x86_64-linux";
+        protocol = "ssh-ng";
+        maxJobs = 1;
+        supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+      }
       {
-    	 hostName = "caladan";
-    	 system = "aarch64-darwin";
-       protocol = "ssh-ng";
-    	 maxJobs = 1;
-    	 speedFactor = 2;
-    	 supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
-    	 mandatoryFeatures = [ ];
-    	}
+        hostName = "caladan";
+        system = "aarch64-darwin";
+        protocol = "ssh-ng";
+        maxJobs = 1;
+        speedFactor = 2;
+        supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+        mandatoryFeatures = [ ];
+      }
     ];
 
   	distributedBuilds = true;
