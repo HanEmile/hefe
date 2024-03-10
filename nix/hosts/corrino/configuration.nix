@@ -333,10 +333,17 @@
     };
 
     # we need the below in order for hydra to be allowed to access the pages
+    # ssh://gitea@git.emile.space/ 
+  # allowed-uris = https://git.emile.space/ https://git.emile.space/ https://portswigger-cdn.net/ https://git.sr.ht/ https://gitlab.com/simple-nixos-mailserver/ https://github.com/nixos/nixpkgs/ http:// https://
     extraOptions = ''
-  allowed-uris = ssh://gitea@git.emile.space git+https://git.emile.space https://git.emile.space https://portswigger-cdn.net https://git.sr.ht/ https://gitlab.com/simple-nixos-mailserver https://github.com/nixos/nixpkgs http:// https://
-  		builders-use-substitutes = true
+  builders-use-substitutes = true
     '';
+
+    settings.allowed-uris = [
+      "github:"
+      "git+https://github.com/"
+      "git+ssh://github.com/"
+    ];
 
     buildMachines = [
       {
