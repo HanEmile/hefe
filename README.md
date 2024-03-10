@@ -1,7 +1,5 @@
 # hefe
 
-Growing stuff here!
-
 ## Secrets
 
 - Managed using agenix

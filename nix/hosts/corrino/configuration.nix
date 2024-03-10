@@ -337,6 +337,7 @@
   # allowed-uris = https://git.emile.space/ https://git.emile.space/ https://portswigger-cdn.net/ https://git.sr.ht/ https://gitlab.com/simple-nixos-mailserver/ https://github.com/nixos/nixpkgs/ http:// https://
     extraOptions = ''
   builders-use-substitutes = true
+  allowed-uris = git.emile.space: gitea@git.emile.space:
     '';
 
     settings.allowed-uris = [
