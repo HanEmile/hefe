@@ -343,6 +343,7 @@
       "github:"
       "git+https://github.com/"
       "git+ssh://github.com/"
+      "ssh://gitea@git.emile.space/hanemile/"
     ];
 
     buildMachines = [
