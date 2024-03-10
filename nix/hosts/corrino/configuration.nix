@@ -343,6 +343,9 @@
       "github:"
       "git+https://github.com/"
       "git+ssh://github.com/"
+
+      "git.emile.space:"
+      "gitea@git.emile.space:"
       "ssh://gitea@git.emile.space/hanemile/"
       "ssh://git.emile.space/hanemile/"
       "git+ssh://git.emile.space/hanemile/"
