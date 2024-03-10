@@ -341,6 +341,9 @@
     '';
 
     settings.allowed-uris = [
+      "git+ssh:"
+      "git+https:"
+
       "github:"
       "git+https://github.com/"
       "git+ssh://github.com/"
