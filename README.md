@@ -12,3 +12,12 @@ Growing stuff here!
 ; EDITOR=hx nix run git+https://github.com/ryantm/agenix -- -e nix/hosts/corrino/secrets/pretix.age
 ```
 
+## deploy
+
+Using [deploy-rs](https://github.com/serokell/deploy-rs) to deploy
+
+```bash
+; deploy .#corrino
+; deploy .#caladan
+```
+
