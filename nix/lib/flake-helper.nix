@@ -67,7 +67,7 @@ rec {
 					else ""))
 
 			# secrets (have to be added to git (crypted) #lessonslearned)
-			({ lib, ... }: let
+			({ lib ? (import <nixpkgs/lib>), ... }: let
 				secretsPath = (../hosts + "/${name}/secrets");
 			in {
 				age.secrets = lib.mapAttrs'
