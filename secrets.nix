@@ -5,6 +5,12 @@
 
 # nix eval --impure --expr 'import ./secrets.nix'
 
+# As we're generating the secret.nix, we have a bootstrapping problem:
+# agenix assumes that the to be generated secret is present in the
+# secret.nix file, but we've not created it yet.
+# Due to this, we've got a "new" file in the secrets directory that can be used
+# and renamed afterwards
+
 let
 	pubkeysFor = directory:
 		let
