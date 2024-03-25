@@ -3,29 +3,31 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      # ./age_secrets.nix
 
+      # web
       ./www/emile.space.nix
       ./www/git.emile.space.nix
       ./www/hydra.emile.space.nix
       ./www/netbox.emile.space.nix
       # ./www/grafana.emile.space.nix
       ./www/photo.emile.space.nix
-
-      
       # ./www/events.emile.space.nix
       ./www/tickets.emile.space.nix
       ./www/talks.emile.space.nix
       ./www/stream.emile.space.nix
-
       ./www/pgweb.emile.space.nix
-
       ./www/ctf.emile.space.nix
+      ./www/md.emile.space.nix
       # ./www/magic-hash.emile.space.nix
-
       # ./www/znc.emile.space.nix
 
+      # gemini
       ./gemini/emile.space.nix
+
+      # general purpose modules
+      ./modules/authelia.emile.space.nix
+
+      # containers
     ];
 
   # Use GRUB2 as the boot loader.
@@ -133,6 +135,8 @@
       # helix
 
       sshfs
+
+      virter
     ];
   };
 
@@ -218,7 +222,7 @@
       enable = true;
       enableIPv6 = true;
       externalInterface = "enp35s0";
-      internalInterfaces = [ "wg0" ];
+      internalInterfaces = [ "wg0" "ve-+"];
     };
 
     wireguard = {
@@ -337,7 +341,7 @@
   # allowed-uris = https://git.emile.space/ https://git.emile.space/ https://portswigger-cdn.net/ https://git.sr.ht/ https://gitlab.com/simple-nixos-mailserver/ https://github.com/nixos/nixpkgs/ http:// https://
     extraOptions = ''
   builders-use-substitutes = true
-  allowed-uris = git.emile.space: gitea@git.emile.space: ssh://gitea@git.emile.space/hanemile/hefe-internal.git
+  allowed-uris = git.emile.space: gitea@git.emile.space: ssh://gitea@git.emile.space/hanemile/hefe-internal.git git+ssh: git+https:
     '';
 
     settings.allowed-uris = [
@@ -394,17 +398,24 @@
 
   virtualisation = {
     docker.enable = true;
-    # libvirtd = {
-    #   enable = true;
-    #   qemu = {
-    #     swtpm.enable = true;
-    #     ovmf.enable = true;
-    #     ovmf.packages = [ pkgs.OVMFFull.fd ];
-    #   };
-    # };
-    # spiceUSBRedirection.enable = true;
+    libvirtd = {
+      enable = true;
+      qemu = {
+        package = pkgs.qemu_kvm;
+        runAsRoot = true;
+        swtpm.enable = true;
+        ovmf = {
+          enable = true;
+          packages = [
+            (pkgs.unstable.OVMF.override {
+              secureBoot = true;
+              tpmSupport = true;
+            }).fd
+          ];
+        };
+      };
+    };
   };
-
   # programs.virt-manager.enable = true;
 
   fileSystems."/proc" = {

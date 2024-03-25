@@ -4,10 +4,22 @@
 
 - Managed using agenix
 - Don't forget to add secrets to git!
-- Edit secrets such as below
+
+Create secrets:
+```bash
+./secret_create.sh
+```
+
+Edit secrets:
 
 ```bash
-; EDITOR=hx nix run git+https://github.com/ryantm/agenix -- -e nix/hosts/corrino/secrets/pretix.age
+; EDITOR=hx nix run git+https://github.com/ryantm/agenix -- -e <secret>
+```
+
+Print the generated secrets file as follows:
+
+```bash
+; nix eval -I nixpkgs=flake:nixpkgs --file secrets.nix
 ```
 
 ## Deploy

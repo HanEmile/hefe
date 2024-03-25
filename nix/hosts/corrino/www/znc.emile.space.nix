@@ -1,47 +1,60 @@
-{ ... }:
+{ config, pkgs, lib, ... }:
 
 {
   services.nginx.virtualHosts."znc.emile.space" = {
     forceSSL = true;
     enableACME = true;
 
-    locations = {
-      "/" = {
-        proxyPass = "http://127.0.0.1:5000";
-      };
-    };
+    locations."/".proxyPass = "http://127.0.0.1:5002";
   };
 
   services.znc = {
     enable = true;
-    openFirewall = true;
+    mutable = true;
     useLegacyConfig = false;
 
-    config = {
-      LoadModule = [ ];
-      User.Emile = {
-        Admin = true;
-        Nick = "hanemile";
-        RealName = "Emile";
-        # QuitMsg = "iowait()";
-        LoadModule = [ "chansaver" "controlpanel" ];
+    openFirewall = false;
 
-        Network.libera = {
-          Server = "irc.libera.chat +6697";
-          LoadModule = [ "simple_away" ];
-          Chan = {
-            "#nixos" = { Detached = false; };
-            "##linux" = { Disabled = true; };
+    modulePackages = with pkgs.zncModules; [
+      clientbuffer
+      clientaway
+      playback
+      privmsg
+    ];
+
+    config = lib.mkMerge [
+      ({
+        Version = lib.getVersion pkgs.znc;
+        Listener = {
+          l = { Port = 5002; SSL = false; AllowWeb = true;  };
+          j = { Port = 5001; SSL = true;  AllowWeb = false; };
+          LoadModule = [ "webadmin" "adminlog" "playback" "privmsg" ];
+          User = {
+            emile = {
+              Admin = true;
+              Nick = "hanemile";
+              AltNick = "hanemile_";
+              AutoClearChanBuffer = false;
+              AutoClearQueryBuffer = false;
+              LoadModule = [
+                "clientbuffer autoadd"
+                "buffextras"
+                "clientaway"
+              ];
+              Network = {
+                liberachat = {
+                  Server = "irc.libera.char +6697";
+                  Nick = "hanemile";
+                  AltNick = "hanemile";
+                  JoinDelay = 2;
+                  LoadModule = [ "simple_away" "nickserv" "cert"];
+                };
+              };
+            };
           };
         };
-
-        Pass.password = { # hunter2
-          Method = "sha256";
-          Hash =
-            "31357a874d929871b7c2267721501aaa1f3c570ddc72eb6fb6d065fe72dbc2e4";
-          Salt = "Oo1du8jahquataexai6Eiph9OcohpoL3";
-        };
-      };
-    };
+      })
+    ];
+    configFile = config.age.secrets.znc-config.path;
   };
 }
