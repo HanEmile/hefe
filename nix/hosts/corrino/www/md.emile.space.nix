@@ -28,24 +28,24 @@
 			public = false;
 			authorization_policy = "two_factor";
 			redirect_uris = [
-        "https://md.emile.space/auth/oauth2/callback"
+				"https://md.emile.space/auth/oauth2/callback"
 			];
 			scopes = [
 				"openid"
 				"email"
 				"profile"
 			];
-      grant_types = [
-        "refresh_token"
-        "authorization_code"
+			grant_types = [
+				"refresh_token"
+				"authorization_code"
 			];
-      response_types = [
-        "code"
+			response_types = [
+				"code"
 			];
-      response_modes = [
-        "form_post"
-        "query"
-        "fragment"
+			response_modes = [
+				"form_post"
+				"query"
+				"fragment"
 			];
 		}
 	];
@@ -89,10 +89,10 @@
 	# backups
 	services.restic.backups = {
 	  storagebox = {
-	    user = "u331921";
-	    repository = "stfp:u331921@u331921.your-storagebox-de:23/restic";
-	    initialize = true; # initializes the repo, don't set if you want manual control
-	    passwordFile = config.age.secrets.restic_password.path;
+			user = "u331921";
+			repository = "stfp:u331921@u331921.your-storagebox-de:23/restic";
+			initialize = true; # initializes the repo, don't set if you want manual control
+			passwordFile = config.age.secrets.restic_password.path;
 			paths = [
 				"/var/lib/hedgedoc/"
 			];
