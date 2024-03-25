@@ -174,6 +174,8 @@
     # infrastructure as code foo
     terraform ansible
 
+    portmidi
+
   ] ++ lib.optionals stdenv.isDarwin [
     m-cli
   ];
