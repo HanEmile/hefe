@@ -169,7 +169,7 @@
     virt-manager
 
     # lisp foo
-    unstable.sbcl
+    sbcl
 
     # infrastructure as code foo
     terraform ansible
