@@ -93,10 +93,10 @@
 				manual = true;
 
 				# some other secrets can be defined here, but not all...
-		    storageEncryptionKeyFile = authelia_storage_encryption_key.path;
-		    jwtSecretFile = authelia_jwt_secret.path;
-		    oidcIssuerPrivateKeyFile = authelia_oidc_issuer_private_key.path;
-		    oidcHmacSecretFile = authelia_oidc_hmac_secret.path;
+				storageEncryptionKeyFile = authelia_storage_encryption_key.path;
+				jwtSecretFile = authelia_jwt_secret.path;
+				oidcIssuerPrivateKeyFile = authelia_oidc_issuer_private_key.path;
+				oidcHmacSecretFile = authelia_oidc_hmac_secret.path;
 			};
 			settings = {
 				theme = "dark";
@@ -107,7 +107,7 @@
 				};
 
 				# we're using a file to store the user information
-        authentication_backend = {
+				authentication_backend = {
 					refresh_interval = "1m";
 					file = {
 						path = "/var/lib/authelia-main/user.yml";
@@ -121,15 +121,15 @@
 							parallelism = 4;
 						};
 					};
-        };
+				};
 
-        storage.local.path = "/var/lib/authelia-main/db.sqlite";
+				storage.local.path = "/var/lib/authelia-main/db.sqlite";
 
-        session = {
+				session = {
 					domain = "sso.emile.space";
 					expiration = 3600; # 1 hour
 					inactivity = 300; # 5 minutes
-        };
+				};
 
 				notifier = {
 					disable_startup_check = false;
@@ -142,7 +142,7 @@
 						sender = "mail@emile.space";
 						subject = "[Authelia] {title}";
 
- 						disable_require_tls = false;
+						disable_require_tls = false;
 						disable_starttls = false;
 						disable_html_emails = true;
 
@@ -161,10 +161,10 @@
 						# current serial: deb83f17e27e663f544a16ad2947631d
 
 						enable_client_debug_messages = false;
-					    minimum_parameter_entropy = 8;
-					    enforce_pkce = "public_clients_only";
-					    enable_pkce_plain_challenge = false;
-					    cors = {
+							minimum_parameter_entropy = 8;
+							enforce_pkce = "public_clients_only";
+							enable_pkce_plain_challenge = false;
+							cors = {
 							endpoints = [
 								"authorization"
 								"token"
@@ -179,9 +179,9 @@
 					};
 				};
 
-        access_control = {
-          default_policy = "deny";
-          rules = [
+				access_control = {
+					default_policy = "deny";
+					rules = [
 						{
 							domain = "*.emile.space";
 							policy = "two_factor";
