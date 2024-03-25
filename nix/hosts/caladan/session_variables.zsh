@@ -1,5 +1,16 @@
 export PROMPT="; "		# minimal prompt
-export RPROMPT="%F{green}%/%F{reset}"
+
+# right side prompt
+# - path
+# time of last command executed
+#export RPROMPT="%F{green}%/%F{reset}"
+export RPROMPT="%F{green}%/%F{reset} %D{%K:%M:%S}" 
+
+# reset the prompt every second, so we get the time the command was executed
+# in the rprompt
+TMOUT=1
+TRAPALRM() { zle reset-prompt }
+
 export PROMPT_EOL_MARK="%"  # hide EOL sign ('%')
 
 export EDITOR="hx"
