@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
-{
+let
+	ports = import ../ports.nix;
+in {
 	services.nginx.virtualHosts."md.emile.space" = {
 		forceSSL = true;
 		enableACME = true;
@@ -10,7 +12,8 @@
 
 		locations = {
 			"/" = {
-				proxyPass = "http://127.0.0.1:3003";
+				# proxyPass = "http://127.0.0.1:3003";
+        proxyPass = "http://127.0.0.1:${toString config.services.hedgedoc.settings.port}";
 
 				# TODO(emile): figure out why this doesn't work when enabled, has to do with authelia
 				# extraConfig = authelia-authrequest;
@@ -58,7 +61,7 @@
 
 		settings = {
 			host = "127.0.0.1";
-			port = 3003;
+			port = ports.md;
 
 			domain = "md.emile.space";
 

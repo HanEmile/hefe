@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
 let
+  ports = import ../ports.nix;
   pretalx_config = pkgs.writeText "/etc/pretalx.cfg" ''
     [filesystem]
     media = /public/media
@@ -42,7 +43,7 @@ in {
     locations = {
       "/" = {
         extraConfig = ''
-          proxy_pass http://127.0.0.1:8350;
+          proxy_pass http://127.0.0.1:${toString ports.talks};
 
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
           proxy_set_header Host $host;
@@ -61,7 +62,7 @@ in {
     pretalx = {
       image = "pretalx/standalone:latest";
       ports = [
-        "127.0.0.1:8350:80"
+        "127.0.0.1:${toString ports.talks}:80"
       ];
       volumes = [
         "/var/pretalx-data:/data" # {static, media}

@@ -1,6 +1,8 @@
 { config, ... }:
 
-{
+let
+  ports = import ../ports.nix;
+in {
   services = {
     nginx.virtualHosts."grafana.emile.space" = {
       addSSL = true;
@@ -16,7 +18,7 @@
       settings = {
         server = {
           http_addr = "127.0.0.1";
-          http_port = 3002;
+          http_port = ports.grafana;
           domain = "grafana.emile.space";
           root_url = "https://grafana.emile.space/";
         };
@@ -47,13 +49,13 @@
     prometheus = {
       enable = true;
       retentionTime = "356d";
-      port = 9003;
+      port = ports.prometheus;
 
       exporters = {
         node = {
           enable = true;
           enabledCollectors = [ "systemd" ];
-          port = 9002;
+          port = ports.prometheus_node_exporter;
         };
       };
       scrapeConfigs = [
@@ -71,7 +73,7 @@
       configuration = {
         auth_enabled = false;
         server = {
-          http_listen_port = 9004;
+          http_listen_port = ports.loki;
         };
 
         limits_config = {
@@ -112,7 +114,7 @@
       enable = true;
       configuration = {
         server = {
-          http_listen_port = 9005;
+          http_listen_port = ports.promtail;
           grpc_listen_port = 0;
         };
         positions.filename = "/tmp/positions.yml";

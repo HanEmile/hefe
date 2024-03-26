@@ -1,6 +1,8 @@
 { ... }:
 
-{
+let
+  ports = import ../ports.nix;
+in {
   services.nginx.virtualHosts."events.emile.space" = {
     forceSSL = true;
     enableACME = true;
@@ -8,7 +10,7 @@
     locations = {
       "/" = {
         extraConfig = ''
-          proxy_pass http://[::1]:4000;
+          proxyPass = "http://[::1]:${toString ports.events}";
         '';
       };
     };
@@ -27,7 +29,7 @@
       settings.":mobilizon" = {
         "Mobilizon.Web.Endpoint" = {
           url.host = "events.emile.space";
-          http.port = 4000;
+          http.port = ports.events;
 
           # The IP address to listen on. Defaults to [::1] notated as a byte
           # tuple.

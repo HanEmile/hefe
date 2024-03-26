@@ -6,8 +6,7 @@
 # times... sorry
 
 let
-  # pretix_config = config.age.secrets.pretix.path;
-
+  ports = import ../ports.nix;
   pretix_config = pkgs.writeText "pretix.cfg" ''
     [pretix]
     instance_name=tickets.emile.space
@@ -57,7 +56,7 @@ in {
     locations = {
       "/" = {
         extraConfig = ''
-          proxy_pass http://127.0.0.1:8349;
+          proxy_pass http://127.0.0.1:${toString ports.tickets};
 
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
           proxy_set_header Host $host;
@@ -70,7 +69,7 @@ in {
     pretix = {
       image = "pretix/standalone:stable";
       ports = [
-        "127.0.0.1:8349:80"
+        "127.0.0.1:${toString ports.tickets}:80"
       ];
       volumes = [
         "/var/pretix-data:/data"
@@ -116,5 +115,4 @@ in {
   # services.redis.settings.unixsocketperm = "770";
 
   # trace: warning: The option `services.redis.settings' defined in `/nix/store/ib5271hcbjqrxb0yrmrjcypvpacmnp2s-source/ops/modules/www/tickets.emile.space.nix' has been renamed to `services.redis.servers."".settings'.
-
 }

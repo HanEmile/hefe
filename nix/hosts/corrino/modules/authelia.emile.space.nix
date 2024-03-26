@@ -1,6 +1,9 @@
 { config, pkgs, ... }:
 
-{
+let
+	ports = import ../ports.nix;
+	authelia_port = config.services.authelia.instances.main.settings.server.port;
+in {
 
 	services.nginx.virtualHosts."sso.emile.space" = {
 		forceSSL = true;
@@ -8,7 +11,7 @@
 
 		locations = {
 			"/" = {
-				proxyPass = "http://127.0.0.1:9091";
+				proxyPass = "http://127.0.0.1:${toString authelia_port}";
 
 				extraConfig = ''
 					## Headers
@@ -50,11 +53,11 @@
 			};
 
 			"/api/verify" = {
-				proxyPass = "http://127.0.0.1:9091";
+				proxyPass = "http://127.0.0.1:${toString authelia_port}";
 	    };
 
 	    "/api/authz/" = {
-				proxyPass = "http://127.0.0.1:9091";
+				proxyPass = "http://127.0.0.1:${toString authelia_port}";
 	    };
 		};
 	};
@@ -103,7 +106,7 @@
 
 				server = {
 					host = "127.0.0.1";
-					port = 9091;
+					port = ports.authelia;
 				};
 
 				# we're using a file to store the user information

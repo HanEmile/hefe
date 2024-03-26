@@ -1,13 +1,15 @@
 { config, ... }:
 
-{
+let
+  ports = import ../ports.nix;
+in {
   services.nginx.virtualHosts."photo.emile.space" = {
     forceSSL = true;
     enableACME = true;
 
     locations = {
       "/" = {
-        proxyPass = "http://127.0.0.1:2342";
+        proxyPass = "http://127.0.0.1:${toString config.services.photoprism.port}";
         proxyWebsockets = true;
       };
     };
@@ -17,7 +19,7 @@
     enable = true;
 
     address = "127.0.0.1";
-    port = 2342;
+    port = ports.photo;
 
     passwordFile = config.age.secrets.photoprism_password.path;
 

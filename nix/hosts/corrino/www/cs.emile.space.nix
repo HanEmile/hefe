@@ -3,16 +3,18 @@
 
 # adapted from https://cs.tvl.fyi/depot/-/blob/ops/modules/sourcegraph.nix
 
-{ ... }:
+{ config, ... }:
 
-{
+let
+  ports = import ../ports.nix;
+in {
   services.nginx.virtualHosts."cs.emile.space" = {
     forceSSL = true;
     enableACME = true;
 
     locations = {
       "/" = {
-        proxyPass = "http://127.0.0.1:3463";
+        proxyPass = "http://127.0.0.1:${toString ports.cs}";
 
         extraConfig = ''
           location = / {
@@ -37,7 +39,7 @@
     image = "sourcegraph/server:5.1.1";
 
     ports = [
-      "127.0.0.1:3463:7080"
+      "127.0.0.1:${toString ports.cs}:7080"
     ];
 
     volumes = [

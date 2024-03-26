@@ -1,13 +1,15 @@
 { config, pkgs, ... }:
 
-{
+let
+  ports = import ../ports.nix;
+in {
   services.nginx.virtualHosts."netbox.emile.space" = {
     forceSSL = true;
     enableACME = true;
     kTLS = true;
 
     locations."/" = {
-      proxyPass = "http://[::1]:8001";
+      proxyPass = "http://[::1]:${toString config.services.netbox.port}";
       proxyWebsockets = true;
     };
     locations."/static/".root = "${config.services.netbox.dataDir}";
@@ -25,7 +27,7 @@
     enableLdap = false;
     settings = {};
     secretKeyFile = config.age.secrets.netbox_secret.path;
-    port = 8001;
+    port = ports.netbox;
     listenAddress = "[::1]";
   };
 

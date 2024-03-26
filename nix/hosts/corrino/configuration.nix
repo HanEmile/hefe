@@ -1,5 +1,8 @@
 { config, pkgs, ... }:
-{
+
+let
+  ports = import ./ports.nix;
+in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -57,7 +60,7 @@
           enable = true;
       
           # ssh port during boot for luks decryption
-          port = 2222;
+          port = ports.initrd_ssh;
           authorizedKeys = config.users.users.root.openssh.authorizedKeys.keys;
           hostKeys = [ "/initrd_ssh_host_ecdsa_key" ];
         };

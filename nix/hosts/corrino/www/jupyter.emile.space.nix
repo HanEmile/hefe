@@ -1,22 +1,24 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, config, ... }:
 
-{
+let
+  ports = import ../ports.nix;
+in {
   services.nginx.virtualHosts."jupyter.emile.space" = {
     forceSSL = true;
     enableACME = true;
 
     locations = {
       "/" = {
-        proxyPass = "http://127.0.0.1:8004";
+        proxyPass = "http://127.0.0.1:${toString config.services.jupyter.port}";
       };
     };
   };
 
-  services.jupyter = rec {
+  services.jupyter = {
     enable = true;
 
     ip = "127.0.0.1";
-    port = 8004;
+    port = ports.jupyter;
 
     # ; python3
     # >>> from notebook.auth import passwd

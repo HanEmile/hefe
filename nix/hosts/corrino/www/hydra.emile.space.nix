@@ -1,13 +1,15 @@
- { ... }:
+{ config, ... }:
 
-{
+let
+  ports = import ../ports.nix;
+in {
   services.nginx.virtualHosts."hydra.emile.space" = {
     forceSSL = true;
     enableACME = true;
 
     locations = {
       "/" = {
-        proxyPass = "http://127.0.0.1:3001";
+        proxyPass = "http://127.0.0.1:${toString config.services.hydra.port}";
       };
     };
   };
@@ -22,7 +24,7 @@
     enable = true;
 
     listenHost = "*";
-    port = 3001;
+    port = ports.hydra;
     hydraURL = "https://hydra.emile.space"; # externally visible URL
 
     # Directory that holds Hydra garbage collector roots.

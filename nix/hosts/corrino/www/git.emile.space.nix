@@ -2,6 +2,7 @@
 
 let
   cfg = config.services.gitea;
+  ports = import ../ports.nix;
   authelia-location = ''
     set $upstream_authelia http://127.0.0.1:9091/api/authz/auth-request;
 
@@ -81,7 +82,8 @@ in {
 
     locations = {
       "/" = {
-        proxyPass = "http://127.0.0.1:3000";
+        # proxyPass = "http://127.0.0.1:3000";
+        proxyPass = "http://127.0.0.1:${toString config.services.gitea.settings.server.HTTP_PORT}";
 
         # TODO(emile): figure out why this doesn't work when enabled, has to do with authelia
         # extraConfig = authelia-authrequest;
@@ -131,6 +133,7 @@ in {
       server = {
         DOMAIN = pkgs.lib.mkForce "git.emile.space";
         ROOT_URL = pkgs.lib.mkForce "https://git.emile.space";
+        HTTP_PORT = ports.git;
 
         #START_SSH_SERVER = true;
         BUILTIN_SSH_SERVER_USER = "git";
