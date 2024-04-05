@@ -32,6 +32,8 @@
         plugins = [ "git" "vi-mode" "web-search" "urltools" ];
       };
 
+      defaultKeymap = "viins";
+
       # this has to be added, so we can ssh into the host using deploy-rs and
       # access the `nix-store` stuff
       envExtra = ''

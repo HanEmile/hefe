@@ -10,6 +10,7 @@ export RPROMPT="%F{green}%/%F{reset} %D{%K:%M:%S}"
 # in the rprompt
 TMOUT=1
 TRAPALRM() { zle reset-prompt }
+export VI_MODE_SET_CURSOR=true
 
 export PROMPT_EOL_MARK="%"  # hide EOL sign ('%')
 
