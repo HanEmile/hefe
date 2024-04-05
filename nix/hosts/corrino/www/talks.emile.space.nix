@@ -10,8 +10,9 @@ let
 
     [site]
     ; never run debug in production
-    debug = True
+    debug = False
     url = https://talks.emile.space
+    csp=https://talks.emile.space,http://localhost:8080,'self'
 
     [database]
     backend=sqlite3
