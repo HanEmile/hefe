@@ -76,6 +76,11 @@ in {
 			# Only applied if domain is set.
 			protocolUseSSL = true;
 
+			# don't allow unauthenticated people to just write somewhere
+			allowAnonymous = false;
+
+			defaultPermission = "private";
+
 			db = {
 			  dialect = "sqlite";
 			  storage = "/var/lib/hedgedoc/db.sqlite";
