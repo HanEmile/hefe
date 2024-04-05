@@ -6,10 +6,13 @@ export PROMPT="; "		# minimal prompt
 #export RPROMPT="%F{green}%/%F{reset}"
 export RPROMPT="%F{green}%/%F{reset} %D{%K:%M:%S}" 
 
-# reset the prompt every second, so we get the time the command was executed
+# reset the prompt, so we get the time the command was executed
 # in the rprompt
-TMOUT=1
-TRAPALRM() { zle reset-prompt }
+TMOUT=5
+TRAPALRM() {
+  zle reset-prompt
+}
+
 export VI_MODE_SET_CURSOR=true
 
 export PROMPT_EOL_MARK="%"  # hide EOL sign ('%')
@@ -45,3 +48,4 @@ fi
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
+
