@@ -18,7 +18,12 @@
     naersk.url = "git+https://github.com/nix-community/naersk";
     naersk.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
-    hefe-internal.url = "git+ssh://gitea@git.emile.space/hanemile/hefe-internal.git?ref=main";
+    # hefe-internal.url = "git+ssh://gitea@git.emile.space/hanemile/hefe-internal.git?ref=main";
+
+    # nix registry add flake:mylocalrepo git+file:///path/to/local/repo
+    # nix registry list
+    # hefe-internal.url = "flake:mylocalrepo";
+    hefe-internal.url = "git+file:///Users/emile/Documents/hefe-internal";
   };
 
   outputs = {
