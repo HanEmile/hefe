@@ -10,11 +10,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1707830867,
-        "narHash": "sha256-PAdwm5QqdlwIqGrfzzvzZubM+FXtilekQ/FA0cI49/o=",
+        "lastModified": 1716561646,
+        "narHash": "sha256-UIGtLO89RxKt7RF2iEgPikSdU53r6v/6WYB0RW3k89I=",
         "ref": "refs/heads/main",
-        "rev": "8cb01a0e717311680e0cbca06a76cbceba6f3ed6",
-        "revCount": 297,
+        "rev": "c2fc0762bbe8feb06a2e59a364fa81b3a57671c9",
+        "revCount": 306,
         "type": "git",
         "url": "https://github.com/ryantm/agenix"
       },
@@ -52,11 +52,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1710717205,
-        "narHash": "sha256-Wf3gHh5uV6W1TV/A8X8QJf99a5ypDSugY4sNtdJDe0A=",
+        "lastModified": 1716511055,
+        "narHash": "sha256-5Fe/DGgvMhPEMl9VdVxv3zvwRcwNDmW5eRJ0gk72w7U=",
         "ref": "refs/heads/master",
-        "rev": "bcc8afd06e237df060c85bad6af7128e05fd61a3",
-        "revCount": 1565,
+        "rev": "0bea8222f6e83247dd13b055d83e64bce02ee532",
+        "revCount": 1598,
         "type": "git",
         "url": "https://github.com/lnl7/nix-darwin"
       },
@@ -74,11 +74,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1708091384,
-        "narHash": "sha256-dTGGw2y8wvfjr+J9CjQbfdulOq72hUG17HXVNxpH1yE=",
+        "lastModified": 1715699772,
+        "narHash": "sha256-sKhqIgucN5sI/7UQgBwsonzR4fONjfMr9OcHK/vPits=",
         "ref": "master",
-        "rev": "0a0187794ac7f7a1e62cda3dabf8dc041f868790",
-        "revCount": 309,
+        "rev": "b3ea6f333f9057b77efd9091119ba67089399ced",
+        "revCount": 314,
         "type": "git",
         "url": "https://github.com/serokell/deploy-rs"
       },
@@ -106,18 +106,17 @@
     },
     "hefe-internal": {
       "locked": {
-        "lastModified": 1700779845,
-        "narHash": "sha256-gWQE4d+JNv7jZMnl298dLMahWRialF+FIjlZnKH3XlE=",
-        "ref": "main",
-        "rev": "509155eeb0c70309cfea6f21f14029265420e067",
-        "revCount": 114,
+        "lastModified": 1714770876,
+        "narHash": "sha256-1JgVLTlXCQLbZ0oVJgVBq/mY5De8HFsIq2Pzc8Ub4uI=",
+        "ref": "refs/heads/main",
+        "rev": "163f737f8732c07c583397625d3ed4e0802098f8",
+        "revCount": 116,
         "type": "git",
-        "url": "ssh://gitea@git.emile.space/hanemile/hefe-internal.git"
+        "url": "file:///Users/emile/Documents/hefe-internal"
       },
       "original": {
-        "ref": "main",
         "type": "git",
-        "url": "ssh://gitea@git.emile.space/hanemile/hefe-internal.git"
+        "url": "file:///Users/emile/Documents/hefe-internal"
       }
     },
     "home-manager": {
@@ -148,11 +147,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1710888565,
-        "narHash": "sha256-s9Hi4RHhc6yut4EcYD50sZWRDKsugBJHSbON8KFwoTw=",
+        "lastModified": 1715381426,
+        "narHash": "sha256-wPuqrAQGdv3ISs74nJfGb+Yprm23U/rFpcHFFNWgM94=",
         "ref": "release-23.11",
-        "rev": "f33900124c23c4eca5831b9b5eb32ea5894375ce",
-        "revCount": 3176,
+        "rev": "ab5542e9dbd13d0100f8baae2bc2d68af901f4b4",
+        "revCount": 3183,
         "type": "git",
         "url": "https://github.com/nix-community/home-manager"
       },
@@ -169,11 +168,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1698420672,
-        "narHash": "sha256-/TdeHMPRjjdJub7p7+w55vyABrsJlt5QkznPYy55vKA=",
+        "lastModified": 1713520724,
+        "narHash": "sha256-CO8MmVDmqZX2FovL75pu5BvwhW+Vugc7Q6ze7Hj8heI=",
         "ref": "refs/heads/master",
-        "rev": "aeb58d5e8faead8980a807c840232697982d47b9",
-        "revCount": 333,
+        "rev": "c5037590290c6c7dae2e42e7da1e247e54ed2d49",
+        "revCount": 335,
         "type": "git",
         "url": "https://github.com/nix-community/naersk"
       },
@@ -184,11 +183,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1711291047,
-        "narHash": "sha256-MRLgQdzpjL946E85XsPKYoloBioKS4Cj0yHHg9pkx+8=",
+        "lastModified": 1716576784,
+        "narHash": "sha256-zLNbgqclRnQdhp/uw7v0SnSRC9KPECJRMxuxXeWOdkw=",
         "ref": "release-23.11",
-        "rev": "1d8c1c6b821b5f89a1e5fa57c2997fc2fa2e2445",
-        "revCount": 556976,
+        "rev": "060b6d4e71327fc1870f7759fc6980cadc17601c",
+        "revCount": 558662,
         "type": "git",
         "url": "https://github.com/nixos/nixpkgs"
       },
@@ -200,11 +199,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1711231723,
-        "narHash": "sha256-dARJQ8AJOv6U+sdRePkbcVyVbXJTi1tReCrkkOeusiA=",
+        "lastModified": 1716451822,
+        "narHash": "sha256-0lT5RVelqN+dgXWWneXvV5ufSksW0r0TDQi8O6U2+o8=",
         "ref": "nixpkgs-unstable",
-        "rev": "e1d501922fd7351da4200e1275dfcf5faaad1220",
-        "revCount": 602130,
+        "rev": "3305b2b25e4ae4baee872346eae133cf6f611783",
+        "revCount": 630522,
         "type": "git",
         "url": "https://github.com/nixos/nixpkgs"
       },
