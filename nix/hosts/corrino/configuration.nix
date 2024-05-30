@@ -9,7 +9,9 @@ in {
 
       # web
       ./www/emile.space.nix
-      ./www/git.emile.space.nix
+      # ./www/git.emile.space.nix
+      ./www/cgit.emile.space.nix
+      # ./www/cl.emile.space.nix
       ./www/hydra.emile.space.nix
       ./www/netbox.emile.space.nix
       # ./www/grafana.emile.space.nix
