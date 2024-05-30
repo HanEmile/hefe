@@ -2,6 +2,12 @@
 
 let
   ports = import ./ports.nix;
+  keys = {
+    emile = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPZi43zHEsoWaQomLGaftPE5k0RqVrZyiTtGqZlpWsew emile@caladan"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMoHWyC9r0LVk6UlkhBWAJph0F6KHYHh83EI5U9wtfq2 shortcuts@ginaz"
+    ];
+  };
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -269,9 +275,7 @@ in {
   users.users = {
     root = {
       initialHashedPassword = "";
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPZi43zHEsoWaQomLGaftPE5k0RqVrZyiTtGqZlpWsew emile@caladan"
-      ];
+      openssh.authorizedKeys.keys = [] ++ keys.emile;
       packages = with pkgs; [
         mdadm
         tailscale
@@ -287,18 +291,17 @@ in {
 
     hack = {
       isNormalUser = true;
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPZi43zHEsoWaQomLGaftPE5k0RqVrZyiTtGqZlpWsew emile@caladan"
-      ];
+      openssh.authorizedKeys.keys = [] ++ keys.emile;
       extraGroups = [ "docker" "libvirtd" ];
     };
 
     tmpuser1 = {
       isNormalUser = true;
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPZi43zHEsoWaQomLGaftPE5k0RqVrZyiTtGqZlpWsew emile@caladan"
-        # "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJMMq7gVuOuJEuarcsss2pb4JJS39zW/Fuow0foyqlV5 noobtracker@noobtracker-linux"
-      ];
+
+      # TODO(emile): readd after the whole user system is setup
+      # "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJMMq7gVuOuJEuarcsss2pb4JJS39zW/Fuow0foyqlV5 noobtracker@noobtracker-linux"
+
+      openssh.authorizedKeys.keys = [] ++ keys.emile;
     };
   };
 
