@@ -80,26 +80,32 @@
       #kolhar = {}; # nixos vm on caladan
       #hagal = {}; # apple tv
       
-      # palma = {
+      # DONE
+      # lampadas = {
       #   description = "NAS";
       # };
-      # lampadas = {
+      # DONE
+      # lernaeus = {
+      #   description = "ryzen 5 5600g";
+      # };
+
+      # TBD.
+      # palma = {
       #   hostname = "lampadas";
       #   description = "palma bmc";
       # };
 
-      # parmentier = {
+      # lankiveil = {
       #   description = "ryzen 5 3600 + RTX A2000";
       # };
-      # lankiveil = {
+      # parmentier = {
       #   hostname = "lankiveil";
       #   description = "parmentier bmc";
       # };
 
+
+      # TBD
       # poritrin = {
-      #   description = "ryzen 5 3600g";
-      # };
-      # lernaeus = {
       #   hostname = "lernaeus";
       #   description = "poritrin bmc";
       # };
