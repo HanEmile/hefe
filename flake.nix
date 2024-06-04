@@ -24,7 +24,7 @@
     # nix registry list
     # hefe-internal.url = "flake:mylocalrepo";
     # hefe-internal.url = "git+file:///Users/emile/Documents/hefe-internal";
-    hefe-internal.url = "git+ssh://git@git.emile.space:hefe-internal";
+    hefe-internal.url = "git+ssh://git@git.emile.space/hefe-internal";
   };
 
   outputs = {
