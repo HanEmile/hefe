@@ -113,7 +113,7 @@ in {
         marksman # markdown lsp
         cuelsp # cue lsp
         terraform-lsp terraform-ls # terraform lsp
-        rnix-lsp # nix lsp
+        # rnix-lsp # nix lsp (CVE-2024-27297, that's why it's commented!)
 
       # command line tools
       fd
