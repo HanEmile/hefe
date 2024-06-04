@@ -344,29 +344,15 @@ in {
       dates = [ "03:45" ];
     };
 
-    # we need the below in order for hydra to be allowed to access the pages
-    # ssh://gitea@git.emile.space/ 
-  # allowed-uris = https://git.emile.space/ https://git.emile.space/ https://portswigger-cdn.net/ https://git.sr.ht/ https://gitlab.com/simple-nixos-mailserver/ https://github.com/nixos/nixpkgs/ http:// https://
     extraOptions = ''
-  builders-use-substitutes = true
-  allowed-uris = git.emile.space: gitea@git.emile.space: ssh://gitea@git.emile.space/hanemile/hefe-internal.git git+ssh: git+https:
+      builders-use-substitutes = true
+      allowed-uris = ssh://
     '';
+    # allowed-uris = git.emile.space: gitea@git.emile.space: ssh://gitea@git.emile.space/hanemile/hefe-internal.git git+ssh: git+https:
 
-    settings.allowed-uris = [
-      "git+ssh:"
-      "git+https:"
-
-      "github:"
-      "git+https://github.com/"
-      "git+ssh://github.com/"
-
-      "git.emile.space:"
-      "gitea@git.emile.space:"
-      "ssh://gitea@git.emile.space/hanemile/"
-      "ssh://gitea@git.emile.space/hanemile/hefe-internal.git"
-      "ssh://git.emile.space/hanemile/"
-      "git+ssh://git.emile.space/hanemile/"
-    ];
+    # settings.allowed-uris = [
+    #   "ssh://"
+    # ];
 
     buildMachines = [
       {
