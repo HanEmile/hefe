@@ -346,7 +346,7 @@ in {
 
     extraOptions = ''
       builders-use-substitutes = true
-      allowed-uris = ssh://
+      allowed-uris = ssh://git@emile.space
     '';
     # allowed-uris = git.emile.space: gitea@git.emile.space: ssh://gitea@git.emile.space/hanemile/hefe-internal.git git+ssh: git+https:
 
