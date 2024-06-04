@@ -194,7 +194,7 @@ in {
       cuetools
       
       #radare2
-      r2
+      # r2
       capstone # Advanced disassembly library
       keystone # Lightweight multi-platform, multi-architecture assembler framework
       unicorn # Lightweight multi-platform CPU emulator library
