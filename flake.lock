@@ -112,11 +112,11 @@
         "rev": "163f737f8732c07c583397625d3ed4e0802098f8",
         "revCount": 116,
         "type": "git",
-        "url": "file:///Users/emile/Documents/hefe-internal"
+        "url": "ssh://git@git.emile.space/hefe-internal"
       },
       "original": {
         "type": "git",
-        "url": "file:///Users/emile/Documents/hefe-internal"
+        "url": "ssh://git@git.emile.space/hefe-internal"
       }
     },
     "home-manager": {
