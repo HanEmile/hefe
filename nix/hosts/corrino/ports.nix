@@ -17,7 +17,6 @@
 
 	# 40xx
 	events = 4000;
-	
 
 	# 54xx
 	pgweb = 5432;
@@ -42,4 +41,5 @@
 	prometheus = 9003;
 	loki = 9004;
 	promtail = 9005;
+	gitDaemon = 9418;
 }
