@@ -66,52 +66,42 @@
         description = "hacking vm";
       };
       mail = {
-        # ip = "mail.pinto-pike.ts.net"; # clone repo and deploy within
+        # ip = "mail.pinto-pike.ts.net"; # clone repo and deploy within fttb
         system = "x86_64-linux";
         description = "mail server";
       };
 
-
-      #ecaz = {};
-
-      # gamont = {
-      #   description = "pi 2 tfp"
-      # };
-
       #kolhar = {}; # nixos vm on caladan
       #hagal = {}; # apple tv
       
-      # DONE
-      # lampadas = {
-      #   description = "NAS";
-      # };
-      # DONE
-      # lernaeus = {
-      #   description = "ryzen 5 5600g";
-      # };
-
-      # TBD.
+      lampadas = {
+        system = "x86_64-linux";
+        description = "NAS";
+      };
       # palma = {
       #   hostname = "lampadas";
       #   description = "palma bmc";
       # };
 
-      # lankiveil = {
-      #   description = "ryzen 5 3600 + RTX A2000";
+      # lernaeus = {
+      #   description = "ryzen 5 5600g";
       # };
       # parmentier = {
       #   hostname = "lankiveil";
       #   description = "parmentier bmc";
       # };
 
-
-      # TBD
+      # lankiveil = {
+      #   description = "ryzen 5 3600 + RTX A2000";
+      # };
       # poritrin = {
       #   hostname = "lernaeus";
       #   description = "poritrin bmc";
       # };
 
-      #kaitain = {};
+      # kaitain = {};
+      # ecaz = {};
+      # gamont = {};
 
       # futher names: https://neoencyclopedia.fandom.com/wiki/List_of_Dune_planets
       # Muritan
