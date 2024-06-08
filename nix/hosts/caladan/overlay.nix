@@ -42,7 +42,7 @@
     ];
     config = {
       allowUnfree = true;
-      allowBroken= true;
+      allowBroken = true;
     };
   };
 }
