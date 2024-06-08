@@ -130,7 +130,7 @@
     coreutils mpv
 
     # terminal foo
-    kitty
+    # kitty
     jq ripgrep fd eza lsd tree broot
     du-dust mktemp htop rsync
     p7zip imagemagick binwalk lftp
