@@ -187,7 +187,8 @@
 
     portmidi
 
-  ] ++ lib.optionals stdenv.isDarwin [
-    m-cli
+    blender
+
+  # ] ++ lib.optionals stdenv.isDarwin [
   ];
 }
