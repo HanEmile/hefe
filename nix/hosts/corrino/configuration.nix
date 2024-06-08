@@ -183,11 +183,9 @@ in {
 
       # otherwise authenticate with tailscale
       ${tailscale}/bin/tailscale up \
-        --advertise-exit-node --exit-node \
-        -authkey tskey-auth-kfswm86CNTRL-QdFyL42rAhJDw7VZ2poVaJgDewQvmUu5K
+        --advertise-exit-node --exit-node
     '';
-        # this is an old authkey which I found (was used once, now it's landed here but long expired...). I'm adding an age secret instead, although it isn't used anymore...
-        # -authkey ${config.age.secrets.tailscale_authkey}
+      # -authkey ${config.age.secrets.tailscale_authkey}
   };
 
 
