@@ -21,7 +21,7 @@ in {
 
   services.netbox = {
     enable = true;
-    package = pkgs.netbox_3_6; # nixos 23.11 now has netbox 3.6
+    package = pkgs.netbox;
     dataDir = "/var/lib/netbox";
     settings.ALLOWED_HOSTS = [ "*" ];
     enableLdap = false;
