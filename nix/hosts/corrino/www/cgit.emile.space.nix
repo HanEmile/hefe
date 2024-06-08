@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
   environment.systemPackages = with pkgs; [
@@ -22,25 +22,25 @@
 				hefe = {
 					desc = "Yet another monorepo (the big nix config)";	
 					path = "/var/lib/git/repositories/hefe.git";
-					section = "infra";
+					section = "Infra";
 					owner = "emile";
 				};
 				vokobe = {
 					desc = "A custom static site generator written in rust";	
 					path = "/var/lib/git/repositories/vokobe.git";
-					section = "infra";
+					section = "Infra";
 					owner = "emile";
 				};
 				massscan-docker = {
 					desc = "A Dockerfile for massscan";	
 					path = "/var/lib/git/repositories/massscan-docker.git";
-					section = "infra";
+					section = "Infra";
 					owner = "emile";
 				};
 				metrics-bundler = {
 					desc = "A super basic metrics bundler";	
 					path = "/var/lib/git/repositories/metrics-bundler.git";
-					section = "infra";
+					section = "Infra";
 					owner = "emile";
 				};
 
@@ -48,13 +48,13 @@
 				matrix-sdk = {
 					desc = "A simpler matrix sdk";	
 					path = "/var/lib/git/repositories/matrix-sdk.git";
-					section = "matrix";
+					section = "Matrix";
 					owner = "emile";
 				};
 				matrix-weather-bot = {
 					desc = "A basic weather bot using matrix-sdk";	
 					path = "/var/lib/git/repositories/matrix-weather-bot.git";
-					section = "matrix";
+					section = "Matrix";
 					owner = "emile";
 				};
 				
@@ -63,13 +63,19 @@
 				radare2-GoReSym = {
 					desc = "A script to load goresym symbols into radare2";	
 					path = "/var/lib/git/repositories/radare2-GoReSym.git";
-					section = "radare2";
+					section = "Radare2";
 					owner = "emile";
 				};
 				r2wars = {
 					desc = "A golang implementation of radare2";	
 					path = "/var/lib/git/repositories/r2wars.git";
-					section = "radare2";
+					section = "Radare2";
+					owner = "emile";
+				};
+				r2wars-rs = {
+					desc = "A rust implementation of radare2";	
+					path = "/var/lib/git/repositories/r2wars-rs.git";
+					section = "Radare2";
 					owner = "emile";
 				};
 
@@ -77,19 +83,19 @@
 				ctf_clusters = {
 					desc = "visualizing CTF clusters at DEFCON CTF Finals 2022";
 					path = "/var/lib/git/repositories/ctf_clusters.git";
-					section = "ctf";
+					section = "CTF";
 					owner = "emile";
 				};
 				lambda = {
 					desc = "hacktm ctf 2023 / misc / know your lambda calculus";
 					path = "/var/lib/git/repositories/lambda.git";
-					section = "ctf";
+					section = "CTF";
 					owner = "emile";
 				};
 				ctfdget = {
 					desc = "Simply fetch all challenges from a CTF from CTFd.";
 					path = "/var/lib/git/repositories/ctfdget.git";
-					section = "ctf";
+					section = "CTF";
 					owner = "emile";
 				};
 
@@ -97,7 +103,7 @@
 				zmk-config = {
 					desc = "ferris sweep zmk config";
 					path = "/var/lib/git/repositories/zmk-config.git";
-					section = "keyboard";
+					section = "Keyboard";
 					owner = "emile";
 				};
 
@@ -105,32 +111,32 @@
 				map = {
 					desc = "A map of the chaosdorf hackspace";
 					path = "/var/lib/git/repositories/map.git";
-					section = "chaosdorf";
+					section = "Chaosdorf";
 					owner = "emile";
 				};
 				freitagsfoo = {
 					desc = "A service to submit talks for freitagsfoo";
 					path = "/var/lib/git/repositories/freitagsfoo.git";
-					section = "chaosdorf";
+					section = "Chaosdorf";
 					owner = "emile";
 				};
 				inventory = {
 					desc = "A common-lisp mapping and inventory system";
 					path = "/var/lib/git/repositories/inventory.git";
-					section = "chaosdorf";
+					section = "Chaosdorf";
 					owner = "emile";
 				};
 
 				# jugend forscht
 				SatelliteComputation = {
 					desc = "Estimating possible Satellite collisions";
-					path = "/var/lib/git/repositories/JUFO17_SatelliteComputation.git";
+					path = "/var/lib/git/repositories/SatelliteComputation.git";
 					section = "Jugend Forscht 2017";
 					owner = "emile";
 				};
 				GalaxyGeneration = {
 					desc = "Generating Galaxies";
-					path = "/var/lib/git/repositories/JUFO18_GalaxyGeneration.git";
+					path = "/var/lib/git/repositories/GalaxyGeneration.git";
 					section = "Jugend Forscht 2018";
 					owner = "emile";
 				};
@@ -248,7 +254,7 @@
 				"0h-gamejam-game" = {
 					desc = "Created a game in 0 hours";
 					path = "/var/lib/git/repositories/0hour-gamejam-game.git";
-					section = "games";
+					section = "Games";
 					owner = "emile";
 				};
 
@@ -264,43 +270,43 @@
 				faila = {
 					desc = "The caddy fileserver look, but int pure golang";
 					path = "/var/lib/git/repositories/faila.git";
-					section = "http";
+					section = "HTTP";
 					owner = "emile";
 				};
 				faila2 = {
 					desc = "faila, but simpler";
 					path = "/var/lib/git/repositories/faila2.git";
-					section = "http";
+					section = "HTTP";
 					owner = "emile";
 				};
 				gofuzz = {
 					desc = "wfuzz, but in go. Didn't know ffuf at the time";
 					path = "/var/lib/git/repositories/gofuzz.git";
-					section = "http";
+					section = "HTTP";
 					owner = "emile";
 				};
 				graphClicker = {
 					desc = "A metrics bundler, but with a simple web interface";
 					path = "/var/lib/git/repositories/graphClicker.git";
-					section = "http";
+					section = "HTTP";
 					owner = "emile";
 				};
 				randomHttp = {
 					desc = "A simple HTTP server returning random HTTP codes";
 					path = "/var/lib/git/repositories/randomHTTP.git";
-					section = "http";
+					section = "HTTP";
 					owner = "emile";
 				};
 				redir = {
 					desc = "A webserver with the soul purpose of redirecting.";
 					path = "/var/lib/git/repositories/redir.git";
-					section = "http";
+					section = "HTTP";
 					owner = "emile";
 				};
 				reqlog = {
 					desc = "A simple request logger";
 					path = "/var/lib/git/repositories/reqlog.git";
-					section = "http";
+					section = "HTTP";
 					owner = "emile";
 				};
 
@@ -308,55 +314,55 @@
 				ssh-catch-test = {
 					desc = "A simple honeypot emulating an ssh server.";
 					path = "/var/lib/git/repositories/ssh-catch-test.git";
-					section = "honeypot";
+					section = "Honeypot";
 					owner = "emile";
 				};
 				honeypot-monitoring = {
 					desc = "Grafana + Prometheus monitoring";	
 					path = "/var/lib/git/repositories/honeypot-monitoring.git";
-					section = "honeypot";
+					section = "Honeypot";
 					owner = "emile";
 				};
 				ftp-grab-password = {
 					desc = "Grab ftp creds (made by twink0r)";	
 					path = "/var/lib/git/repositories/ftp-grab-password.git";
-					section = "honeypot";
+					section = "Honeypot";
 					owner = "emile";
 				};
 				log-analyzer = {
 					desc = "Analyse the logs";	
 					path = "/var/lib/git/repositories/honeypot-log-analyzer.git";
-					section = "honeypot";
+					section = "Honeypot";
 					owner = "emile";
 				};
 				http-grab-basicauth = {
 					desc = "Grab basicauth creds (made by maride)";	
 					path = "/var/lib/git/repositories/http-grab-basicauth.git";
-					section = "honeypot";
+					section = "Honeypot";
 					owner = "emile";
 				};
 				http-grab-url = {
 					desc = "Grab urls (made by twink0r)";	
 					path = "/var/lib/git/repositories/http-grab-url.git";
-					section = "honeypot";
+					section = "Honeypot";
 					owner = "emile";
 				};
 				ssh-grab-keypass = {
 					desc = "Grab keys from ssh logins (made by maride)";	
 					path = "/var/lib/git/repositories/ssh-grab-keypass.git";
-					section = "honeypot";
+					section = "Honeypot";
 					owner = "emile";
 				};
 				ssh-grab-passwords = {
 					desc = "Grab passwords from ssh logins (made by maride)";	
 					path = "/var/lib/git/repositories/ssh-grab-passwords.git";
-					section = "honeypot";
+					section = "Honeypot";
 					owner = "emile";
 				};
 				ssh-grab-passwords-map = {
 					desc = "A nice visual map of the login attempts";	
 					path = "/var/lib/git/repositories/ssh-grab-passwords-map.git";
-					section = "honeypot";
+					section = "Honeypot";
 					owner = "emile";
 				};
 
@@ -364,7 +370,7 @@
 				stdin-to-tcp = {
 					desc = "Bending stdin to tcp";
 					path = "/var/lib/git/repositories/stdin-to-tcp.git";
-					section = "fuzzing";
+					section = "Fuzzing";
 					owner = "emile";
 				};
 
@@ -372,7 +378,7 @@
 				firmware = {
 					desc = "Gathering firmware via nix";
 					path = "/var/lib/git/repositories/firmware.git";
-					section = "firmware";
+					section = "Firmware";
 					owner = "emile";
 				};
 
@@ -380,7 +386,7 @@
 				Substitution-Cracker = {
 					desc = "Some code for cracking substitution ciphers";
 					path = "/var/lib/git/repositories/Substitution-Cracker.git";
-					section = "crypto";
+					section = "Crypto";
 					owner = "emile";
 				};
 
@@ -388,13 +394,91 @@
 				giff = {
 					desc = "A party service: give it gifs and it'll play them";
 					path = "/var/lib/git/repositories/giff.git";
-					section = "fun";
+					section = "Fun";
 					owner = "emile";
 				};
 				pixeltsunami = {
 					desc = "The obligatory pixelflut client";
 					path = "/var/lib/git/repositories/pixeltsunami.git";
-					section = "fun";
+					section = "Fun";
+					owner = "emile";
+				};
+
+				# circus
+				companion = {
+					desc = "The companion spawned for one user.";
+					path = "/var/lib/git/repositories/companion.git";
+					section = "Circus";
+					owner = "emile";
+				};
+				compose = {
+					desc = "The docker-compose foo";
+					path = "/var/lib/git/repositories/compose.git";
+					section = "Circus";
+					owner = "emile";
+				};
+				container-manager = {
+					desc = "The meta container managemer";
+					path = "/var/lib/git/repositories/container-manager.git";
+					section = "Circus";
+					owner = "emile";
+				};
+				landingpage = {
+					desc = "The landing page";
+					path = "/var/lib/git/repositories/landingpage.git";
+					section = "Circus";
+					owner = "emile";
+				};
+				manager = {
+					desc = "The manager";
+					path = "/var/lib/git/repositories/manager.git";
+					section = "Circus";
+					owner = "emile";
+				};
+				register = {
+					desc = "The registration";
+					path = "/var/lib/git/repositories/register.git";
+					section = "Circus";
+					owner = "emile";
+				};
+				scoreboard = {
+					desc = "The scoreboard";
+					path = "/var/lib/git/repositories/scoreboard.git";
+					section = "Circus";
+					owner = "emile";
+				};
+				static = {
+					desc = "Some static files";
+					path = "/var/lib/git/repositories/static.git";
+					section = "Circus";
+					owner = "emile";
+				};
+				vpn = {
+					desc = "The VPN stuff";
+					path = "/var/lib/git/repositories/vpn.git";
+					section = "Circus";
+					owner = "emile";
+				};
+
+				# articles
+				barnes-hut = {
+					desc = "A one pager compressing the JuFo19 project";
+					path = "/var/lib/git/repositories/paged-out-barnes-hut.git";
+					section = "Articles";
+					owner = "emile";
+				};
+
+				# satellite
+				tle = {
+					desc = "golang tle lib";
+					path = "/var/lib/git/repositories/tle.git";
+					section = "Satellite";
+					owner = "emile";
+				};
+				tle2json = {
+					desc = "golang tle to json";
+					path = "/var/lib/git/repositories/tle2json.git";
+					section = "Satellite";
 					owner = "emile";
 				};
 			};
@@ -434,6 +518,7 @@
 			};
 		};
 
+		# access control
 		gitolite = {
 		  enable = true;
 
@@ -441,6 +526,7 @@
 
 			user = "git";
 			group = "git";
+
 			description = "emile";
 
 	    adminPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPZi43zHEsoWaQomLGaftPE5k0RqVrZyiTtGqZlpWsew emile@caladan";
