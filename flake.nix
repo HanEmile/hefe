@@ -54,7 +54,6 @@
         ip = "corrino";
         description = "Hetzner AX41 dual 512GB NVME";
         modules = [ hefe-internal.nixosModules.corrino ];
-        # TODO: install znc irc bouncer
       };
       chusuk = {
         # ip = "chusuk.pinto-pike.ts.net";
