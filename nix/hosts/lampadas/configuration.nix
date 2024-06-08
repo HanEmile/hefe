@@ -38,9 +38,8 @@ in {
         '';
       };
       luks.devices = {
-
-	# unsure why luksdata1 is recognized and added to the
-	# hardware-configuration.nix automatically, but luksdata2 isn't 
+      	# unsure why luksdata1 is recognized and added to the
+      	# hardware-configuration.nix automatically, but luksdata2 isn't 
         "luksdata2".device = "/dev/disk/by-uuid/e94d7f32-26ef-41e1-b3f3-9e63e4858001";
       };
     };
