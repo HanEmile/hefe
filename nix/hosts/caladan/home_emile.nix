@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, stdenv, ... }:
 
 {
   home = {
@@ -26,10 +26,11 @@
       enableCompletion = true;
       #syntaxHighlighting.enable = true;
       shellAliases = import ./aliases.nix;
-      enableAutosuggestions = true;
+      # autosuggestions.enable = true;
+      # enableAutosuggestions = true;
       oh-my-zsh = {
         enable = true;
-        plugins = [ "git" "vi-mode" "web-search" "urltools" ];
+        plugins = [ "git" "web-search" "urltools" ];
       };
 
       defaultKeymap = "viins";
