@@ -47,6 +47,7 @@
         system = "aarch64-darwin";
         sshUser = "hydra";
         homeManagerEnable = true;
+        description = "macbook air";
       };
       corrino = {
         system = "x86_64-linux";
