@@ -555,4 +555,20 @@
 	};
 
   users.extraUsers.nginx.extraGroups = [ "git" ];
+
+	# Have to use lib.mkForce below, as the gitolite and gitDaemon user both
+	# configure the git user and group (differently)
+
+  users.users.git = {
+    isSystemUser = true;
+    useDefaultShell = true;
+		description = lib.mkForce "cgit-pink, gitolite and gitDaemon";
+    group = "git";
+    extraGroups = [ "gitea" ];
+    home = "/var/lib/git";
+    uid = lib.mkForce 127;
+  };
+  users.groups.git = {
+		gid = lib.mkForce 127;
+	};
 }
