@@ -64,7 +64,7 @@
     kitty = {
       enable = true;
 
-      # font = pkgs.iosevka;
+      # package = pkgs.kitty;
 
       font = {
         name = "Iosevka Nerd Font";
