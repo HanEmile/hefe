@@ -118,7 +118,9 @@ in {
       '';
     };
 
-    supportedFilesystems = [ "cifs" ];
+    supportedFilesystems = {
+      "cifs" = true;
+    };
   };
 
   # The mdadm RAID1s were created with 'mdadm --create ... --homehost=hetzner',
