@@ -215,6 +215,7 @@ in {
     firewall = {
       enable = true;
       allowedTCPPorts = [
+        ports.gitDaemon # gitDaemon
         80 443 # normal web
       ];
       allowedUDPPorts = [
