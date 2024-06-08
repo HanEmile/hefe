@@ -345,10 +345,25 @@ in {
       dates = [ "03:45" ];
     };
 
+    settings.allowed-uris = [
+      "http://"
+      "https://"
+      "git.emile.space"
+      "git@git.emile.space"
+      "ssh://"
+      "ssh://git.emile.space"
+      "ssh://git.emile.space/"
+      "ssh://git.emile.space/hefe-internal"
+      "git+ssh://"
+      "git+ssh://git.emile.space"
+      "git+ssh://git.emile.space/"
+      "git+ssh://git.emile.space/hefe-internal"
+    ];
+
     extraOptions = ''
       builders-use-substitutes = true
-      allowed-uris = ssh://git@emile.space
     '';
+      # allowed-uris = ssh://git@git.emile.space/hefe-internal git.emile.space git@git.emile.space ssh://git@git.emile.space
     # allowed-uris = git.emile.space: gitea@git.emile.space: ssh://gitea@git.emile.space/hanemile/hefe-internal.git git+ssh: git+https:
 
     # settings.allowed-uris = [
