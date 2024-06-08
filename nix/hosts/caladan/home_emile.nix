@@ -55,7 +55,7 @@
 
     emacs = {
       enable = true;
-      package = pkgs.emacs;  # replace with pkgs.emacs-gtk, or a version provided by the community overlay if desired.
+      package = pkgs.emacs;
       extraConfig = ''
         (setq standard-indent 2)
       '';
