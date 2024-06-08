@@ -535,6 +535,23 @@
 		    $RC{GIT_CONFIG_KEYS} = '.*';
 		  '';
 		};
+
+		# exposing stuff
+		gitDaemon = {
+			enable = true;
+
+			user = "git";
+			group = "git";
+
+			repositories = []; # use all repos under basePath
+			exportAll = true;
+			basePath = "/var/lib/git/repositories";
+
+			listenAddress = "git.emile.space";
+			port = 9418;
+
+			options = "--timeout=30"; # extra Config
+		};
 	};
 
   users.extraUsers.nginx.extraGroups = [ "git" ];
