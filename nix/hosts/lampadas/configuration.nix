@@ -72,7 +72,7 @@ in {
       };
       emile = {
         isNormalUser = true;
-        extraGroups = [ "wheel" ];
+        extraGroups = [ "wheel" "samba-guest" ];
         openssh.authorizedKeys.keys = emile_keys;
       };
       samba-guest = {
@@ -136,7 +136,7 @@ in {
         workgroup = WORKGROUP
         server string = lampadas
         netbios name = lampadas
-        security = user
+        security = user 
         hosts allow = 100.64.0.0/255.192.0.0, 127.0.0.1/255.0.0.0, ::1, 192.168.0., 192.168.1.
         hosts deny = 0.0.0.0/0
         guest account = samba-guest 
@@ -159,9 +159,12 @@ in {
           "browseable" = "yes";
           "read only" = "no";
           "guest ok" = "yes";
+          "guest only" = "yes";
+          "available" = "yes";
           "create mask" = "0644";
           "directory mask" = "0755";
           "comment" = "public data";
+          "writable" = "yes";
         };
         private = {
           path = "/data/private";
