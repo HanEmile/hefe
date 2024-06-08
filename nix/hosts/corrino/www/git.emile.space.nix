@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ lib, pkgs, config, ... }:
 
 let
   cfg = config.services.gitea;
@@ -166,6 +166,7 @@ in {
     group = "git";
     extraGroups = [ "gitea" ];
     home = cfg.stateDir;
+    uid = 127;
   };
   users.groups.git = { };
 }
