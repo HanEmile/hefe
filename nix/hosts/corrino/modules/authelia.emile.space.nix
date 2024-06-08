@@ -191,6 +191,16 @@ in {
 						}
 					];
 				};
+
+				totp = {
+				  disable = false;
+				  issuer = "sso.emile.space";
+				  algorithm = "sha1";
+				  digits = 6;
+				  period = 30;
+				  skew = 1;
+				  secret_size = 32;
+				};
 			};
 		};
 	};
