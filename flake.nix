@@ -1,22 +1,22 @@
 {
   inputs = {
-    nixpkgs.url = "git+https://github.com/nixos/nixpkgs?ref=release-23.11";
+    nixpkgs.url = "git+https://github.com/nixos/nixpkgs?ref=release-24.05";
     nixpkgs-unstable.url = "git+https://github.com/nixos/nixpkgs?ref=nixpkgs-unstable";
 
     darwin.url = "git+https://github.com/lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     deploy-rs.url = "git+https://github.com/serokell/deploy-rs?ref=master";
-    deploy-rs.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
 
     agenix.url = "git+https://github.com/ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url = "git+https://github.com/nix-community/home-manager?ref=release-23.11";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    home-manager.url = "git+https://github.com/nix-community/home-manager?ref=release-24.05";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     naersk.url = "git+https://github.com/nix-community/naersk";
-    naersk.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    naersk.inputs.nixpkgs.follows = "nixpkgs";
 
     # hefe-internal.url = "git+ssh://gitea@git.emile.space/hanemile/hefe-internal.git?ref=main";
 

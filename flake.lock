@@ -69,7 +69,7 @@
       "inputs": {
         "flake-compat": "flake-compat",
         "nixpkgs": [
-          "nixpkgs-unstable"
+          "nixpkgs"
         ],
         "utils": "utils"
       },
@@ -106,11 +106,11 @@
     },
     "hefe-internal": {
       "locked": {
-        "lastModified": 1714770876,
-        "narHash": "sha256-1JgVLTlXCQLbZ0oVJgVBq/mY5De8HFsIq2Pzc8Ub4uI=",
+        "lastModified": 1717507265,
+        "narHash": "sha256-gM6eTS9asXKJygWENGYCMjbSqGM4KBIZyI7WuEv75dk=",
         "ref": "refs/heads/main",
-        "rev": "163f737f8732c07c583397625d3ed4e0802098f8",
-        "revCount": 116,
+        "rev": "944c5e639c60d4ffb4dd8da3f14c8cc64bd8d9b1",
+        "revCount": 117,
         "type": "git",
         "url": "ssh://git@git.emile.space/hefe-internal"
       },
@@ -143,20 +143,20 @@
     "home-manager_2": {
       "inputs": {
         "nixpkgs": [
-          "nixpkgs-unstable"
+          "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1717476296,
-        "narHash": "sha256-ScHe38Tr+TxGURC17kby4mIIxOG3aJvZWXzPM79UnEk=",
-        "ref": "release-23.11",
-        "rev": "095ef64aa3b2ab4a4f1bf07f29997e21e3a5576a",
-        "revCount": 3186,
+        "lastModified": 1717527182,
+        "narHash": "sha256-vWSkg6AMok1UUQiSYVdGMOXKD2cDFnajITiSi0Zjd1A=",
+        "ref": "release-24.05",
+        "rev": "845a5c4c073f74105022533907703441e0464bc3",
+        "revCount": 3564,
         "type": "git",
         "url": "https://github.com/nix-community/home-manager"
       },
       "original": {
-        "ref": "release-23.11",
+        "ref": "release-24.05",
         "type": "git",
         "url": "https://github.com/nix-community/home-manager"
       }
@@ -164,7 +164,7 @@
     "naersk": {
       "inputs": {
         "nixpkgs": [
-          "nixpkgs-unstable"
+          "nixpkgs"
         ]
       },
       "locked": {
@@ -183,27 +183,27 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1717428950,
-        "narHash": "sha256-Pr3lhu2No1GHJarhjt+Jsfxye1wNLoY12E44p0b3VO0=",
-        "ref": "release-23.11",
-        "rev": "4fad892a8f64635a55423e4acfefeefb6caf4d0d",
-        "revCount": 558863,
+        "lastModified": 1717879020,
+        "narHash": "sha256-Flf7/RGOZ3eEVvpPUbf620vzC3gn6DMCpu4+hPxTUj4=",
+        "ref": "release-24.05",
+        "rev": "ba9f6922540b86a051d0f41ef44380bd1805fff6",
+        "revCount": 631397,
         "type": "git",
         "url": "https://github.com/nixos/nixpkgs"
       },
       "original": {
-        "ref": "release-23.11",
+        "ref": "release-24.05",
         "type": "git",
         "url": "https://github.com/nixos/nixpkgs"
       }
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1717399147,
-        "narHash": "sha256-eCWaE/q1VItpFAxxLVt171MdtDcjEnwi6QB/yuF73JU=",
+        "lastModified": 1717774105,
+        "narHash": "sha256-HV97wqUQv9wvptiHCb3Y0/YH0lJ60uZ8FYfEOIzYEqI=",
         "ref": "nixpkgs-unstable",
-        "rev": "4a4ecb0ab415c9fccfb005567a215e6a9564cdf5",
-        "revCount": 634557,
+        "rev": "d226935fd75012939397c83f6c385e4d6d832288",
+        "revCount": 636256,
         "type": "git",
         "url": "https://github.com/nixos/nixpkgs"
       },
