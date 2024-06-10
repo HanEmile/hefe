@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
 
+# TODO(emile): use the 24.05 nix module
+
 let
   ports = import ../ports.nix;
   pretalx_config = pkgs.writeText "/etc/pretalx.cfg" ''
