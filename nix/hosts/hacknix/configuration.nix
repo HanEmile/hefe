@@ -287,7 +287,6 @@ in {
 
   # virtualbox guest additions
   virtualisation.virtualbox.guest.enable = true;
-  virtualisation.virtualbox.guest.x11 = true;
 
   nix = {
     settings.experimental-features = [
