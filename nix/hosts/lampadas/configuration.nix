@@ -161,8 +161,11 @@ in {
           "guest ok" = "yes";
           "guest only" = "yes";
           "available" = "yes";
-          "create mask" = "0644";
-          "directory mask" = "0755";
+          "create mask" = "2775";
+          "directory mask" = "2775";
+          "force create mask" = "2775";
+          "force directory mask" = "2775";
+          "force user" = "samba-guest";
           "comment" = "public data";
           "writable" = "yes";
         };
