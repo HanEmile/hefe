@@ -28,6 +28,7 @@ in {
       ./www/pgweb.emile.space.nix
       ./www/ctf.emile.space.nix
       ./www/md.emile.space.nix
+      ./www/social.emile.space.nix
       # ./www/magic-hash.emile.space.nix
       # ./www/znc.emile.space.nix
 
