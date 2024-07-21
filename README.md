@@ -7,7 +7,7 @@
 
 Create secrets:
 ```bash
-./secret_create.sh
+./secret_create.sh [host] [name of secret ending in .age]
 ```
 
 Edit secrets:
