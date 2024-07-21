@@ -54,6 +54,7 @@ in {
   networking = {
     hostName = "lampadas";
     firewall.enable = true;
+    nameservers = [ "8.8.8.8" "8.8.4.4" "1.1.1.1"];
   };
 
   time.timeZone = "Europe/Berlin";
