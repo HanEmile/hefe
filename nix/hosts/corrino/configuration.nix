@@ -18,6 +18,7 @@ in {
 
       # web
       ./www/emile.space.nix
+      ./www/tmp.emile.space.nix
       # ./www/git.emile.space.nix
       ./www/cgit.emile.space.nix
       ./www/hydra.emile.space.nix
