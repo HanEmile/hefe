@@ -390,7 +390,7 @@ in {
         supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
       }
       {
-        hostName = "caladan";
+        hostName = "caladan.pinto-pike.ts.net";
         system = "aarch64-darwin";
         protocol = "ssh-ng";
         maxJobs = 1;
