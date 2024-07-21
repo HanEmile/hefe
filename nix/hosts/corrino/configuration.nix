@@ -44,6 +44,11 @@ in {
 
       # general purpose modules
       ./modules/authelia.emile.space.nix
+      # ./modules/sftpgo.emile.space.nix
+      # ./modules/garage.emile.space.nix
+
+      # r2wars
+      ./www/r2wa.rs.nix
 
       # containers
     ];
@@ -194,7 +199,6 @@ in {
     '';
       # -authkey ${config.age.secrets.tailscale_authkey}
   };
-
 
   networking = {
     hostName = "corrino";
