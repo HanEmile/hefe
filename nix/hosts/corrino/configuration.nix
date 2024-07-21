@@ -2,9 +2,12 @@
 
 let
   ports = import ./ports.nix;
+  # keys = import ../../users/keys.nix
+  # keys = key;
   keys = {
     emile = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPZi43zHEsoWaQomLGaftPE5k0RqVrZyiTtGqZlpWsew emile@caladan"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGzY3eCD6D07Kc8iBIO3nLRsqaOZ+Q+RKykXLefT26eU shortcuts@caladan"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMoHWyC9r0LVk6UlkhBWAJph0F6KHYHh83EI5U9wtfq2 shortcuts@ginaz"
     ];
   };
