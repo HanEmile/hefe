@@ -310,7 +310,7 @@ in {
     tmpuser1 = {
       isNormalUser = true;
 
-      # TODO(emile): readd after the whole user system is setup
+      # TODO(emile): read after the whole user system is setup
       # "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJMMq7gVuOuJEuarcsss2pb4JJS39zW/Fuow0foyqlV5 noobtracker@noobtracker-linux"
 
       openssh.authorizedKeys.keys = [] ++ keys.emile;
