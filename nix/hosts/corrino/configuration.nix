@@ -222,6 +222,8 @@ in {
 
     nameservers = [ "8.8.8.8" "8.8.4.4" ];
 
+    # incus doesn't support iptables, so we're using nftables here 
+    nftables.enable = true;
 
     firewall = {
       enable = true;
