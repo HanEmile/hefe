@@ -78,6 +78,7 @@ in {
 
 			# don't allow unauthenticated people to just write somewhere
 			allowAnonymous = false;
+			allowAnonymousEdits = true; # This allows us to set pads "freely"
 
 			defaultPermission = "private";
 
