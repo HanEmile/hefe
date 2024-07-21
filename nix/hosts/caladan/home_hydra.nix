@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
  home = {
@@ -15,4 +15,6 @@
  home.packages = with pkgs; [
   tailscale
  ];
+
+ services.openssh.enable = true;
 }
