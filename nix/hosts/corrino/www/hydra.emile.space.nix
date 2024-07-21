@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 
 let
   ports = import ../ports.nix;
@@ -29,7 +29,6 @@ in {
 
     # Directory that holds Hydra garbage collector roots.
     gcRootsDir = "/nix/var/nix/gcroots/hydra";
-
 
     # a standalone hydra will require you to unset the buildMachinesFiles list to avoid using a nonexistant /etc/nix/hosts
     buildMachinesFiles = [];
