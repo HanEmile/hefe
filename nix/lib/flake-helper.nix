@@ -141,6 +141,15 @@ rec {
 					then deploy-rs.lib.aarch64-darwin.activate.darwin
 						self.darwinConfigurations."${name}"
 					else "");
+
+		  # Timeout for profile activation.
+		  # This defaults to 240 seconds.
+		  activationTimeout = 600;
+
+		  # Timeout for profile activation confirmation.
+		  # This defaults to 30 seconds.
+		  confirmTimeout = 120;
+
 		};
 	};
 
