@@ -66,7 +66,7 @@
         description = "hacking vm";
       };
       mail = {
-        # ip = "mail.pinto-pike.ts.net"; # clone repo and deploy within fttb
+        # ip = "mail.pinto-pike.ts.net"; # clone repo and deploy within
         system = "x86_64-linux";
         description = "mail server";
       };
@@ -75,28 +75,27 @@
       #hagal = {}; # apple tv
       
       lampadas = {
-        system = "x86_64-linux";
+        system = "x86_64-linux"; # 4c4t (intel 100n), 32GB RAM
         description = "NAS";
       };
       # palma = {
-      #   hostname = "lampadas";
       #   description = "palma bmc";
       # };
 
       lernaeus = {
-        description = "ryzen 5 5600g";
+        system = "x86_64-linux"; # 8c16t (AMD ryzen 5 5600g), 32GB RAM 
+        description = "VM Host";
       };
       # parmentier = {
-      #   hostname = "lankiveil";
-      #   description = "parmentier bmc";
+      #   description = "lernaeus bmc";
       # };
 
       # lankiveil = {
-      #   description = "ryzen 5 3600 + RTX A2000";
+      #   system = "x86_64-linux"; # ???, ???, RTX A2000
+      #   description = "";
       # };
       # poritrin = {
-      #   hostname = "lernaeus";
-      #   description = "poritrin bmc";
+      #   description = "lankiveil bmc";
       # };
 
       # kaitain = {};
