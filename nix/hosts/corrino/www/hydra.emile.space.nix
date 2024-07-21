@@ -23,6 +23,12 @@ in {
   services.hydra = {
     enable = true;
 
+    package = pkgs.hydra_unstable.overrideAttrs (old: {
+      patches = (if old ? patches then old.patches else []) ++ [
+        ./hydra.patch
+      ];
+    });
+
     listenHost = "*";
     port = ports.hydra;
     hydraURL = "https://hydra.emile.space"; # externally visible URL
@@ -53,6 +59,7 @@ in {
       <git-input>
         timeout = 3600
       </git-input>
+      evaluator_restrict_eval = false
     '';
   };
 }
