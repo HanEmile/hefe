@@ -83,9 +83,9 @@
       #   description = "palma bmc";
       # };
 
-      # lernaeus = {
-      #   description = "ryzen 5 5600g";
-      # };
+      lernaeus = {
+        description = "ryzen 5 5600g";
+      };
       # parmentier = {
       #   hostname = "lankiveil";
       #   description = "parmentier bmc";
