@@ -26,7 +26,7 @@ in {
       ./www/hydra.emile.space.nix
       # ./www/matrix.emile.space.nix
       ./www/netbox.emile.space.nix
-      # ./www/grafana.emile.space.nix
+      ./www/grafana.emile.space.nix
       ./www/photo.emile.space.nix
       # ./www/events.emile.space.nix
       ./www/tickets.emile.space.nix
