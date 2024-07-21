@@ -126,9 +126,9 @@ in {
 
     # metric exporters
     prometheus.exporters = {
-      node.enable = true;
-      systemd.enable = true;
-      smartctl.enable = true;
+      node.enable = true; # port 9100
+      systemd.enable = true; # port 9558
+      smartctl.enable = true; # port 9633
     };
 
     # shares
