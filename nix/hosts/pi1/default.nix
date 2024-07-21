@@ -1,6 +1,14 @@
 # build the sd image for the pi using
 # ; nix-build '<nixpkgs/nixos>' -A config.system.build.sdImage -I nixos-config='./default.nix'
 
+# after booting
+# ; nix-channel --list
+# ; nix-channel --remove nixos
+# ; nix-channel --add https://channels.nixos.org/nixos-unstable nixos
+# ; nix-channel --update nixos
+# (this takes quite some time)
+# ; nixos-rebuild switch
+
 { lib, ... }:
 
 {
@@ -9,10 +17,10 @@
   ];
 
   users.users = {
-    root = {
+    emile = {
       isNormalUser = true;
-      home = "/root";
-      hashedPassword = "$y$j9T$gs6PF0Ts247/grRimfCP3.$eKq2l72lLeOrVkCSn.jf1niItuBowtf.QYaLbIHX/C0";
+      hashedPassword = "$y$j9T$gKt6Iovrn.SAkMxnTCqqV1$55.sKRrjWTbe7Z6Xi17G0e3G7GbAGc65YXtX9zD5AR3";
+      extraGroups = [ "wheel" ];
     };
   };
 
