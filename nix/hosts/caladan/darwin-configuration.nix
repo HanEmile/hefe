@@ -15,6 +15,19 @@
     home = "/Users/hydra";
   };
 
+  # macos sonoma claimed 300, 301, 302, 303 and 304
+
+  # users.groups."nixbld".name = "nixbld";
+  # users.users."_nixbld1" = {
+  #   name = "_nixbld1";
+  # };
+
+  # users.users."_nixbld1".uid = 305;
+  # users.users."_nixbld2".uid = 306;
+  # users.users."_nixbld3".uid = 307;
+  # users.users."_nixbld4".uid = 308;
+  # users.users."_nixbld5".uid = 309;
+
   nix = {
     useDaemon = true;
     package = pkgs.nixFlakes;
