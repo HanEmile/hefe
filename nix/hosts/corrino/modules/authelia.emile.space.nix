@@ -111,7 +111,7 @@ in {
 
 				# we're using a file to store the user information
 				authentication_backend = {
-					refresh_interval = "1m";
+					refresh_interval = "20s";
 					file = {
 						path = "/var/lib/authelia-main/user.yml";
 						watch = true;
@@ -159,11 +159,11 @@ in {
 
 				identity_providers = {
 					oidc = {
-						# regenerate keys like this:
-						# ; nix run nixpkgs#authelia -- crypto certificate rsa generate
-						# current serial: deb83f17e27e663f544a16ad2947631d
+							# regenerate keys like this:
+							# ; nix run nixpkgs#authelia -- crypto certificate rsa generate
+							# current serial: deb83f17e27e663f544a16ad2947631d
 
-						enable_client_debug_messages = false;
+							enable_client_debug_messages = false;
 							minimum_parameter_entropy = 8;
 							enforce_pkce = "public_clients_only";
 							enable_pkce_plain_challenge = false;
@@ -200,6 +200,14 @@ in {
 				  period = 30;
 				  skew = 1;
 				  secret_size = 32;
+				};
+
+				ntp = {
+				  address = "time.cloudflare.com:123";
+				  version = 3;
+				  max_desync = "3s";
+				  disable_startup_check = false;
+				  disable_failure = false;
 				};
 			};
 		};
