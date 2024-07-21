@@ -95,7 +95,10 @@ in {
     "d /data/time_machine 0755 emile users"
   ];
 
-  environment.systemPackages = with pkgs; [ vim tailscale ];
+  environment.systemPackages = with pkgs; [
+    vim tailscale
+    nmap ffuf git unzip
+  ];
 
   programs.mosh.enable = true;
 
