@@ -50,4 +50,6 @@
   nmap_full_with_scripts = "sudo nmap -sS -sU -T4 -A -v -PE -PP -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -PO --script all " ;
   nmap_web_safe_osscan = "sudo nmap -p 80,443 -O -v --osscan-guess --fuzzy ";
   nmap_ping_scan = "nmap -n -sP";
+  lm = "sudo kitten themes --reload-in=all 3024 Day";
+  dm = "sudo kitten themes --reload-in=all Default";
 }
