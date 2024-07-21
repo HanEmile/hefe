@@ -21,7 +21,10 @@ in {
       ./www/tmp.emile.space.nix
       # ./www/git.emile.space.nix
       ./www/cgit.emile.space.nix
+      # ./www/incus.emile.space.nix
+      # ./www/seafile.emile.space.nix
       ./www/hydra.emile.space.nix
+      # ./www/matrix.emile.space.nix
       ./www/netbox.emile.space.nix
       # ./www/grafana.emile.space.nix
       ./www/photo.emile.space.nix
