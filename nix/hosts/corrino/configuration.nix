@@ -38,7 +38,6 @@ in {
 
       ./www/ctf.emile.space.nix
       # ./www/magic-hash.emile.space.nix
-      # ./www/znc.emile.space.nix
 
       # gemini
       ./gemini/emile.space.nix
