@@ -35,6 +35,8 @@ export PATH=$PATH:"/Applications/Racket v8.8/bin"
 export PATH=/Users/emile/.cargo/bin:$PATH
 export PATH=$PATH:/opt/homebrew/bin
 
+export TERM=xterm-256color
+
 # uxn
 export PATH=$PATH:/Users/emile/Documents/projects/uxn/bin
 
