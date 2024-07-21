@@ -96,16 +96,29 @@ in {
   };
 
 	# backups
-	services.restic.backups = {
-	  storagebox = {
-			user = "u331921";
-			repository = "stfp:u331921@u331921.your-storagebox-de:23/restic";
-			initialize = true; # initializes the repo, don't set if you want manual control
-			passwordFile = config.age.secrets.restic_password.path;
-			paths = [
-				"/var/lib/hedgedoc/"
-			];
-	  };
-	};
+	services.restic.backups."hedgedoc" = {
+		user = "u331921";
+		timerConfig = {
+		  OnCalendar = "daily";
+		  Persistent = true;
+		};
+		# repository = "stfp:u331921@u331921.your-storagebox-de:23/restic";
+		repository = "/mnt/storagebox-bx11/backup/hedgedoc";
+		initialize = true; # initializes the repo, don't set if you want manual control
+		passwordFile = config.age.secrets.restic_password.path;
+		paths = [
+			"/var/lib/hedgedoc/"
+		];
+		pruneOpts = [
+		  "--keep-daily 7"
+		  "--keep-weekly 5"
+		  "--keep-monthly 12"
+		  "--keep-yearly 75"
+		];
+
+		# extraOpts = [
+		#   "sftp.command='ssh backup@192.168.1.100 -i /home/user/.ssh/id_rsa -s sftp'"
+		# ];
+  };
 
 }
