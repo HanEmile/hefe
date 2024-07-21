@@ -75,7 +75,7 @@
       #hagal = {}; # apple tv
       
       lampadas = {
-        system = "x86_64-linux"; # 4c4t (intel 100n), 32GB RAM
+        system = "x86_64-linux"; # 4c4t (intel n100), 32GB RAM
         description = "NAS";
       };
       # palma = {
