@@ -1,8 +1,6 @@
 { config, pkgs, ... }:
 
-let
-  ports = import ../ports.nix;
-in {
+{
   services.nginx.virtualHosts."netbox.emile.space" = {
     forceSSL = true;
     enableACME = true;
@@ -27,7 +25,7 @@ in {
     enableLdap = false;
     settings = {};
     secretKeyFile = config.age.secrets.netbox_secret.path;
-    port = ports.netbox;
+    port = config.emile.ports.netbox;
     listenAddress = "[::1]";
   };
 

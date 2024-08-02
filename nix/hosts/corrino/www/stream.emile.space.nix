@@ -1,8 +1,6 @@
 { config, ... }:
 
-let
-  ports = import ../ports.nix;
-in {
+{
   services.nginx.virtualHosts."stream.emile.space" = {
     forceSSL = true;
     enableACME = true;
@@ -20,7 +18,7 @@ in {
     openFirewall = true;
     listen = "0.0.0.0";
     dataDir = "/var/lib/owncast";
-    rtmp-port = ports.stream_rtmp;
-    port = ports.stream; # web interface
+    rtmp-port = config.emile.ports.stream_rtmp;
+    port = config.emile.ports.stream; # web interface
   };
 }

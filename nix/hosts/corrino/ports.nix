@@ -1,5 +1,5 @@
 {
-	ports.emile = {
+	emile.ports = {
 		stream_rtmp = 1935;
 		initrd_ssh = 2222;
 		photo = 2342;

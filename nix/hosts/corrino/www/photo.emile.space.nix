@@ -1,8 +1,6 @@
 { config, ... }:
 
-let
-  ports = import ../ports.nix;
-in {
+{
   services.nginx.virtualHosts."photo.emile.space" = {
     forceSSL = true;
     enableACME = true;
@@ -19,7 +17,7 @@ in {
     enable = true;
 
     address = "127.0.0.1";
-    port = ports.photo;
+    port = config.emile.ports.photo;
 
     passwordFile = config.age.secrets.photoprism_password.path;
 

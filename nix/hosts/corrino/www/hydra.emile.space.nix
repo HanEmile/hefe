@@ -1,8 +1,6 @@
 { config, pkgs, ... }:
 
-let
-  ports = import ../ports.nix;
-in {
+{
   services.nginx.virtualHosts."hydra.emile.space" = {
     forceSSL = true;
     enableACME = true;
@@ -30,7 +28,7 @@ in {
     });
 
     listenHost = "*";
-    port = ports.hydra;
+    port = config.emile.ports.hydra;
     hydraURL = "https://hydra.emile.space"; # externally visible URL
 
     # Directory that holds Hydra garbage collector roots.

@@ -1,8 +1,6 @@
 { config, ... }:
 
-let
-  ports = import ../ports.nix;
-in {
+{
   services = {
     nginx.virtualHosts."grafana.emile.space" = {
       addSSL = true;
@@ -18,7 +16,7 @@ in {
       settings = {
         server = {
           http_addr = "127.0.0.1";
-          http_port = ports.grafana;
+          http_port = config.emile.ports.grafana;
           domain = "grafana.emile.space";
           root_url = "https://grafana.emile.space/";
         };
@@ -49,21 +47,21 @@ in {
     prometheus = {
       enable = true;
       retentionTime = "356d";
-      port = ports.prometheus;
+      port = config.emile.ports.prometheus;
 
       exporters = {
         node = {
           enable = true;
           enabledCollectors = [ "systemd" ];
-          port = ports.prometheus_node_exporter;
+          port = config.emile.ports.prometheus_node_exporter;
         };
         systemd = {
           enable = true;
-          port = ports.prometheus_systemd_exporter;
+          port = config.emile.ports.prometheus_systemd_exporter;
         };
         smartctl = {
           enable = true;
-          port = ports.prometheus_smartctl_exporter;
+          port = config.emile.ports.prometheus_smartctl_exporter;
         };
       };
       scrapeConfigs = [

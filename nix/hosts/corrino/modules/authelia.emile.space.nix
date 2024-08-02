@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
 
 let
-	ports = import ../ports.nix;
 	authelia_port = config.services.authelia.instances.main.settings.server.port;
 in {
 
@@ -106,7 +105,7 @@ in {
 
 				server = {
 					host = "127.0.0.1";
-					port = ports.authelia;
+					port = config.emile.ports.authelia;
 				};
 
 				# we're using a file to store the user information

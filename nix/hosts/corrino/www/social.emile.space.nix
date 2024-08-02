@@ -1,8 +1,6 @@
 { config, pkgs, ... }:
 
-let
-	ports = import ../ports.nix;
-in {
+{
 
 	# the reverse proxy to gotosocial
   services.nginx.virtualHosts."social.emile.space" = {
@@ -10,7 +8,7 @@ in {
     enableACME = true;
     locations = {
       "/" = {
-        proxyPass = "http://127.0.0.1:${toString ports.gotosocial}";
+        proxyPass = "http://127.0.0.1:${toString config.emile.ports.gotosocial}";
 				proxyWebsockets = true;
         extraConfig = ''
           client_max_body_size 40M;
@@ -79,7 +77,7 @@ in {
 		package = pkgs.gotosocial;
 		settings = {
 			host = "social.emile.space";
-			port = ports.gotosocial;
+			port = config.emile.ports.gotosocial;
 			bind-address = "127.0.0.1";
 			account-domain = "emile.space";
 			db-type = "sqlite";

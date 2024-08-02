@@ -1,8 +1,6 @@
 { config, pkgs, ... }:
 
-let
-	ports = import ../ports.nix;
-in {
+{
 	services.nginx.virtualHosts."md.emile.space" = {
 		forceSSL = true;
 		enableACME = true;
@@ -61,7 +59,7 @@ in {
 
 		settings = {
 			host = "127.0.0.1";
-			port = ports.md;
+			port = config.emile.ports.md;
 
 			domain = "md.emile.space";
 

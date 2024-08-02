@@ -1,15 +1,13 @@
-{ ... }:
+{ config, ... }:
 
-let
-  ports = import ../ports.nix;
-in {
+{
   services.nginx.virtualHosts."ctf.emile.space" = {
     forceSSL = true;
     enableACME = true;
 
     locations = {
       "/" = {
-        proxyPass = "http://127.0.0.1:${toString ports.ctf}";
+        proxyPass = "http://127.0.0.1:${toString config.emile.ports.ctf}";
       };
     };
   };
@@ -20,7 +18,7 @@ in {
       "ctfd" = {
         image = "ctfd/ctfd";
         ports = [
-          "${toString ports.ctf}:8000"
+          "${toString config.emile.ports.ctf}:8000"
         ];
       };
     };

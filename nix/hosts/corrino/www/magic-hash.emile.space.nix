@@ -1,15 +1,13 @@
 { config, ... }:
 
-let
-  ports = import ../ports.nix;
-in {
+{
   services.nginx.virtualHosts."magic-hash.emile.space" = {
     forceSSL = true;
     enableACME = true;
 
     locations = {
       "/" = {
-        proxyPass = "http://127.0.0.1:${toString ports.magic-hash}";
+        proxyPass = "http://127.0.0.1:${toString config.emile.ports.magic-hash}";
       };
     };
   };
@@ -20,7 +18,7 @@ in {
       "ctfd" = {
         image = "magic-hash";
         ports = [
-          "${toString ports.magic-hash}:80"
+          "${toString config.emile.ports.magic-hash}:80"
         ];
         environment = {
 

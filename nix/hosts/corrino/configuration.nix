@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
 
 let
-  ports = import ./ports.nix;
   # keys = import ../../users/keys.nix
   # keys = key;
   keys = {
@@ -16,23 +15,20 @@ in {
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
 
+      ./ports.nix
+
+      ./www/git
+
       # web
       ./www/emile.space.nix
       ./www/tmp.emile.space.nix
-      # ./www/git.emile.space.nix
-      ./www/cgit.emile.space.nix
-      # ./www/incus.emile.space.nix
-      # ./www/seafile.emile.space.nix
       ./www/hydra.emile.space.nix
-      # ./www/matrix.emile.space.nix
       ./www/netbox.emile.space.nix
       ./www/grafana.emile.space.nix
       ./www/photo.emile.space.nix
-      # ./www/events.emile.space.nix
       ./www/tickets.emile.space.nix
       ./www/talks.emile.space.nix
       ./www/stream.emile.space.nix
-      ./www/pgweb.emile.space.nix
       ./www/md.emile.space.nix
       ./www/social.emile.space.nix
 
@@ -44,8 +40,6 @@ in {
 
       # general purpose modules
       ./modules/authelia.emile.space.nix
-      # ./modules/sftpgo.emile.space.nix
-      # ./modules/garage.emile.space.nix
 
       # r2wars
       ./www/r2wa.rs.nix
@@ -80,7 +74,7 @@ in {
           enable = true;
       
           # ssh port during boot for luks decryption
-          port = ports.initrd_ssh;
+          port = config.emile.ports.initrd_ssh;
           authorizedKeys = config.users.users.root.openssh.authorizedKeys.keys;
           hostKeys = [ "/initrd_ssh_host_ecdsa_key" ];
         };
@@ -133,6 +127,27 @@ in {
     supportedFilesystems = {
       "cifs" = true;
     };
+  };
+
+  time.timeZone = "Europe/Berlin";
+
+  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.extraLocaleSettings = {
+    LC_ADDRESS = "de_DE.UTF-8";
+    # LC_COLLATE # How to sort stuff
+    # LC_CTYPE # Character recognition of bytes
+    # LC_IDENTIFICATION # What to show as system locale
+    LC_MONETARY = "de_DE.UTF-8"; # Currency formats
+    # LC_MEASSAGES # General message lang
+    LC_MEASUREMENT = "de_DE.UTF-8"; # Units used for numbers
+    LC_NAME = "de_DE.UTF-8"; # Names of persons
+    # LC_NUMERIC # Punctiation of numbers
+    LC_PAPER = "de_DE.UTF-8"; # Paper size
+    LC_TELEPHONE = "de_DE.UTF-8"; # Phone number formats
+    LC_TIME = "de_DE.UTF-8"; # Time format
+  };
+  console = {
+    keyMap = "de-latin1";
   };
 
   # The mdadm RAID1s were created with 'mdadm --create ... --homehost=hetzner',
@@ -228,7 +243,7 @@ in {
     firewall = {
       enable = true;
       allowedTCPPorts = [
-        ports.gitDaemon # gitDaemon
+        config.emile.ports.gitDaemon # gitDaemon
         80 443 # normal web
       ];
       allowedUDPPorts = [
