@@ -122,6 +122,11 @@
     nixosConfigurations = helper.mapToNixosConfigurations self.hosts;
     darwinConfigurations = helper.mapToDarwinConfigurations self.hosts;
 
+    nixosModules = {
+      emile = import ./nix/modules;
+      default = self.nixosModules.emile;
+    };
+
     overlays = {
       emile = import ./nix/pkgs/overlay.nix;
       default = self.overlays.emile;
