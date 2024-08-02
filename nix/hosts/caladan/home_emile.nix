@@ -180,14 +180,14 @@
     virt-manager
 
     # lisp foo
-    sbcl
+    # sbcl
 
     # infrastructure as code foo
     terraform ansible
 
     portmidi
 
-    blender
+    # blender
 
   # ] ++ lib.optionals stdenv.isDarwin [
   ];
