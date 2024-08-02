@@ -39,16 +39,15 @@
     '';
 
     settings = {
-      # trusted-user = [
-      #   "root"
-      #   "hydra"
-      # ];
+      trusted-users = [ "root" "hydra" "emile" ];
 
       trusted-public-keys = [
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       ];
       substituters = [
         "https://cache.nixos.org"
+        "https://nix-community.cachix.org"
       ];
 
       experimental-features = [ "nix-command" "flakes" ];
@@ -56,18 +55,17 @@
 
     distributedBuilds = true;
 
-
   	buildMachines = [
       {
         hostName = "corrino.emile.space";
         system = "x86_64-linux";
-        maxJobs = 8;
+        maxJobs = 16;
         speedFactor = 2;
 
         # Feature	      | Derivations requiring it
         # ----------------|-----------------------------------------------------
-        # kvm	          | Everything which builds inside a vm, like NixOS tests
-        # nixos-test	  | Machine can run NixOS tests
+        # kvm	            | Everything which builds inside a vm, like NixOS tests
+        # nixos-test	    | Machine can run NixOS tests
         # big-parallel    | kernel config, libreoffice, evolution, llvm and chromium.
         # benchmark	      | Machine can generate metrics (Means the builds usually
         #                 | takes the same amount of time)
