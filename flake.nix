@@ -48,6 +48,7 @@
         sshUser = "hydra";
         homeManagerEnable = true;
         description = "macbook air";
+        # nix run https://github.com/LnL7/nix-darwin/archive/master.tar.gz -- switch --flake .#caladan
       };
       corrino = {
         system = "x86_64-linux";
