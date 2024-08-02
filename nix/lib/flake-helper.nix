@@ -36,6 +36,8 @@ rec {
 
 		modules = modules ++ [
 
+      self.nixosModules.emile
+
 			# a module so that we can access the flake output from inside the
 			# flake (yes, I need this for fetching the system type while building the hosts for deploy-rs)
 			{ config._module.args = { flake = self; }; }
