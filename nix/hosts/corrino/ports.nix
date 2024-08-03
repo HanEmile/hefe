@@ -15,6 +15,10 @@
 		magic-hash = 8339;
 		tickets = 8349;
 		talks = 8350;
+		minio = {
+			s3 = 9000;
+			web = 9001;
+		};
 		authelia = 9091;
 		prometheus = 9003;
 		gitDaemon = 9418;

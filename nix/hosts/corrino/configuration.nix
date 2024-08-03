@@ -32,6 +32,7 @@ in {
       ./www/md.emile.space.nix
       ./www/social.emile.space.nix
       ./www/sso.emile.space.nix
+      ./www/s3.emile.space.nix
 
       ./www/ctf.emile.space.nix
       # ./www/magic-hash.emile.space.nix
