@@ -31,6 +31,7 @@ in {
       ./www/stream.emile.space.nix
       ./www/md.emile.space.nix
       ./www/social.emile.space.nix
+      ./www/sso.emile.space.nix
 
       ./www/ctf.emile.space.nix
       # ./www/magic-hash.emile.space.nix
@@ -39,7 +40,6 @@ in {
       ./gemini/emile.space.nix
 
       # general purpose modules
-      ./modules/authelia.emile.space.nix
 
       # r2wars
       ./www/r2wa.rs.nix
