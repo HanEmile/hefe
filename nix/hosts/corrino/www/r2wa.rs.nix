@@ -9,8 +9,8 @@
       "/" = {
         proxyPass = "http://127.0.0.1:${toString config.emile.ports.r2wars-web}";
       };
-		};
-	};
+    };
+  };
 
   environment.systemPackages = with pkgs; [ radare2 ];
 
