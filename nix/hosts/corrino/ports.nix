@@ -2,15 +2,23 @@
 	emile.ports = {
 		stream_rtmp = 1935;
 		initrd_ssh = 2222;
-		photo = 2342;
+		photo = {
+			photoprism = 2342;
+			immich = 2343;
+		};
 		git = 3000;
 		hydra = 3001;
 		grafana = 3002;
 		md = 3003;
 		gotosocial = 3004;
+		irc = {
+			 clear = 6667;
+			 ssl = 6697;
+		};
 		stream = 8080;
 		netbox = 8001;
 		restic = 8002;
+		r2wars-web = 8089;
 		ctf = 8338;
 		magic-hash = 8339;
 		tickets = 8349;

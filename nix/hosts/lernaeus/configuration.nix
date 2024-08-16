@@ -44,6 +44,10 @@ in {
   networking = {
     hostName = "lernaeus";
     firewall.enable = true;
+
+    # iperf
+    firewall.allowedTCPPorts = [ 5201 ];
+    firewall.allowedUDPPorts = [ 5201 ];
   };
 
   time.timeZone = "Europe/Berlin";

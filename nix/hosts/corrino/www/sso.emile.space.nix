@@ -192,7 +192,7 @@ in {
 				};
 
 				totp = {
-				  disable = false;
+				  disable = true;
 				  issuer = "sso.emile.space";
 				  algorithm = "sha1";
 				  digits = 6;

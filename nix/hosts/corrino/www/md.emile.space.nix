@@ -4,17 +4,9 @@
 	services.nginx.virtualHosts."md.emile.space" = {
 		forceSSL = true;
 		enableACME = true;
-
-		# TODO(emile): figure out why this doesn't work when enabled, has to do with authelia
-		# extraConfig = authelia-location;
-
 		locations = {
 			"/" = {
-				# proxyPass = "http://127.0.0.1:3003";
         proxyPass = "http://127.0.0.1:${toString config.services.hedgedoc.settings.port}";
-
-				# TODO(emile): figure out why this doesn't work when enabled, has to do with authelia
-				# extraConfig = authelia-authrequest;
 			};
 		};
 	};

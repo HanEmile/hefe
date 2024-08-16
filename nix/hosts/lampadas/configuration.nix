@@ -54,6 +54,11 @@ in {
   networking = {
     hostName = "lampadas";
     firewall.enable = true;
+
+    # iperf
+    firewall.allowedTCPPorts = [ 5201 ];
+    firewall.allowedUDPPorts = [ 5201 ];
+
     nameservers = [ "8.8.8.8" "8.8.4.4" "1.1.1.1"];
   };
 

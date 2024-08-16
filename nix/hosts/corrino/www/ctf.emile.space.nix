@@ -13,7 +13,7 @@
   };
 
   virtualisation.oci-containers = {
-    backend = "docker";
+    # backend = "docker";
     containers = {
       "ctfd" = {
         image = "ctfd/ctfd";

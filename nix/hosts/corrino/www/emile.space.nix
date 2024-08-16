@@ -13,6 +13,10 @@
         ''; 
       };
 
+      "/@hanemile".extraConfig = ''
+        return 301 https://social.emile.space/@hanemile;
+      '';
+
       #"/.well-known" = {
       #  root = "/var/www/emile.space";
       #  extraConfig = ''

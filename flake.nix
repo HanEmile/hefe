@@ -157,6 +157,7 @@
     in {
       inherit (pkgs)
         vokobe
+        r2wars-web
         # emu-riscv
         # emu-mips
         # emu-x86_64

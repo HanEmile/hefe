@@ -25,7 +25,10 @@ in {
       ./www/hydra.emile.space.nix
       ./www/netbox.emile.space.nix
       ./www/grafana.emile.space.nix
-      ./www/photo.emile.space.nix
+
+      # ./www/photo.emile.space.nix
+      # ./www/photo
+
       ./www/tickets.emile.space.nix
       ./www/talks.emile.space.nix
       ./www/stream.emile.space.nix
@@ -33,6 +36,9 @@ in {
       ./www/social.emile.space.nix
       ./www/sso.emile.space.nix
       ./www/s3.emile.space.nix
+
+      # ./www/irc.emile.space.nix
+      # ./www/irc
 
       ./www/ctf.emile.space.nix
       # ./www/magic-hash.emile.space.nix
@@ -450,8 +456,12 @@ in {
     };
   };
 
+  virtualisation.podman = {
+    enable = true;
+    autoPrune.enable = true;
+  };
   virtualisation = {
-    docker.enable = true;
+    # docker.enable = true;
     libvirtd = {
       enable = true;
       qemu = {

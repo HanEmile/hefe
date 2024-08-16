@@ -17,7 +17,7 @@
     enable = true;
 
     address = "127.0.0.1";
-    port = config.emile.ports.photo;
+    port = config.emile.ports.photo.photoprism;
 
     passwordFile = config.age.secrets.photoprism_password.path;
 

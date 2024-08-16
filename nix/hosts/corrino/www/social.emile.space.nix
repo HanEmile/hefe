@@ -91,4 +91,11 @@
 		};
 		environmentFile = config.age.secrets.gotosocial_environment_file.path;
 	};
+
+  systemd.services.gotosocial = {
+    after = [ "authelia-main.service" ];
+    serviceConfig = {
+      Restart = "on-failure";
+    };
+  };
 }

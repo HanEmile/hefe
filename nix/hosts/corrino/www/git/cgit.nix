@@ -72,6 +72,12 @@
 					section = "Radare2";
 					owner = "emile";
 				};
+				r2wars-web = {
+					desc = "The software behind https://r2wa.rs";	
+					path = "/var/lib/git/repositories/r2wars-web.git";
+					section = "Radare2";
+					owner = "emile";
+				};
 				r2wars-rs = {
 					desc = "A rust implementation of radare2";	
 					path = "/var/lib/git/repositories/r2wars-rs.git";
@@ -538,7 +544,7 @@
 
 		# exposing stuff
 		gitDaemon = {
-			enable = false;
+			enable = true;
 
 			user = "git";
 			group = "git";

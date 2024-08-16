@@ -165,6 +165,7 @@
 
     # c foo
     cmake
+    pkg-config
 
     # iot hack foo
     minicom
@@ -180,12 +181,17 @@
     virt-manager
 
     # lisp foo
+    #unstable.sbcl
     # sbcl
+    #clasp-common-lisp
+    clisp
 
     # infrastructure as code foo
     terraform ansible
 
     portmidi
+
+    tiny # irc
 
     # blender
 
