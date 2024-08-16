@@ -9,7 +9,7 @@ pkgs.buildGoModule rec {
     hash = "sha256-n+La+C1diNCkxlGIxLu9nGQ//tJ5eDUjvXvdGP4Mdnk=";
   };
 
-	vendorHash = null;
+  vendorHash = null;
   CGO_ENABLED=0;
   subPackages = [ "src" ];
 
