@@ -63,10 +63,16 @@ in with lib; {
   config = mkIf cfg.enable {
     systemd.services.r2wars-web = {
       wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        RestartSec = 5;
+        Restart = "always";
+      };
       environment = {
         SESSION_KEY = cfg.sessionKey;
         SALT = cfg.salt;
+        VERSION = pkgs.r2wars-web.version;
       };
+      path = [ pkgs.radare2 ];
       serviceConfig.ExecStart = "${pkgs.r2wars-web}/bin/r2wars-web -h ${cfg.host} -p ${toString cfg.port} --logfilepath ${cfg.logfilePath} --databasepath ${cfg.databasePath} --sessiondbpath ${cfg.sessiondbPath} --templates ${pkgs.r2wars-web}/templates";
     };
   };
