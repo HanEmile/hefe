@@ -2,11 +2,11 @@
 
 pkgs.buildGoModule rec {
   name = "r2wars-web-${version}";
-  version = "0.1.0";
+  version = "0.1.1";
 
   src = fetchgit {
     url = "git://git.emile.space/r2wars-web.git";
-    hash = "sha256-n+La+C1diNCkxlGIxLu9nGQ//tJ5eDUjvXvdGP4Mdnk=";
+    hash = "sha256-UahNwhsxFGSpaVTk2EFtjt/MCB4Ec/08QStylL2QPUM=";
   };
 
   vendorHash = null;
