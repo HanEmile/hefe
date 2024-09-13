@@ -6,8 +6,10 @@ export PROMPT="; "		# minimal prompt
 #export RPROMPT="%F{green}%/%F{reset}"
 export RPROMPT="%F{green}%/%F{reset} %D{%K:%M:%S}" 
 
-# reset the prompt, so we get the time the command was executed
-# in the rprompt
+# Reset the prompt, so we get the time the command was executed
+# in the rprompt. A single second was to much, as it also breaks all the
+# prompt suggestions, 5 seconds seems quite sensible, and you can just hit
+# `TAB` yet another time if you want to see the suggestions again
 TMOUT=5
 TRAPALRM() {
   zle reset-prompt

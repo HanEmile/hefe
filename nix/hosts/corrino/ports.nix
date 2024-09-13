@@ -11,13 +11,16 @@
 		grafana = 3002;
 		md = 3003;
 		gotosocial = 3004;
+		harmonia = 5000;
 		irc = {
 			 clear = 6667;
 			 ssl = 6697;
 		};
+		hound = 6080;
 		stream = 8080;
 		netbox = 8001;
 		restic = 8002;
+		nocodb = 8003;
 		r2wars-web = 8089;
 		ctf = 8338;
 		magic-hash = 8339;

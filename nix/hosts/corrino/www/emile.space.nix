@@ -13,6 +13,8 @@
         ''; 
       };
 
+      # As the social.emile.space server actually uses redirects from emile.space, they have to be
+      # setup somewhere. Well... this is that place
       "/@hanemile".extraConfig = ''
         return 301 https://social.emile.space/@hanemile;
       '';

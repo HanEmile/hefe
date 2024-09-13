@@ -153,14 +153,15 @@ in {
         load printers = no
         server min protocol = SMB3
         server smb encrypt = required 
-        read raw = Yes
-        write raw = Yes
-        socket options = TCP_NODELAY IPTOS_LOWDELAY SO_RCVBUF=131072 SO_SNDBUF=131072
         min receivefile size = 16384
         use sendfile = true
         aio read size = 16384
         aio write size = 16384
         server multi channel support = yes
+        socket options = TCP_NODELAY IPTOS_LOWDELAY SO_RCVBUF=131072 SO_SNDBUF=131072
+        read raw = Yes
+        write raw = Yes
+        large readwrite = yes
       '';
       shares = {
         public = {
@@ -172,8 +173,8 @@ in {
           "available" = "yes";
           "create mask" = "2775";
           "directory mask" = "2775";
-          "force create mask" = "2775";
-          "force directory mask" = "2775";
+          # "force create mask" = "2775";
+          # "force directory mask" = "2775";
           "force user" = "samba-guest";
           "comment" = "public data";
           "writable" = "yes";

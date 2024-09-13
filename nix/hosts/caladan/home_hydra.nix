@@ -7,8 +7,8 @@
   homeDirectory = "/Users/hydra";
  };
 
- # let home-manager install and manage itself
  programs = {
+  # let home-manager install and manage itself
   home-manager.enable = true;
  };
 

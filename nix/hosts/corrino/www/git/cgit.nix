@@ -1,10 +1,33 @@
 { config, lib, pkgs, ... }:
 
+let
+	repodirs = builtins.concatStringsSep "\n"
+		(map
+			(x: "directory = ${x}")
+			(lib.lists.flatten
+				(map
+					(x: lib.attrValues (lib.getAttrs [ "path" ] x))
+					(lib.mapAttrsToList
+						(name: value: value)
+						config.services.cgit.main.repos))));
+in
 {
   environment.systemPackages = with pkgs; [
-	  md4c # used to get md2html for rendering the READMEs
+	  md4c # used to get md2html for rendering the READMEs within cgit-pink
 	];
 
+	# set all the repos as safe
+	environment.etc = {
+	  gitconfig = {
+	    text = ''
+				[http]
+					sslCAinfo = /etc/ssl/certs/ca-certificates.crt
+				[safe]
+					${repodirs}
+	    '';
+		};
+	};
+	
   services = {
 	  nginx.virtualHosts."git.emile.space" = {
 	    forceSSL = true;
@@ -469,7 +492,7 @@
 				# articles
 				barnes-hut = {
 					desc = "A one pager compressing the JuFo19 project";
-					path = "/var/lib/git/repositories/paged-out-barnes-hut.git";
+					path = "/var/lib/git/repositories/barnes-hut.git";
 					section = "Articles";
 					owner = "emile";
 				};
@@ -544,7 +567,7 @@
 
 		# exposing stuff
 		gitDaemon = {
-			enable = true;
+			enable = false;
 
 			user = "git";
 			group = "git";

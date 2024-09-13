@@ -36,7 +36,10 @@ rec {
 
 		modules = modules ++ [
 
-      self.nixosModules.emile
+			(if system == "x86_64-linux" then self.nixosModules.x86_64-linux
+				else
+					if system == "aarch64-darwin" then ({})
+					else null)
 
 			# a module so that we can access the flake output from inside the
 			# flake (yes, I need this for fetching the system type while building the hosts for deploy-rs)
@@ -46,6 +49,7 @@ rec {
 			({ ... }: {
 				nixpkgs.overlays = [
 					self.overlays.emile
+					
 					(_: _: { inherit (agenix.packages."x86_64-linux") agenix; })
 					(_: _: {
 						unstable = import nixpkgs-unstable {

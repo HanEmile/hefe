@@ -1,30 +1,27 @@
 {
   ":q" = "exit";
   ls = "eza";
-  ytop = "btm";
 
   # short forms
   tf = "terraform";
-  h = "mosh hack";
 
   r2help = ''r2 -qq -c "?*~..." --'';
   mosh = "mosh --no-init";
   t = "task";
   tw = "timew";
 
-  ipa = "scutil --nwi";
+  ipa = "scutil --nwi"; # more `ip a` like info on macos
 
   # this can be super nice and super annoying at the same time:
   # ssh = "kitty +kitten ssh";
-
-  light = "kitty +kitten themes --reload-in=all Ayu Light";
-  dark = "kitty +kitten themes --reload-in=all Ayu";
-
 
   ".." = "cd ..";
   "..." = "cd ../..";
   "...." = "cd ../../..";
   "....." = "cd ../../../..";
+  "......" = "cd ../../../../..";
+  "......." = "cd ../../../../../..";
+  "........" = "cd ../../../../../../..";
 
   grep = "grep --color=auto";
   nix-stray-roots = ''
@@ -34,7 +31,7 @@
 
   servethis = "python3 -m http.server";
 
-  # nmap foo
+  # these are the oh-my-zsh nmap plugin aliases which are nice to have around imho
   nmap_open_ports = "nmap --open";
   nmap_list_interfaces = "nmap --iflist";
   nmap_slow = "sudo nmap -sS -v -T1";
@@ -50,6 +47,7 @@
   nmap_full_with_scripts = "sudo nmap -sS -sU -T4 -A -v -PE -PP -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -PO --script all " ;
   nmap_web_safe_osscan = "sudo nmap -p 80,443 -O -v --osscan-guess --fuzzy ";
   nmap_ping_scan = "nmap -n -sP";
-  lm = "sudo kitten themes --reload-in=all 3024 Day";
-  dm = "sudo kitten themes --reload-in=all Default";
+
+  light = "sudo kitten themes --reload-in=all 3024 Day";
+  dark = "sudo kitten themes --reload-in=all Default";
 }

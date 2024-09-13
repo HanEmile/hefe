@@ -123,14 +123,13 @@
     darwinConfigurations = helper.mapToDarwinConfigurations self.hosts;
 
     nixosModules = {
-      emile = import ./nix/modules;
-      default = self.nixosModules.emile;
+      x86_64-linux = import ./nix/modules/x86_64-linux.nix;
+      default = self.nixosModules.x86_64-linux;
     };
 
     overlays = {
       emile = import ./nix/pkgs/overlay.nix;
-      default = self.overlays.emile;
-
+      default = self.overlays.x86_64-linux;
       unstable = final: prev: {
         unstable = import nixpkgs-unstable {
           system = "x86_64-linux";
@@ -148,7 +147,11 @@
       pkgs = import nixpkgs {
         inherit system;
         overlays = [
-          self.overlays.emile
+
+    			(if system == "x86_64-linux" then self.overlays.x86_64-linux
+    			  else if system == "aarch64-darwin" then self.overlays.aarch64-darwin
+    				else null)
+          # self.overlays.emile
 
           # some arguments for packages
           (_: _: { inherit naersk; })

@@ -2,12 +2,22 @@
 
 {
   services = {
-    nginx.virtualHosts."grafana.emile.space" = {
-      addSSL = true;
-      enableACME = true;
-      locations."/" = {
-          proxyPass = "http://${toString config.services.grafana.settings.server.http_addr}:${toString config.services.grafana.settings.server.http_port}/";
-          proxyWebsockets = true;
+    nginx.virtualHosts = {
+      "grafana.emile.space" = {
+        addSSL = true;
+        enableACME = true;
+        locations."/" = {
+            proxyPass = "http://${toString config.services.grafana.settings.server.http_addr}:${toString config.services.grafana.settings.server.http_port}/";
+            proxyWebsockets = true;
+        };
+      };
+      "prometheus.emile.space" = {
+        addSSL = true;
+        enableACME = true;
+        locations."/" = {
+            proxyPass = "http://${config.services.prometheus.listenAddress}:${toString config.services.prometheus.port}/";
+            proxyWebsockets = true;
+        };
       };
     };
 
@@ -47,6 +57,8 @@
     prometheus = {
       enable = true;
       retentionTime = "356d";
+
+      listenAddress = "[::1]";
       port = config.emile.ports.prometheus;
 
       exporters = {

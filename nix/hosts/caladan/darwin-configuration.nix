@@ -85,17 +85,14 @@
     config.allowUnfree = true;
   };
 
-  programs.fish.enable = true;
-
   services.nix-daemon.enable = true;
 
+  # <3
   security.pam.enableSudoTouchIdAuth = true;
 
   environment = {
-    systemPackages = [
-      pkgs.yarr
-    ];
-    shells = with pkgs; [ bashInteractive zsh fish ];
+    systemPackages = [ ]; # set via home-manager
+    shells = with pkgs; [ bashInteractive zsh ];
   };
 
 }
