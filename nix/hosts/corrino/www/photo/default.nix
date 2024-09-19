@@ -1,8 +1,8 @@
 { ... }:
 
 {
-	imports = [
-		./photoprism.nix
-		# ./immich.nix
-	];
+  imports = [
+    ./photoprism.nix
+    # ./immich.nix
+  ];
 }

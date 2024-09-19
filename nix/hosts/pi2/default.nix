@@ -33,15 +33,15 @@
     # crossSystem = lib.systems.examples.raspberryPi;
     crossSystem = lib.systems.examples.armv7l-hf-multiplatform;
     # localSystem = { system = "x86_64-linux"; };
-    localSystem = { system = "aarch64-darwin"; };
+    localSystem = {
+      system = "aarch64-darwin";
+    };
     overlays = [
       (final: super: {
         # Due to https://github.com/NixOS/nixpkgs/issues/154163#issuecomment-1350599022
-        makeModulesClosure = x:
-          super.makeModulesClosure (x // { allowMissing = true; });
+        makeModulesClosure = x: super.makeModulesClosure (x // { allowMissing = true; });
       })
     ];
   };
   system.stateVersion = "24.05";
 }
-

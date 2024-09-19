@@ -1,4 +1,8 @@
-{ pkgs, lib, fetchgit }:
+{
+  pkgs,
+  lib,
+  fetchgit,
+}:
 
 pkgs.buildGoModule rec {
   name = "r2wars-web-${version}";
@@ -10,7 +14,7 @@ pkgs.buildGoModule rec {
   };
 
   vendorHash = null;
-  CGO_ENABLED=0;
+  CGO_ENABLED = 0;
   subPackages = [ "src" ];
 
   postInstall = ''
@@ -19,7 +23,7 @@ pkgs.buildGoModule rec {
 
     mv $out/bin/src $out/bin/r2wars-web
   '';
-  
+
   doCheck = false;
 
   meta = {

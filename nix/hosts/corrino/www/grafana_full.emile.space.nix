@@ -2,7 +2,8 @@
 
 let
   cfg = config.services.grafana;
-in {
+in
+{
   services.nginx.virtualHosts."git.emile.space" = {
     forceSSL = true;
     enableACME = true;
@@ -69,7 +70,7 @@ in {
           allow_sign_up = false;
 
           # Set to false to prohibit users from creating new organizations.
-          allow_org_create = false; 
+          allow_org_create = false;
         };
 
         smtp = {
@@ -79,11 +80,11 @@ in {
           # StartTLS policy when connecting to server.
           # null or one of "OpportunisticStartTLS", "MandatoryStartTLS", "NoStartTLS"
           startTLS_policy = null;
-        
+
           # Verify SSL for SMTP server.
           skip_verify = false;
 
-        # Password used for authentication. Please note that the contents of this option will end up in a world-readable Nix store. Use the file provider pointing at a reasonably secured file in the local filesystem to work around that. Look at the documentation for details: https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#file-provider
+          # Password used for authentication. Please note that the contents of this option will end up in a world-readable Nix store. Use the file provider pointing at a reasonably secured file in the local filesystem to work around that. Look at the documentation for details: https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#file-provider
           password = "";
 
           # File path to a key file.
@@ -201,13 +202,13 @@ in {
           disable_brute_force_login_protection = false;
 
           # Define a whitelist of allowed IP addresses or domains, with ports, to be used in data source URLs with the Grafana data source proxy. Format: ip_or_domain:port separated by spaces. PostgreSQL, MySQL, and MSSQL data sources do not use the proxy and are therefore unaffected by this setting.
-          data_source_proxy_whitelist = [];
+          data_source_proxy_whitelist = [ ];
 
           # List of additional allowed URLs to pass by the CSRF check. Suggested when authentication comes from an IdP.
-          csrf_trusted_origins = [];
+          csrf_trusted_origins = [ ];
 
           # List of allowed headers to be set by the user. Suggested to use for if authentication lives behind reverse proxies.
-          csrf_additional_headers = [];
+          csrf_additional_headers = [ ];
 
           # Set to true if you host Grafana behind HTTPS.
           cookie_secure = true;

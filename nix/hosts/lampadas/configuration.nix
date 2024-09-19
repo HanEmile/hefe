@@ -4,17 +4,18 @@
 
 { pkgs, ... }:
 
-let 
+let
   emile_keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPZi43zHEsoWaQomLGaftPE5k0RqVrZyiTtGqZlpWsew emile@caladan"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEzLZ56SEgwZZ0OusTdSDDhpMlxSg1zPNdRLuxKOfrR5 emile@chusuk"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMoHWyC9r0LVk6UlkhBWAJph0F6KHYHh83EI5U9wtfq2 shortcuts@ginaz"
   ];
-in {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+in
+{
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   boot = {
     loader = {
@@ -30,7 +31,7 @@ in {
         ssh = {
           enable = true;
           port = 22;
-          hostKeys = ["/initrd_ssh_host_key_ed25519"];
+          hostKeys = [ "/initrd_ssh_host_key_ed25519" ];
           authorizedKeys = emile_keys;
         };
         postCommands = ''
@@ -38,17 +39,20 @@ in {
         '';
       };
       luks.devices = {
-      	# unsure why luksdata1 is recognized and added to the
-      	# hardware-configuration.nix automatically, but luksdata2 isn't 
+        # unsure why luksdata1 is recognized and added to the
+        # hardware-configuration.nix automatically, but luksdata2 isn't 
         "luksdata2".device = "/dev/disk/by-uuid/e94d7f32-26ef-41e1-b3f3-9e63e4858001";
       };
     };
   };
 
   fileSystems = {
-    "/".options = ["compress=zstd"];
-    "/home".options = ["compress=zstd"];
-    "/nix".options = ["compress=zstd" "noatime"];
+    "/".options = [ "compress=zstd" ];
+    "/home".options = [ "compress=zstd" ];
+    "/nix".options = [
+      "compress=zstd"
+      "noatime"
+    ];
   };
 
   networking = {
@@ -59,7 +63,11 @@ in {
     firewall.allowedTCPPorts = [ 5201 ];
     firewall.allowedUDPPorts = [ 5201 ];
 
-    nameservers = [ "8.8.8.8" "8.8.4.4" "1.1.1.1"];
+    nameservers = [
+      "8.8.8.8"
+      "8.8.4.4"
+      "1.1.1.1"
+    ];
   };
 
   time.timeZone = "Europe/Berlin";
@@ -78,7 +86,10 @@ in {
       };
       emile = {
         isNormalUser = true;
-        extraGroups = [ "wheel" "samba-guest" ];
+        extraGroups = [
+          "wheel"
+          "samba-guest"
+        ];
         openssh.authorizedKeys.keys = emile_keys;
       };
       samba-guest = {
@@ -91,7 +102,7 @@ in {
       };
     };
   };
-  users.groups.samba-guest = {};
+  users.groups.samba-guest = { };
 
   systemd.tmpfiles.rules = [
     "d /data 0755 root root"
@@ -101,8 +112,12 @@ in {
   ];
 
   environment.systemPackages = with pkgs; [
-    vim tailscale
-    nmap ffuf git unzip
+    vim
+    tailscale
+    nmap
+    ffuf
+    git
+    unzip
   ];
 
   programs.mosh.enable = true;
@@ -194,7 +209,7 @@ in {
           "public" = "no";
           "writeable" = "yes";
           "valid users" = "emile";
-          "force user" = "emile"; 
+          "force user" = "emile";
           "fruit:aapl" = "yes";
           "fruit:time machine" = "yes";
           "fruit:delete_empty_adfiles" = "yes";
@@ -220,7 +235,10 @@ in {
   };
 
   nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     gc = {
       automatic = true;
       dates = "weekly";
@@ -231,4 +249,3 @@ in {
     };
   };
 }
-

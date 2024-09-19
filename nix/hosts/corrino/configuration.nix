@@ -5,60 +5,61 @@ let
   # keys = key;
   keys = {
     emile = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPZi43zHEsoWaQomLGaftPE5k0RqVrZyiTtGqZlpWsew emile@caladan"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGzY3eCD6D07Kc8iBIO3nLRsqaOZ+Q+RKykXLefT26eU shortcuts@caladan"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMoHWyC9r0LVk6UlkhBWAJph0F6KHYHh83EI5U9wtfq2 shortcuts@ginaz"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPZi43zHEsoWaQomLGaftPE5k0RqVrZyiTtGqZlpWsew emile@caladan"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGzY3eCD6D07Kc8iBIO3nLRsqaOZ+Q+RKykXLefT26eU shortcuts@caladan"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMoHWyC9r0LVk6UlkhBWAJph0F6KHYHh83EI5U9wtfq2 shortcuts@ginaz"
     ];
   };
-in {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+in
+{
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
 
-      ./ports.nix
+    ./ports.nix
 
-      ./www/git
-      ./www/nix-cache
+    ./www/git
+    ./www/nix-cache
 
-      # screego
+    # screego
 
-      # web
-      ./www/emile.space.nix
-      ./www/tmp.emile.space.nix
-      ./www/hydra.emile.space.nix
-      ./www/netbox.emile.space.nix
-      ./www/grafana.emile.space.nix
+    # web
+    ./www/emile.space.nix
+    ./www/tmp.emile.space.nix
+    ./www/hydra.emile.space.nix
+    ./www/netbox.emile.space.nix
+    ./www/grafana.emile.space.nix
 
-      # ./www/photo.emile.space.nix
-      # ./www/photo
+    # ./www/photo.emile.space.nix
+    # ./www/photo
 
-      ./www/tickets.emile.space.nix
-      ./www/talks.emile.space.nix
-      ./www/stream.emile.space.nix
-      ./www/md.emile.space.nix
-      ./www/social.emile.space.nix
-      ./www/sso.emile.space.nix
-      ./www/s3.emile.space.nix
-      ./www/cs.emile.space.nix
-      ./www/irc.emile.space.nix
-      ./www/db.emile.space.nix
+    ./www/tickets.emile.space.nix
+    ./www/talks.emile.space.nix
+    ./www/stream.emile.space.nix
+    ./www/md.emile.space.nix
+    ./www/social.emile.space.nix
+    ./www/sso.emile.space.nix
+    ./www/s3.emile.space.nix
+    ./www/cs.emile.space.nix
+    ./www/irc.emile.space.nix
+    ./www/db.emile.space.nix
 
-      # ./www/irc.emile.space.nix
-      # ./www/irc
+    # ./www/irc.emile.space.nix
+    # ./www/irc
 
-      ./www/ctf.emile.space.nix
-      # ./www/magic-hash.emile.space.nix
+    ./www/ctf.emile.space.nix
+    # ./www/magic-hash.emile.space.nix
 
-      # gemini
-      ./gemini/emile.space.nix
+    # gemini
+    ./gemini/emile.space.nix
 
-      # general purpose modules
+    # general purpose modules
 
-      # r2wars
-      ./www/r2wa.rs.nix
+    # r2wars
+    ./www/r2wa.rs.nix
 
-      # containers
-    ];
+    # containers
+  ];
 
   # Use GRUB2 as the boot loader.
   # We don't use systemd-boot because Hetzner uses BIOS legacy boot.
@@ -71,21 +72,30 @@ in {
       efiSupport = false;
       enableCryptodisk = true;
       device = "nodev";
-      devices = [ "/dev/nvme0n1" "/dev/nvme1n1"];
+      devices = [
+        "/dev/nvme0n1"
+        "/dev/nvme1n1"
+      ];
     };
 
-    kernelParams = [ "ip=135.181.142.139::135.181.142.129:255.255.255.192:corrino:enp35s0:off:8.8.8.8:8.8.4.4:" ];
+    kernelParams = [
+      "ip=135.181.142.139::135.181.142.129:255.255.255.192:corrino:enp35s0:off:8.8.8.8:8.8.4.4:"
+    ];
 
     initrd = {
       kernelModules = [ "dm-snapshot" ];
 
-      availableKernelModules = [ "cryptd" "aesni_intel" "igb" ];#"FIXME Your network driver" ];
+      availableKernelModules = [
+        "cryptd"
+        "aesni_intel"
+        "igb"
+      ]; # "FIXME Your network driver" ];
 
       network = {
         enable = true;
         ssh = {
           enable = true;
-      
+
           # ssh port during boot for luks decryption
           port = config.emile.ports.initrd_ssh;
           authorizedKeys = config.users.users.root.openssh.authorizedKeys.keys;
@@ -106,7 +116,7 @@ in {
           };
         };
       };
-                  
+
       secrets = {
         "/initrd_ssh_host_ecdsa_key" = "/initrd_ssh_host_ecdsa_key";
       };
@@ -203,8 +213,14 @@ in {
     description = "Automatic connection to Tailscale";
 
     # make sure tailscale is running before trying to connect to tailscale
-    after = [ "network-pre.target" "tailscale.service" ];
-    wants = [ "network-pre.target" "tailscale.service" ];
+    after = [
+      "network-pre.target"
+      "tailscale.service"
+    ];
+    wants = [
+      "network-pre.target"
+      "tailscale.service"
+    ];
     wantedBy = [ "multi-user.target" ];
 
     # set this service as a oneshot job
@@ -225,7 +241,7 @@ in {
       ${tailscale}/bin/tailscale up \
         --advertise-exit-node --exit-node
     '';
-      # -authkey ${config.age.secrets.tailscale_authkey}
+    # -authkey ${config.age.secrets.tailscale_authkey}
   };
 
   networking = {
@@ -237,18 +253,30 @@ in {
     interfaces = {
       "enp35s0" = {
         ipv4.addresses = [
-          { address = "135.181.142.139"; prefixLength = 26; }
+          {
+            address = "135.181.142.139";
+            prefixLength = 26;
+          }
         ];
       };
       "enp35s0".ipv6.addresses = [
-        { address = "2a01:4f9:3a:16a4::1"; prefixLength = 64; }
+        {
+          address = "2a01:4f9:3a:16a4::1";
+          prefixLength = 64;
+        }
       ];
     };
 
     defaultGateway = "135.181.142.129";
-    defaultGateway6 = { address = "fe80::1"; interface = "enp35s0"; };
+    defaultGateway6 = {
+      address = "fe80::1";
+      interface = "enp35s0";
+    };
 
-    nameservers = [ "8.8.8.8" "8.8.4.4" ];
+    nameservers = [
+      "8.8.8.8"
+      "8.8.4.4"
+    ];
 
     # incus doesn't support iptables, so we're using nftables here 
     nftables.enable = true;
@@ -257,13 +285,17 @@ in {
       enable = true;
       allowedTCPPorts = [
         config.emile.ports.gitDaemon # gitDaemon
-        80 443 # normal web
+        80
+        443 # normal web
       ];
       allowedUDPPorts = [
         51820 # wireguard
       ];
       allowedUDPPortRanges = [
-        { from = 60000; to = 61000; } # mosh
+        {
+          from = 60000;
+          to = 61000;
+        } # mosh
       ];
 
       interfaces."tailscale0".allowedTCPPorts = [
@@ -275,7 +307,10 @@ in {
       enable = true;
       enableIPv6 = true;
       externalInterface = "enp35s0";
-      internalInterfaces = [ "wg0" "ve-+"];
+      internalInterfaces = [
+        "wg0"
+        "ve-+"
+      ];
     };
 
     wireguard = {
@@ -298,12 +333,14 @@ in {
 
         peers = [
           # List of allowed peers.
-          { # Emiles-MBA
+          {
+            # Emiles-MBA
             publicKey = "Ebsjn7w2FeUs5lUN6ALoUcF/o9/+SopDL324YJPSCDY=";
             # List of IPs assigned to this peer within the tunnel subnet. Used to configure routing.
             allowedIPs = [ "10.87.0.2/32" ];
           }
-          { # Emiles-IphoneX
+          {
+            # Emiles-IphoneX
             publicKey = "xGfmwraI0Eh3eFEXjJrd2AYCgUM1uK4Y+FX5ACAQZ3M=";
             # List of IPs assigned to this peer within the tunnel subnet. Used to configure routing.
             allowedIPs = [ "10.87.0.3/32" ];
@@ -317,7 +354,7 @@ in {
   users.users = {
     root = {
       initialHashedPassword = "";
-      openssh.authorizedKeys.keys = [] ++ keys.emile;
+      openssh.authorizedKeys.keys = [ ] ++ keys.emile;
       packages = with pkgs; [
         mdadm
         tailscale
@@ -326,15 +363,22 @@ in {
         htop
         git
         vim
-        fd ripgrep
+        fd
+        ripgrep
       ];
-      extraGroups = [ "docker" "libvirtd" ];
+      extraGroups = [
+        "docker"
+        "libvirtd"
+      ];
     };
 
     hack = {
       isNormalUser = true;
-      openssh.authorizedKeys.keys = [] ++ keys.emile;
-      extraGroups = [ "docker" "libvirtd" ];
+      openssh.authorizedKeys.keys = [ ] ++ keys.emile;
+      extraGroups = [
+        "docker"
+        "libvirtd"
+      ];
     };
 
     tmpuser1 = {
@@ -343,7 +387,7 @@ in {
       # TODO(emile): read after the whole user system is setup
       # "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJMMq7gVuOuJEuarcsss2pb4JJS39zW/Fuow0foyqlV5 noobtracker@noobtracker-linux"
 
-      openssh.authorizedKeys.keys = [] ++ keys.emile;
+      openssh.authorizedKeys.keys = [ ] ++ keys.emile;
     };
   };
 
@@ -371,9 +415,12 @@ in {
       useRoutingFeatures = "both";
     };
   };
-  
+
   nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
 
     gc = {
       automatic = true;
@@ -419,7 +466,7 @@ in {
       builders-use-substitutes = true
       allowed-uris = http:// https://
     '';
-      # allowed-uris = ssh://git@git.emile.space/hefe-internal git.emile.space git@git.emile.space ssh://git@git.emile.space
+    # allowed-uris = ssh://git@git.emile.space/hefe-internal git.emile.space git@git.emile.space ssh://git@git.emile.space
     # allowed-uris = git.emile.space: gitea@git.emile.space: ssh://gitea@git.emile.space/hanemile/hefe-internal.git git+ssh: git+https:
 
     # settings.allowed-uris = [
@@ -432,7 +479,12 @@ in {
         system = "x86_64-linux";
         protocol = "ssh-ng";
         maxJobs = 1;
-        supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+        supportedFeatures = [
+          "nixos-test"
+          "benchmark"
+          "big-parallel"
+          "kvm"
+        ];
       }
       {
         hostName = "caladan.pinto-pike.ts.net";
@@ -440,12 +492,17 @@ in {
         protocol = "ssh-ng";
         maxJobs = 1;
         speedFactor = 2;
-        supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+        supportedFeatures = [
+          "nixos-test"
+          "benchmark"
+          "big-parallel"
+          "kvm"
+        ];
         mandatoryFeatures = [ ];
       }
     ];
 
-  	distributedBuilds = true;
+    distributedBuilds = true;
   };
 
   nixpkgs.config = {
@@ -491,7 +548,10 @@ in {
   fileSystems."/proc" = {
     device = "/proc";
     options = [
-      "nosuid" "nodev" "noexec" "relatime" # normal foo
+      "nosuid"
+      "nodev"
+      "noexec"
+      "relatime" # normal foo
       "hidepid=2" # this makes sure users can only see their own processes
     ];
   };
@@ -502,7 +562,8 @@ in {
     options =
       let
         automount_opts = "_netdev,x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-      in ["${automount_opts},credentials=${config.age.secrets.storage_box_bx11_password.path}"];
+      in
+      [ "${automount_opts},credentials=${config.age.secrets.storage_box_bx11_password.path}" ];
   };
 
   # FIXME

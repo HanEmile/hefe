@@ -17,9 +17,7 @@
     containers = {
       "ctfd" = {
         image = "ctfd/ctfd";
-        ports = [
-          "${toString config.emile.ports.ctf}:8000"
-        ];
+        ports = [ "${toString config.emile.ports.ctf}:8000" ];
       };
     };
   };

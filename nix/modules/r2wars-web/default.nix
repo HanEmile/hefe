@@ -1,8 +1,15 @@
-{ config, lib, pkgs, ... }: 
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.services.emile.r2wars-web;
-in with lib; {
+in
+with lib;
+{
   options.services.emile.r2wars-web = {
     enable = mkEnableOption "Enable r2wars-web";
 

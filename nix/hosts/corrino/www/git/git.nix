@@ -1,8 +1,14 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 
 let
   cfg = config.services.gitea;
-in {
+in
+{
   services.nginx.virtualHosts."git.emile.space" = {
     forceSSL = true;
     enableACME = true;
@@ -21,24 +27,22 @@ in {
     };
   };
 
-	# auth via authelia
-	services.authelia.instances.main.settings.identity_providers.oidc.clients = [
-  	{
-  		id = "git";
+  # auth via authelia
+  services.authelia.instances.main.settings.identity_providers.oidc.clients = [
+    {
+      id = "git";
 
-  		# ; nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512 --random --random.length 72 --random.charset rfc3986
-  		secret = "$pbkdf2-sha512$310000$4bi9wRkfcqnjbdmgt7rU.g$pQ2mC6GW4.BQwanGKKFhFyIx6Y.WY80xd/YpmlYOPnlnGBWpp0dSOTv6a/2yqSA5D.EuRkGCyeexSE5FdCK2TA";
-  		public = false;
-  		authorization_policy = "two_factor";
-  		redirect_uris = [
-  			"https://git.emile.space/user/oauth2/authelia/callback"
-  		];
-  		scopes = [
-  			"openid"
-  			"email"
-  			"profile"
-  		];
-  	}
+      # ; nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512 --random --random.length 72 --random.charset rfc3986
+      secret = "$pbkdf2-sha512$310000$4bi9wRkfcqnjbdmgt7rU.g$pQ2mC6GW4.BQwanGKKFhFyIx6Y.WY80xd/YpmlYOPnlnGBWpp0dSOTv6a/2yqSA5D.EuRkGCyeexSE5FdCK2TA";
+      public = false;
+      authorization_policy = "two_factor";
+      redirect_uris = [ "https://git.emile.space/user/oauth2/authelia/callback" ];
+      scopes = [
+        "openid"
+        "email"
+        "profile"
+      ];
+    }
   ];
 
   services.gitea = rec {

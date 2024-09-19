@@ -15,7 +15,7 @@
     containers = {
       "noco" = {
         image = "nocodb/nocodb:latest";
-				volumes = [ "nocodb:/usr/app/data" ];
+        volumes = [ "nocodb:/usr/app/data" ];
         ports = [ "${toString config.emile.ports.nocodb}:8080" ];
       };
     };

@@ -1,9 +1,7 @@
 { pkgs, lib, ... }:
 
 {
-  imports = [
-    ./overlay.nix
-  ];
+  imports = [ ./overlay.nix ];
 
   users.users.emile = {
     name = "emile";
@@ -31,15 +29,21 @@
   nix = {
     useDaemon = true;
     package = pkgs.nixFlakes;
-    extraOptions = ''
-  		builders-use-substitutes = true
-      auto-optimise-store = true
-    '' + lib.optionalString (pkgs.system == "aarch64-darwin") ''
-      extra-platforms = x86_64-darwin aarch64-darwin
-    '';
+    extraOptions =
+      ''
+        		builders-use-substitutes = true
+            auto-optimise-store = true
+      ''
+      + lib.optionalString (pkgs.system == "aarch64-darwin") ''
+        extra-platforms = x86_64-darwin aarch64-darwin
+      '';
 
     settings = {
-      trusted-users = [ "root" "hydra" "emile" ];
+      trusted-users = [
+        "root"
+        "hydra"
+        "emile"
+      ];
 
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
@@ -52,12 +56,15 @@
         "https://cache.garnix.io"
       ];
 
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
     };
 
     distributedBuilds = true;
 
-  	buildMachines = [
+    buildMachines = [
       {
         hostName = "corrino.emile.space";
         system = "x86_64-linux";
@@ -75,9 +82,14 @@
         # cat /etc/nix/machines
         # root@corrino  x86_64-linux      /home/nix/.ssh/id_ed25519        8 1     kvm,benchmark
 
-        supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+        supportedFeatures = [
+          "nixos-test"
+          "benchmark"
+          "big-parallel"
+          "kvm"
+        ];
         mandatoryFeatures = [ ];
-    	}
+      }
     ];
   };
 
@@ -92,7 +104,10 @@
 
   environment = {
     systemPackages = [ ]; # set via home-manager
-    shells = with pkgs; [ bashInteractive zsh ];
+    shells = with pkgs; [
+      bashInteractive
+      zsh
+    ];
   };
 
 }

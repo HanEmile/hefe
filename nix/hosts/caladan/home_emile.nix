@@ -14,7 +14,7 @@
     # let home-manager install and manage itself
     home-manager.enable = true;
 
-    direnv = { 
+    direnv = {
       enable = true;
       nix-direnv.enable = true;
     };
@@ -33,7 +33,11 @@
       # enableAutosuggestions = true;
       oh-my-zsh = {
         enable = true;
-        plugins = [ "git" "web-search" "urltools" ];
+        plugins = [
+          "git"
+          "web-search"
+          "urltools"
+        ];
       };
 
       defaultKeymap = "viins";
@@ -59,11 +63,12 @@
     emacs = {
       enable = true;
       package = pkgs.emacs;
-      extraPackages = epkgs: with epkgs; [
-        nix-mode
-        magit
-        meow
-      ];
+      extraPackages =
+        epkgs: with epkgs; [
+          nix-mode
+          magit
+          meow
+        ];
       extraConfig = ''
         (setq standard-indent 2)
 
@@ -407,16 +412,30 @@
   };
 
   home.packages = with pkgs; [
-    coreutils mpv
+    coreutils
+    mpv
 
     # terminal foo
     # kitty
-    jq ripgrep fd eza lsd tree broot
-    du-dust mktemp htop rsync
-    p7zip imagemagick binwalk lftp
+    jq
+    ripgrep
+    fd
+    eza
+    lsd
+    tree
+    broot
+    du-dust
+    mktemp
+    htop
+    rsync
+    p7zip
+    imagemagick
+    binwalk
+    lftp
     graphviz
 
-    git tig 
+    git
+    tig
 
     # nix related tools
     deploy-rs
@@ -442,7 +461,8 @@
     yarr
 
     # go foo
-    go delve
+    go
+    delve
 
     # c foo
     cmake
@@ -458,7 +478,7 @@
 
     # qemu tooling
     qemu
-    sphinx #docs
+    sphinx # docs
     virt-manager
 
     # lisp foo
@@ -468,7 +488,8 @@
     clisp
 
     # infrastructure as code foo
-    terraform ansible
+    terraform
+    ansible
 
     portmidi
 
@@ -480,6 +501,6 @@
 
     # blender
 
-  # ] ++ lib.optionals stdenv.isDarwin [
+    # ] ++ lib.optionals stdenv.isDarwin [
   ];
 }

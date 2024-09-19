@@ -1,7 +1,8 @@
 { ... }:
 let
   release = "nixos-23.05";
-in {
+in
+{
   imports = [
     (builtins.fetchTarball {
       # Pick a commit from the branch you are interested in
@@ -19,10 +20,10 @@ in {
     # A list of all login accounts. To create the password hashes, use
     # nix run nixpkgs.apacheHttpd -c htpasswd -nbB "" "super secret password" | cut -d: -f2
     loginAccounts = {
-        "mail@emile.space" = {
-            hashedPasswordFile = "/etc/nixos/keys/mail";
-            aliases = ["@emile.space"];
-        };
+      "mail@emile.space" = {
+        hashedPasswordFile = "/etc/nixos/keys/mail";
+        aliases = [ "@emile.space" ];
+      };
     };
 
     localDnsResolver = false;

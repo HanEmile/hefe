@@ -12,9 +12,7 @@
 { lib, ... }:
 
 {
-  imports = [
-    <nixpkgs/nixos/modules/installer/sd-card/sd-image-raspberrypi.nix>
-  ];
+  imports = [ <nixpkgs/nixos/modules/installer/sd-card/sd-image-raspberrypi.nix> ];
 
   users.users = {
     emile = {
@@ -26,15 +24,15 @@
 
   nixpkgs = {
     crossSystem = lib.systems.examples.raspberryPi;
-    localSystem = { system = "x86_64-linux"; };
+    localSystem = {
+      system = "x86_64-linux";
+    };
     overlays = [
       (final: super: {
         # Due to https://github.com/NixOS/nixpkgs/issues/154163#issuecomment-1350599022
-        makeModulesClosure = x:
-          super.makeModulesClosure (x // { allowMissing = true; });
+        makeModulesClosure = x: super.makeModulesClosure (x // { allowMissing = true; });
       })
     ];
   };
   system.stateVersion = "24.05";
 }
-

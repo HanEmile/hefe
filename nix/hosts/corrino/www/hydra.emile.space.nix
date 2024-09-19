@@ -22,9 +22,7 @@
     enable = true;
 
     package = pkgs.hydra_unstable.overrideAttrs (old: {
-      patches = (if old ? patches then old.patches else []) ++ [
-        ./hydra.patch
-      ];
+      patches = (if old ? patches then old.patches else [ ]) ++ [ ./hydra.patch ];
     });
 
     listenHost = "*";
@@ -35,10 +33,9 @@
     gcRootsDir = "/nix/var/nix/gcroots/hydra";
 
     # a standalone hydra will require you to unset the buildMachinesFiles list to avoid using a nonexistant /etc/nix/hosts
-    buildMachinesFiles = [];
+    buildMachinesFiles = [ ];
     # you will probably also want, otherwise *everything* will be built from scratch
     useSubstitutes = true;
-
 
     # notification settings
     smtpHost = "mail.emile.space";
@@ -59,6 +56,6 @@
       </git-input>
       binary_cache_public_uri = https://nix-cache.emile.space
     '';
-      # evaluator_restrict_eval = false
+    # evaluator_restrict_eval = false
   };
 }

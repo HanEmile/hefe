@@ -7,16 +7,16 @@
         addSSL = true;
         enableACME = true;
         locations."/" = {
-            proxyPass = "http://${toString config.services.grafana.settings.server.http_addr}:${toString config.services.grafana.settings.server.http_port}/";
-            proxyWebsockets = true;
+          proxyPass = "http://${toString config.services.grafana.settings.server.http_addr}:${toString config.services.grafana.settings.server.http_port}/";
+          proxyWebsockets = true;
         };
       };
       "prometheus.emile.space" = {
         addSSL = true;
         enableACME = true;
         locations."/" = {
-            proxyPass = "http://${config.services.prometheus.listenAddress}:${toString config.services.prometheus.port}/";
-            proxyWebsockets = true;
+          proxyPass = "http://${config.services.prometheus.listenAddress}:${toString config.services.prometheus.port}/";
+          proxyWebsockets = true;
         };
       };
     };

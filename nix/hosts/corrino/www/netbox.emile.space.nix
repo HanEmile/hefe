@@ -23,7 +23,7 @@
     dataDir = "/var/lib/netbox";
     settings.ALLOWED_HOSTS = [ "*" ];
     enableLdap = false;
-    settings = {};
+    settings = { };
     secretKeyFile = config.age.secrets.netbox_secret.path;
     port = config.emile.ports.netbox;
     listenAddress = "[::1]";
@@ -60,4 +60,3 @@
   # };
   # users.users.nginx.extraGroups = [ "netbox" ];
 }
-

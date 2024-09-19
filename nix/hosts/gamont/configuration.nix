@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   user = "nixos";
@@ -11,14 +16,19 @@ let
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPZi43zHEsoWaQomLGaftPE5k0RqVrZyiTtGqZlpWsew emile@caladan"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEzLZ56SEgwZZ0OusTdSDDhpMlxSg1zPNdRLuxKOfrR5 emile@chusuk"
   ];
-in {
+in
+{
 
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_rpi4;
     kernel.sysctl = {
       "net.ipv4.conf.all.forwarding" = true;
     };
-    initrd.availableKernelModules = [ "xhci_pci" "usbhid" "usb_storage" ];
+    initrd.availableKernelModules = [
+      "xhci_pci"
+      "usbhid"
+      "usb_storage"
+    ];
     loader = {
       grub.enable = false;
       generic-extlinux-compatible.enable = true;
@@ -47,7 +57,12 @@ in {
     };
 
     interfaces.end0 = {
-      ipv4.addresses = [ { address = "192.168.1.1"; prefixLength = 24; } ];
+      ipv4.addresses = [
+        {
+          address = "192.168.1.1";
+          prefixLength = 24;
+        }
+      ];
     };
 
     nftables = {
@@ -80,13 +95,14 @@ in {
     };
   };
 
-  environment.systemPackages = with pkgs; [ 
+  environment.systemPackages = with pkgs; [
     helix
-    vim 
+    vim
     dnsmasq
     tcpdump
     curl
-    iptables nftables
+    iptables
+    nftables
   ];
 
   services = {

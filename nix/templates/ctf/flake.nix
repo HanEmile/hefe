@@ -7,7 +7,8 @@
   };
 
   # Flake outputs
-  outputs = { self, nixpkgs }:
+  outputs =
+    { self, nixpkgs }:
     let
       # Systems supported
       allSystems = [
@@ -20,28 +21,32 @@
       # Helper to provide system-specific attributes
       nameValuePair = name: value: { inherit name value; };
       genAttrs = names: f: builtins.listToAttrs (map (n: nameValuePair n (f n)) names);
-      forAllSystems = f: genAttrs allSystems (system: f {
-        pkgs = import nixpkgs { inherit system; };
-      });
+      forAllSystems = f: genAttrs allSystems (system: f { pkgs = import nixpkgs { inherit system; }; });
     in
     {
       # Development environment output
-      devShells = forAllSystems ({ pkgs }: {
-        default =
-          let
-            python = pkgs.python311; # Use Python 3.11
-          in
-          pkgs.mkShell {
-            packages = with pkgs; [
-              qemu
-            ] ++ [
-              # Python plus helper tools
-              (python.withPackages (ps: with ps; [
-                pwntools
-                pycryptodome
-              ]))
-            ];
-          };
-      });
+      devShells = forAllSystems (
+        { pkgs }:
+        {
+          default =
+            let
+              python = pkgs.python311; # Use Python 3.11
+            in
+            pkgs.mkShell {
+              packages =
+                with pkgs;
+                [ qemu ]
+                ++ [
+                  # Python plus helper tools
+                  (python.withPackages (
+                    ps: with ps; [
+                      pwntools
+                      pycryptodome
+                    ]
+                  ))
+                ];
+            };
+        }
+      );
     };
 }

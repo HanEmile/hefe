@@ -17,7 +17,10 @@
     pretix = {
       enable = true;
       package = pkgs.pretix;
-      plugins = with config.services.pretix.package.plugins; [ passbook pages ];
+      plugins = with config.services.pretix.package.plugins; [
+        passbook
+        pages
+      ];
       user = "pretix";
       group = "pretix";
       gunicorn.extraArgs = [

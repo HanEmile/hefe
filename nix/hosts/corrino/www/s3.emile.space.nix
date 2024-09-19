@@ -21,19 +21,19 @@
     };
   };
 
-	services.minio = {
-		enable = true;
-		region = "eu-north-1-hel-1a"; # corrino is in the helsinki hetzner dc
+  services.minio = {
+    enable = true;
+    region = "eu-north-1-hel-1a"; # corrino is in the helsinki hetzner dc
 
-		listenAddress = "[::1]:${toString config.emile.ports.minio.s3}";
+    listenAddress = "[::1]:${toString config.emile.ports.minio.s3}";
 
-		browser = true;
-		consoleAddress = "[::1]:${toString config.emile.ports.minio.web}";
+    browser = true;
+    consoleAddress = "[::1]:${toString config.emile.ports.minio.web}";
 
-		dataDir = [ "/minio/data" ];
-		configDir = "/minio/config";
+    dataDir = [ "/minio/data" ];
+    configDir = "/minio/config";
 
-		rootCredentialsFile = config.age.secrets.minio_root_credz.path;
-		# accessKey
-	};
+    rootCredentialsFile = config.age.secrets.minio_root_credz.path;
+    # accessKey
+  };
 }

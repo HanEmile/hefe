@@ -5,10 +5,10 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -19,7 +19,7 @@
 
   networking = {
     hostName = "chusuk"; # Define your hostname.
-    wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+    wireless.enable = true; # Enables wireless support via wpa_supplicant.
 
     # The global useDHCP flag is deprecated, therefore explicitly set to false here.
     # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -62,9 +62,14 @@
   environment = {
     pathsToLink = [ "/libexec" ];
     systemPackages = with pkgs; [
-      kitty 
-      vim helix
-      wget htop eza fd du-dust
+      kitty
+      vim
+      helix
+      wget
+      htop
+      eza
+      fd
+      du-dust
       tailscale
       cryptsetup
       firefox
@@ -76,7 +81,8 @@
       waybar
       hyprpaper # wallpaper
 
-      tofi rofi
+      tofi
+      rofi
       dolphin
       mako
 
@@ -123,7 +129,10 @@
       windowManager.i3 = {
         enable = true;
         extraPackages = with pkgs; [
-          dmenu i3status i3lock i3blocks
+          dmenu
+          i3status
+          i3lock
+          i3blocks
         ];
       };
     };
@@ -138,4 +147,3 @@
   system.stateVersion = "21.05"; # Did you read the comment?
 
 }
-

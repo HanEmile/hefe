@@ -1,7 +1,5 @@
 { ... }:
 
 {
-	imports = [
-		./cgit.nix
-	];
+  imports = [ ./cgit.nix ];
 }

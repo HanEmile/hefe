@@ -2,18 +2,24 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   emile_keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPZi43zHEsoWaQomLGaftPE5k0RqVrZyiTtGqZlpWsew emile@caladan"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEzLZ56SEgwZZ0OusTdSDDhpMlxSg1zPNdRLuxKOfrR5 emile@chusuk"
   ];
-in {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+in
+{
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   boot = {
     loader.systemd-boot.enable = true;
@@ -38,7 +44,10 @@ in {
   fileSystems = {
     "/".options = [ "compress=zstd" ];
     "/home".options = [ "compress=zstd" ];
-    "/nix".options = [ "compress=zstd" "noatime" ];
+    "/nix".options = [
+      "compress=zstd"
+      "noatime"
+    ];
   };
 
   networking = {
@@ -59,12 +68,15 @@ in {
     };
     emile = {
       isNormalUser = true;
-      extraGroups = ["wheel"];
+      extraGroups = [ "wheel" ];
       openssh.authorizedKeys.keys = emile_keys;
     };
   };
 
-  environment.systemPackages = with pkgs; [ vim tailscale ];
+  environment.systemPackages = with pkgs; [
+    vim
+    tailscale
+  ];
 
   programs.mosh.enable = true;
 
@@ -74,8 +86,8 @@ in {
     tailscale.enable = true;
 
     btrfs = {
-      autoScrub.enable = true;  
-      autoScrub.interval = "weekly";  
+      autoScrub.enable = true;
+      autoScrub.interval = "weekly";
     };
 
     prometheus.exporters = {
@@ -101,4 +113,3 @@ in {
     autoUpgrade.enable = true;
   };
 }
-

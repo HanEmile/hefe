@@ -24,8 +24,7 @@
   "........" = "cd ../../../../../../..";
 
   grep = "grep --color=auto";
-  nix-stray-roots = ''
-    nix-store --gc --print-roots | egrep -v "^(/nix/var|/run/w+-system|{memory)"'';
+  nix-stray-roots = ''nix-store --gc --print-roots | egrep -v "^(/nix/var|/run/w+-system|{memory)"'';
 
   holdmybeer = "sudo ";
 
@@ -44,7 +43,7 @@
   nmap_check_for_vulns = "nmap --script = vuln";
   nmap_full_udp = "sudo nmap -sS -sU -T4 -A -v -PE -PS22,25,80 -PA21,23,80,443,3389 ";
   nmap_traceroute = "sudo nmap -sP -PE -PS22,25,80 -PA21,23,80,3389 -PU -PO --traceroute ";
-  nmap_full_with_scripts = "sudo nmap -sS -sU -T4 -A -v -PE -PP -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -PO --script all " ;
+  nmap_full_with_scripts = "sudo nmap -sS -sU -T4 -A -v -PE -PP -PS21,22,23,25,80,113,31339 -PA80,113,443,10042 -PO --script all ";
   nmap_web_safe_osscan = "sudo nmap -p 80,443 -O -v --osscan-guess --fuzzy ";
   nmap_ping_scan = "nmap -n -sP";
 

@@ -4,19 +4,18 @@
 inputs:
 
 let
-	callLibs = file: import file ({
-		inherit lib inputs;
-	} // inputs);
+  callLibs = file: import file ({ inherit lib inputs; } // inputs);
 
-	lib = {
-		flake-helper = callLibs ./flake-helper.nix;
-		inherit ("flake-helper")
-			generateSystem
-			mapToNixosConfigurations
-			mapToDarwinConfigurations
-			generateDeployRsHost
-			mapToDeployRsConfiguration
-			buildHosts;
-	};
+  lib = {
+    flake-helper = callLibs ./flake-helper.nix;
+    inherit ("flake-helper")
+      generateSystem
+      mapToNixosConfigurations
+      mapToDarwinConfigurations
+      generateDeployRsHost
+      mapToDeployRsConfiguration
+      buildHosts
+      ;
+  };
 in
-	lib
+lib

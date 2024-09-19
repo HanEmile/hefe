@@ -1,8 +1,15 @@
-{ config, lib, pkgs, ... }: 
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.services.emile.r2wars-web;
-in with lib; {
+in
+with lib;
+{
   options.services.emile.r2wars-web = {
     enable = mkEnableOption "Enable r2wars-web";
 
@@ -16,18 +23,19 @@ in with lib; {
   };
 
   config = mkIf cfg.enable {
-    systemd.services = lib.mapAttrs' (name: guest: lib.nameValuePair "libvirtd-guest-${name}" {
-      after = [ "libvirtd.service" ];
-      requires = [ "libvirtd.service" ];
-      wantedBy = [ "multi-user.target" ];
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = "yes";
-      };
-      script =
-        let
-          xml = pkgs.writeText "libvirt-guest-${name}.xml"
-            ''
+    systemd.services = lib.mapAttrs' (
+      name: guest:
+      lib.nameValuePair "libvirtd-guest-${name}" {
+        after = [ "libvirtd.service" ];
+        requires = [ "libvirtd.service" ];
+        wantedBy = [ "multi-user.target" ];
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = "yes";
+        };
+        script =
+          let
+            xml = pkgs.writeText "libvirt-guest-${name}.xml" ''
               <domain type="kvm">
                 <name>${name}</name>
                 <uuid>UUID</uuid>
@@ -53,14 +61,13 @@ in with lib; {
                 </features>
               </domain>
             '';
-        in
+          in
           ''
             uuid="$(${pkgs.libvirt}/bin/virsh domuuid '${name}' || true)"
             ${pkgs.libvirt}/bin/virsh define <(sed "s/UUID/$uuid/" '${xml}')
             ${pkgs.libvirt}/bin/virsh start '${name}'
           '';
-      preStop =
-        ''
+        preStop = ''
           ${pkgs.libvirt}/bin/virsh shutdown '${name}'
           let "timeout = $(date +%s) + 10"
           while [ "$(${pkgs.libvirt}/bin/virsh list --name | grep --count '^${name}$')" -gt 0 ]; do
@@ -73,6 +80,7 @@ in with lib; {
             fi
           done
         '';
-    }) guests;
+      }
+    ) guests;
   };
 }

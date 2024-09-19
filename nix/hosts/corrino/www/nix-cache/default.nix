@@ -1,7 +1,5 @@
 { ... }:
 
 {
-	imports = [
-		./nix-cache.emile.space.nix
-	];
+  imports = [ ./nix-cache.emile.space.nix ];
 }

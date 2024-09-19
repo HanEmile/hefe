@@ -17,9 +17,7 @@
     containers = {
       "ctfd" = {
         image = "magic-hash";
-        ports = [
-          "${toString config.emile.ports.magic-hash}:80"
-        ];
+        ports = [ "${toString config.emile.ports.magic-hash}:80" ];
         environment = {
 
           # this is not encouraged, but should work for the weekend (this is a

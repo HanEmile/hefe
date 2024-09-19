@@ -24,7 +24,6 @@ pkgs.stdenvNoCC.mkDerivation rec {
     runHook postInstall
   '';
 
-
   preferLocalBuild = true;
 
   meta = with nixpkgs.lib; {
@@ -40,7 +39,7 @@ pkgs.stdenvNoCC.mkDerivation rec {
     sourceProvenance = with sourceTypes; [ binaryBytecode ];
     #license = licenses.unfree;
     platforms = pkgs.jdk19.meta.platforms;
-    hydraPlatforms = [];
+    hydraPlatforms = [ ];
     maintainers = with maintainers; [ hanemile ];
   };
 }

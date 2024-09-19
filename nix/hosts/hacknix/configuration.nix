@@ -2,17 +2,28 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ nixpkgs, nixpkgs-unstable, config, lib, pkgs, ... }:
+{
+  nixpkgs,
+  nixpkgs-unstable,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
-  burppro = pkgs.callPackage ./burpsuitepro { inherit pkgs; nixpkgs=pkgs; };
-  # TODO: pull licence from git
-in {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./overlay
-    ];
+  burppro = pkgs.callPackage ./burpsuitepro {
+    inherit pkgs;
+    nixpkgs = pkgs;
+  };
+in
+# TODO: pull licence from git
+{
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./overlay
+  ];
 
   nixpkgs = {
     config.allowUnfree = true; # for virtualisation.virtualbox
@@ -37,43 +48,43 @@ in {
   services = {
     dbus.enable = true;
     xserver = {
-    enable = true;
+      enable = true;
 
-     # Keyboard settings
-     layout = "us";
-     xkbOptions = "caps:compose";
+      # Keyboard settings
+      layout = "us";
+      xkbOptions = "caps:compose";
 
-     desktopManager = {
-       xterm.enable = false;
+      desktopManager = {
+        xterm.enable = false;
 
-       # we don't use the xfce interface, only the fancy desktopManager
-       # settings and the session
-       xfce = {
-         enable = true;
-         noDesktop = true;
-         enableXfwm = false;
-       };
-     };
+        # we don't use the xfce interface, only the fancy desktopManager
+        # settings and the session
+        xfce = {
+          enable = true;
+          noDesktop = true;
+          enableXfwm = false;
+        };
+      };
 
-     # default display manager when logging in
-     displayManager = {
-       defaultSession = "xfce+i3";
-       sessionCommands = ''
-       '';
-     };
+      # default display manager when logging in
+      displayManager = {
+        defaultSession = "xfce+i3";
+        sessionCommands = '''';
+      };
 
-     windowManager.i3 = {
-       enable = true;
-       configFile = "/etc/i3.conf"; # see environment.etc."i3.conf".text
-       extraPackages = with pkgs; [
-         dmenu
-         i3status i3blocks
-       ];
-     };
+      windowManager.i3 = {
+        enable = true;
+        configFile = "/etc/i3.conf"; # see environment.etc."i3.conf".text
+        extraPackages = with pkgs; [
+          dmenu
+          i3status
+          i3blocks
+        ];
+      };
     };
   };
 
-  environment.etc."i3.conf".text = pkgs.callPackage ./i3-config.nix {};
+  environment.etc."i3.conf".text = pkgs.callPackage ./i3-config.nix { };
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -101,129 +112,133 @@ in {
       #ls = "lsd";
       ls = "eza";
     };
-    systemPackages = with pkgs; [
-      unstable.obsidian
+    systemPackages =
+      with pkgs;
+      [
+        unstable.obsidian
 
-      kitty 
+        kitty
 
-      # editors
-      vim
+        # editors
+        vim
 
-      helix
+        helix
         marksman # markdown lsp
         cuelsp # cue lsp
-        terraform-lsp terraform-ls # terraform lsp
+        terraform-lsp
+        terraform-ls # terraform lsp
         # rnix-lsp # nix lsp (CVE-2024-27297, that's why it's commented!)
 
-      # command line tools
-      fd
-      ripgrep
-      htop
-      fzf
-      jq
-      eza
-      lsd
-      du-dust
-      pwgen
+        # command line tools
+        fd
+        ripgrep
+        htop
+        fzf
+        jq
+        eza
+        lsd
+        du-dust
+        pwgen
 
-      # x11 foo
-      arandr
-      feh
+        # x11 foo
+        arandr
+        feh
 
-      # shell
-      zsh oh-my-zsh
+        # shell
+        zsh
+        oh-my-zsh
 
-      # browser
-      chromium
-      firefox
+        # browser
+        chromium
+        firefox
 
-      # programming languages
-      go
-      gopls # (Official language server for the Go language)
-      go-outline # (Utility to extract JSON representation of declarations from a Go source file)
-      go-tools # staticcheck (A collection of tools and libraries for working with Go code, including linters and static analysis)
-      gocode-gomod # (An autocompletion daemon for the Go programming language)
-      gotest # (go test with colors)
-      gotests # (Generate Go tests from your source code)
-      gomodifytags # (Go tool to modify struct field tags)
-      impl # (Generate method stubs for implementing an interface)
-      delve # dlv (debugger for the Go programming language)
+        # programming languages
+        go
+        gopls # (Official language server for the Go language)
+        go-outline # (Utility to extract JSON representation of declarations from a Go source file)
+        go-tools # staticcheck (A collection of tools and libraries for working with Go code, including linters and static analysis)
+        gocode-gomod # (An autocompletion daemon for the Go programming language)
+        gotest # (go test with colors)
+        gotests # (Generate Go tests from your source code)
+        gomodifytags # (Go tool to modify struct field tags)
+        impl # (Generate method stubs for implementing an interface)
+        delve # dlv (debugger for the Go programming language)
 
-      (pkgs.python3.withPackages (ps: with ps; [
-        pwntools
-        requests 
-        tqdm 
-        beautifulsoup4
-        mitmproxy
+        (pkgs.python3.withPackages (
+          ps: with ps; [
+            pwntools
+            requests
+            tqdm
+            beautifulsoup4
+            mitmproxy
 
-        (
-          buildPythonPackage rec {
-            pname = "pandoc";
-            version = "2.3";
-            src = fetchPypi {
-              inherit pname version;
-              sha256 = "sha256-53LCxthxFGiUV5go268e/VOOtk/H5x1KazoRoYuu+Q0=";
-            };
-            doCheck = false;
-            propagatedBuildInputs = [
-              # pkgs.python310Packages.ply
-              # pkgs.python310Packages.plumbum
-              # Specify dependencies
-              #pkgs.python3Packages.numpy
-            ];
-          }
-        )
-      ]))
+            (buildPythonPackage rec {
+              pname = "pandoc";
+              version = "2.3";
+              src = fetchPypi {
+                inherit pname version;
+                sha256 = "sha256-53LCxthxFGiUV5go268e/VOOtk/H5x1KazoRoYuu+Q0=";
+              };
+              doCheck = false;
+              propagatedBuildInputs = [
+                # pkgs.python310Packages.ply
+                # pkgs.python310Packages.plumbum
+                # Specify dependencies
+                #pkgs.python3Packages.numpy
+              ];
+            })
+          ]
+        ))
 
-      # dev
-      vscode
-      docker-compose
+        # dev
+        vscode
+        docker-compose
 
-      # analysis
-      binwalk
-      file
+        # analysis
+        binwalk
+        file
 
-      # communication
-      element-desktop
+        # communication
+        element-desktop
 
-      # view pdfs
-      zathura okular
+        # view pdfs
+        zathura
+        okular
 
-      # infra 
-      cue
-      cuetools
-      
-      #radare2
-      # r2
-      capstone # Advanced disassembly library
-      keystone # Lightweight multi-platform, multi-architecture assembler framework
-      unicorn # Lightweight multi-platform CPU emulator library
+        # infra 
+        cue
+        cuetools
 
-      # hashicorp stuff
-      # vault vault-bin vaultenv vault-medusa
-      # nomad_1_4
-      # consul
-      # terraform
+        #radare2
+        # r2
+        capstone # Advanced disassembly library
+        keystone # Lightweight multi-platform, multi-architecture assembler framework
+        unicorn # Lightweight multi-platform CPU emulator library
 
-      #unstable.mitmproxy
-      #mitmproxy_bs4
+        # hashicorp stuff
+        # vault vault-bin vaultenv vault-medusa
+        # nomad_1_4
+        # consul
+        # terraform
 
-      dex
-      xss-lock
-      networkmanagerapplet
+        #unstable.mitmproxy
+        #mitmproxy_bs4
 
-      p7zip
-      m4
+        dex
+        xss-lock
+        networkmanagerapplet
 
-      libreoffice
+        p7zip
+        m4
 
-      pandoc
-      tmux
+        libreoffice
 
-      python311Packages.python-lsp-server
-    ] ++ [
-      burppro
-    ]; 
+        pandoc
+        tmux
+
+        python311Packages.python-lsp-server
+      ]
+      ++ [ burppro ];
   };
 
   fonts.packages = with pkgs; [
@@ -236,13 +251,13 @@ in {
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   programs = {
- 
+
     vim.defaultEditor = true;
 
     htop = {
       enable = true;
       settings = {
-        hide_kernel_threads = true; 
+        hide_kernel_threads = true;
       };
     };
 
@@ -269,7 +284,7 @@ in {
       enable = true;
       homepageLocation = "https://emile.space";
       extraOpts = {
-        "ClientCertificateManagementAllowed" = 0; 
+        "ClientCertificateManagementAllowed" = 0;
       };
     };
 
@@ -344,12 +359,17 @@ in {
       # 127.0.0.1 localhost
       # ::1 localhost
     };
-    
+
     firewall = {
       enable = true;
 
       # open further TCP and/or UDP ports in the firewall
-      allowedTCPPorts = [ 80 443 8123 8080 ];
+      allowedTCPPorts = [
+        80
+        443
+        8123
+        8080
+      ];
       #allowedUDPPorts = [ 53 ];
     };
 
@@ -392,4 +412,3 @@ in {
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.11"; # Did you read the comment?
 }
-
