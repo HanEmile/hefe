@@ -133,7 +133,12 @@
 
       overlays = {
         emile = import ./nix/pkgs/overlay.nix;
+
+        x86_64-linux = import ./nix/pkgs/x86.nix;
+        aarch64-darwin = import ./nix/pkgs/aarch64-darwin.nix;
+
         default = self.overlays.x86_64-linux;
+
         unstable = final: prev: {
           unstable = import nixpkgs-unstable {
             system = "x86_64-linux";
