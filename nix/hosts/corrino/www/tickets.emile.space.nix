@@ -10,6 +10,7 @@
   services.nginx.virtualHosts."tickets.emile.space" = {
     forceSSL = true;
     enableACME = true;
+    serverAliases = [ "tickets.hackoween.de" ];
   };
 
   services = {

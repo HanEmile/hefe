@@ -7,7 +7,9 @@
     nginx.virtualHosts."talks.emile.space" = {
       forceSSL = true;
       enableACME = true;
+      serverAliases = [ "talks.hackoween.de" ];
     };
+
     pretalx = {
       package = pkgs.pretalx;
       enable = true;
