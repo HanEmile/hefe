@@ -569,9 +569,14 @@ in
       '';
     };
 
+    # ssh:// - default port 22
+    # git:// - default port 9418
+    # http:// - default port 80
+    # https:// - default port 443
+
     # exposing stuff
     gitDaemon = {
-      enable = false;
+      enable = true;
 
       user = "git";
       group = "git";
@@ -581,11 +586,14 @@ in
       basePath = "/var/lib/git/repositories";
 
       listenAddress = "git.emile.space";
-      port = config.emile.ports.gitDaemon;
+      port = config.emile.ports.gitDaemon; # 9418
 
       options = "--timeout=30"; # extra Config
     };
   };
+
+  # allow access to the port the gitDaemon is listening on
+  networking.firewall.allowedTCPPorts = [ config.emile.ports.gitDaemon ];
 
   users.extraUsers.nginx.extraGroups = [ "git" ];
 

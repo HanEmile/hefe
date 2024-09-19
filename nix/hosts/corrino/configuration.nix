@@ -287,6 +287,7 @@ in
         config.emile.ports.gitDaemon # gitDaemon
         80
         443 # normal web
+        config.emile.ports.gitDaemon
       ];
       allowedUDPPorts = [
         51820 # wireguard
