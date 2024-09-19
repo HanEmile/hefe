@@ -11,7 +11,7 @@ NixOS Configuration:
       "https://nix-cache.emile.space"
     ];
     trusted-public-keys = [
-			"nix-cache.emile.space:3xzJknXMsR/EL3SBTu6V6oCOkjxe6MgJm0nOrElW33A="
+	  "nix-cache.emile.space:3xzJknXMsR/EL3SBTu6V6oCOkjxe6MgJm0nOrElW33A="
     ];
   }
 

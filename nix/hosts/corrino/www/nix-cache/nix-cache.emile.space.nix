@@ -1,18 +1,26 @@
-{ ... }:
+{ config, ... }:
 
 {
   services.nginx.virtualHosts."nix-cache.emile.space" = {
-    forceSSL = false;
-    enableACME = false;
+    forceSSL = true;
+    enableACME = true;
+
+    locations = {
+      "/" = {
+        proxyPass = "http://${config.services.harmonia.settings.bind}";
+      };
+    };
   };
-  #   locations = {
-  #     "/" = {
-  #       root = "/var/www/emile.space";
-  #       extraConfig = ''
-  #         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
-  #       ''; 
-  #     };
-  # };
+  services.harmonia = {
+    enable = true;
+
+    # TODO(emile): manage this using age
+    # signKeyPath = "/var/lib/secrets/harmonia.secret";
+    signKeyPath = config.age.secrets.harmonia-signkey.path;
+
+    settings.bind = "[::1]:${toString config.emile.ports.harmonia}";
+  };
+
   # locations."= /" = {
   # 	index = "/index.txt";
   # };
@@ -47,12 +55,4 @@
   # };
   # };
 
-  #  services.harmonia = {
-  # 	enable = true;
-
-  # 	# TODO(emile): manage this using age
-  # 	signKeyPath = "/var/lib/secrets/harmonia.secret";
-
-  #    settings.bind = "[::1]:${toString config.emile.ports.harmonia}";
-  # };
 }
