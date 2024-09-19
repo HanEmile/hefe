@@ -167,7 +167,7 @@ in
     # LC_NUMERIC # Punctiation of numbers
     LC_PAPER = "de_DE.UTF-8"; # Paper size
     LC_TELEPHONE = "de_DE.UTF-8"; # Phone number formats
-    LC_TIME = "de_DE.UTF-8"; # Time format
+    LC_TIME = "en_DK.UTF-8"; # Time format
   };
   console = {
     keyMap = "de-latin1";
