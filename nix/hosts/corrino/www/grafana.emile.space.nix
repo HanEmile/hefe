@@ -89,24 +89,47 @@
       };
 
       provision = {
-        datasources = {
-          settings = {
-            datasources = [
-              {
-                url = "http://localhost:${toString config.services.prometheus.port}";
-                type = "prometheus";
-                name = "Prometheus";
-                editable = false;
-                access = "proxy"; # server = "proxy", browser = "direct"
-              }
-              {
-                name = "loki";
-                url = "http://localhost:${toString config.services.loki.configuration.server.http_listen_port}";
-                type = "loki";
-              }
-            ];
-          };
+        dashboards.settings = { };
+        datasources.settings = {
+          datasources = [
+            {
+              url = "http://localhost:${toString config.services.prometheus.port}";
+              type = "prometheus";
+              name = "Prometheus";
+              editable = false;
+              access = "proxy"; # server = "proxy", browser = "direct"
+            }
+            {
+              name = "loki";
+              url = "http://${config.services.loki.configuration.common.instance_addr}:${toString config.services.loki.configuration.server.http_listen_port}";
+              type = "loki";
+            }
+          ];
         };
+
+        # TODO(emile): finish setting up the grafana notifier filling out the settings section
+        # notifiers = [
+        #   {
+        #     uid = "2ad1c1d1-bcd9-4cb8-8897-c89c5820ffb1";
+        #     type = "email";
+        #     settings = {};
+        #     org_name = "Main Org.";
+        #     org_id = 1;
+        #     name = "email";
+        #     id_default = true;
+        #     frequency = "5m";
+        #     disable_resolve_message = false;
+        #   }
+        # ];
+
+        # TODO(emile): finish setting up the alerting stuff within here
+        # alerting = {
+        #   templates.settings = { };
+        #   rules.settings = {};
+        #   policies.settings = {};
+        #   muteTimings.settings = {};
+        #   contactPoints.settings = {};
+        # };
       };
     };
   };
