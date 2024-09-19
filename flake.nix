@@ -134,7 +134,7 @@
       overlays = {
         emile = import ./nix/pkgs/overlay.nix;
 
-        x86_64-linux = import ./nix/pkgs/x86.nix;
+        x86_64-linux = import ./nix/pkgs/x86_64-linux.nix;
         aarch64-darwin = import ./nix/pkgs/aarch64-darwin.nix;
 
         default = self.overlays.x86_64-linux;
