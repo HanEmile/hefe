@@ -427,6 +427,7 @@
     helix
     nodePackages_latest.typescript-language-server # js language server
     nil # nix language server
+    nixfmt-rfc-style # official formatter for nix code
     nodePackages.yaml-language-server # yaml language server
 
     # binary foo
