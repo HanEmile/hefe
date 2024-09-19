@@ -28,6 +28,7 @@
           "openid"
           "email"
           "profile"
+          "groups"
         ];
         grant_types = [
           "refresh_token"
@@ -42,19 +43,6 @@
       }
     ];
 
-    # example from md.emile.space
-    # CMD_OAUTH2_PROVIDERNAME=Authelia
-    # CMD_OAUTH2_CLIENT_ID=HedgeDoc
-    # CMD_OAUTH2_CLIENT_SECRET=
-    # CMD_OAUTH2_SCOPE=openid email profile
-    # CMD_OAUTH2_USER_PROFILE_USERNAME_ATTR=sub
-    # CMD_OAUTH2_USER_PROFILE_DISPLAY_NAME_ATTR=name
-    # CMD_OAUTH2_USER_PROFILE_EMAIL_ATTR=email
-    # CMD_OAUTH2_USER_PROFILE_URL=https://sso.emile.space/api/oidc/userinfo
-    # CMD_OAUTH2_TOKEN_URL=https://sso.emile.space/api/oidc/token
-    # CMD_OAUTH2_AUTHORIZATION_URL=https://sso.emile.space/api/oidc/authorize
-    # CMD_DOCUMENT_MAX_LENGTH=1000000
-
     grafana = {
       enable = true;
       settings = {
@@ -65,36 +53,39 @@
           root_url = "https://grafana.emile.space/";
         };
 
-        "auth.generic_oauth" = let
-          sso = "https://sso.emile.space/api/oidc";
-        in {
-          enabled = true;
-          client_id = "Grafana";
+        "auth.generic_oauth" =
+          let
+            sso = "https://sso.emile.space/api/oidc";
+          in
+          {
+            enabled = true;
+            client_id = "Grafana";
 
-          # [auth.generic_oauth]
-          # client_secret = ... 
-          #   set in env var as 
-          #   GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET 
-          client_secret = "set in env var this is just a placeholder";
+            # [auth.generic_oauth]
+            # client_secret = ... 
+            #   set in env var as 
+            #   GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET 
+            client_secret = "set in env var this is just a placeholder";
 
-          token_url = "${sso}/token";
-          auth_url = "${sso}/authorization";
-          api_url = "${sso}/userinfo";
-          scopes = [
-            "openid"
-            "email"
-            "profile"
-          ];
-          use_refresh_token = true;
+            use_refresh_token = true;
+            token_url = "${sso}/token";
+            auth_url = "${sso}/authorization";
+            api_url = "${sso}/userinfo";
 
-          # scopes = "openid email profile offline_access roles";
-          # email_attribute_path = "email";
-          # login_attribute_path = "username";
-          # name_attribute_path = "full_name";
-          # role_attribute_path = "contains(roles[*], 'admin') && 'Admin' || contains(roles[*], 'editor') && 'Editor' || 'Viewer'";
+            scopes = [
+              "openid"
+              "email"
+              "profile"
+              "groups"
+            ];
 
-          role_attribute_path = "contains(groups[*], 'admin') && 'Admin' || contains(groups[*], 'editor') && 'Editor' || 'Viewer'";
-        };
+            email_attribute_path = "email";
+            login_attribute_path = "preferred_username";
+            name_attribute_path = "name";
+
+            role_attribute_path = "contains(groups[*], 'grafana_server_admin') && 'GrafanaAdmin' || contains(groups[*], 'grafana_admin') && 'Admin' || contains(groups[*], 'grafana_editor') && 'Editor' || 'Viewer'";
+
+          };
       };
 
       provision = {
