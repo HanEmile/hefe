@@ -30,11 +30,18 @@
       s3 = 9000;
       web = 9001;
     };
+    promtail = 9033;
+    loki = 9034;
     authelia = 9091;
-    prometheus = 9003;
     gitDaemon = 9418;
-    prometheus_node_exporter = 9002;
-    prometheus_systemd_exporter = 9558;
-    prometheus_smartctl_exporter = 9633;
+    prometheus = {
+      web = 9003;
+      exporter = {
+        node = 9002;
+        nginx = 9913;
+        systemd = 9558;
+        smartctl = 9633;
+      };
+    };
   };
 }

@@ -110,7 +110,7 @@ in
 
         # we're using a file to store the user information
         authentication_backend = {
-          refresh_interval = "20s";
+          refresh_interval = "60s";
           file = {
             path = "/var/lib/authelia-main/user.yml";
             watch = true;
