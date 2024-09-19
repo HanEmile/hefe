@@ -6,6 +6,12 @@
     enableACME = true;
 
     locations = {
+      "= /" = {
+        index = "/index.txt";
+      };
+      "= /index.txt" = {
+        root = ./nix-cache.emile.space;
+      };
       "/" = {
         proxyPass = "http://${config.services.harmonia.settings.bind}";
       };
@@ -24,9 +30,6 @@
   # locations."= /" = {
   # 	index = "/index.txt";
   # };
-  #   locations."= /index.txt" = {
-  #     root = ./index.txt;
-  #   };
   #   locations."= /nix/store/" = {
   #     extraConfig = ''
   #       return 404;
