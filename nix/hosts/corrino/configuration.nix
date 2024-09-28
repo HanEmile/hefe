@@ -52,7 +52,7 @@ in
     ./www/irc.emile.space.nix
     # ./www/db.emile.space.nix
 
-    # ./www/irc.emile.space.nix
+    ./www/irc.emile.space.nix
     # ./www/irc
 
     ./www/ctf.emile.space.nix
