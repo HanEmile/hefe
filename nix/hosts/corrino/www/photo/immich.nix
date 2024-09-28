@@ -19,11 +19,11 @@
 		host = "127.0.0.1";
 		port = config.emile.ports.immich;
 
-		machine-learning = {
-			enable = true;
-			environment = {
-				MACHINE_LEARNING_MODEL_TTL = "600";
-			};
-		};
+		# machine-learning = {
+		# 	enable = true;
+		# 	environment = {
+		# 		MACHINE_LEARNING_MODEL_TTL = "600";
+		# 	};
+		# };
 	};
 }
