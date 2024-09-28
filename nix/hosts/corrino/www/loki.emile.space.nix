@@ -37,16 +37,16 @@
         # limits_config.allow_structured_metadata = false;
 
         schema_config.configs = [
-          # {
-          #   from = "2023-05-09";
-          #   store = "boltdb-shipper";
-          #   object_store = "filesystem";
-          #   schema = "v13";
-          #   index = {
-          #     prefix = "index_";
-          #     period = "24h";
-          #   };
-          # }
+          {
+            from = "2023-05-09";
+            store = "tsdb";
+            object_store = "filesystem";
+            schema = "v13";
+            index = {
+              prefix = "index_";
+              period = "24h";
+            };
+          }
           {
             from = "2024-10-18";
             store = "tsdb";
