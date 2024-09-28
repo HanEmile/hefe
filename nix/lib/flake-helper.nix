@@ -3,9 +3,11 @@
   agenix,
   nixpkgs,
   nixpkgs-unstable,
+  nixpkgs-master,
   deploy-rs,
   home-manager,
   darwin,
+  microvm,
   ...
 }@inputs:
 
@@ -20,12 +22,19 @@ rec {
       homeManagerEnable ? false,
       group ? null,
       modules ? [ ],
+      unstable ? false,
+      master ? false,
+      microvms ? false,
       ...
     }:
     let
 
-      # inputs.nixpkgs-${name}, if that doesn't exist, just use nixpkgs
-      localNixpkgs =
+      localNixpkgs = if unstable == true then
+        nixpkgs-unstable
+        else if master == true then
+        nixpkgs-master
+        else
+        # inputs.nixpkgs-${name}, if that doesn't exist, just use nixpkgs
         nixpkgs.lib.attrByPath [ "nixpkgs-${name}" ] # path
           nixpkgs # default
           inputs; # base
@@ -52,14 +61,12 @@ rec {
         modules
         ++ [
 
-          (
-            if system == "x86_64-linux" then
+          (if system == "x86_64-linux" then
               self.nixosModules.x86_64-linux
             else if system == "aarch64-darwin" then
               ({ })
             else
-              null
-          )
+              null)
 
           # a module so that we can access the flake output from inside the
           # flake (yes, I need this for fetching the system type while building the hosts for deploy-rs)
