@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   # keys = import ../../users/keys.nix
@@ -71,7 +76,7 @@ in
 
     loader.systemd-boot.enable = false;
     loader.grub = {
-      enable = true;
+      enable = lib.mkForce true;
       efiSupport = false;
       enableCryptodisk = true;
       device = "nodev";
