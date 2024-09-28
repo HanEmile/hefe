@@ -86,12 +86,12 @@
                   http_user_agent = null;
                 };
               }
-              # {
-              #   timestamp = {
-              #     source = "time_local";
-              #     format = "02/Jan/2006:15:04:05 -0700";
-              #   };
-              # }
+              {
+                timestamp = {
+                  source = "time_local";
+                  format = "02/Jan/2006:15:04:05 -0700";
+                };
+              }
               {
                 drop = {
                   source = "url";
