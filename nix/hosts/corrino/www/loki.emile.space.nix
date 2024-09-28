@@ -11,10 +11,17 @@
         };
 
         limits_config = {
-          reject_old_samples = true;
+          reject_old_samples = false;
           reject_old_samples_max_age = "7d";
           max_global_streams_per_user = 100000;
           max_streams_per_user = 100000;
+
+          retention_period = "10m";
+        };
+
+        compactor = {
+          retention_enabled = true;
+          delete_request_store = "tsdb";
         };
 
         common = {
