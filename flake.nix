@@ -35,8 +35,9 @@
   outputs =
     {
       self,
-      nixpkgs,
-      nixpkgs-unstable, # general packages
+      nixpkgs, # packages
+      nixpkgs-unstable, # unstable branch
+      nixpkgs-master, # master branch
       darwin, # darwin related stuff
       deploy-rs, # deploy the hosts
       agenix, # store secrets crypted using age
