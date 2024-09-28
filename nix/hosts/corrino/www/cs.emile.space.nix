@@ -2,18 +2,21 @@
 
 let
 
+  inherit (builtins) toJSON;
+  inherit (lib) mergeAttrsList mapAttrsToList;
+
   # get's all repos configured in cgit and converts them into some JSON that is used by hound
-  repos = builtins.toJSON (
-    lib.mergeAttrsList (
-      map
-        (x: {
-          "${x.name}" = {
-            url = "file://${x.path}";
-          };
-        })
-        (lib.mapAttrsToList (name: value: value // { name = "${name}"; }) config.services.cgit.main.repos)
+  repos = toJSON (
+    mergeAttrsList (
+      map (x: {
+        "${x.name}" = {
+          url = "file://${x.path}";
+        };
+      }) (mapAttrsToList (name: value: value // { name = "${name}"; }) config.services.cgit.main.repos)
     )
   );
+
+  cfg = config.services.hound;
 in
 {
   services.nginx.virtualHosts."cs.emile.space" = {
@@ -21,7 +24,7 @@ in
     enableACME = true;
     locations = {
       "/" = {
-        proxyPass = "http://${config.services.hound.listen}";
+        proxyPass = "http://${cfg.listen}";
       };
     };
   };
