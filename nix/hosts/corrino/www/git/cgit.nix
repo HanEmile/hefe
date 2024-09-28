@@ -25,11 +25,11 @@ in
   environment.etc = {
     gitconfig = {
       text = ''
-        			[http]
-        				sslCAinfo = /etc/ssl/certs/ca-certificates.crt
-        			[safe]
-        				${repodirs}
-            '';
+        [http]
+        	sslCAinfo = /etc/ssl/certs/ca-certificates.crt
+        [safe]
+        	${repodirs}
+      '';
     };
   };
 
@@ -532,7 +532,7 @@ in
 
         # mobile friendly
         head-include = builtins.toFile "cgit_head.html" ''
-            <meta name="viewport" content="width=device-width initial-scale=1.0"/>
+          <meta name="viewport" content="width=device-width initial-scale=1.0"/>
         '';
 
         footer = builtins.toFile "cgit_footer.html" ''
@@ -564,8 +564,8 @@ in
 
       adminPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPZi43zHEsoWaQomLGaftPE5k0RqVrZyiTtGqZlpWsew emile@caladan";
       extraGitoliteRc = ''
-          $RC{UMASK} = 0027;
-          $RC{GIT_CONFIG_KEYS} = '.*';
+        $RC{UMASK} = 0027;
+        $RC{GIT_CONFIG_KEYS} = '.*';
       '';
     };
 
