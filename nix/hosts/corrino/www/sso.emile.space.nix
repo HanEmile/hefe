@@ -191,6 +191,8 @@ in
           ];
         };
 
+        # type = types.enum [ "" "totp" "webauthn" "mobile_push" ];
+        default_2fa_method = "totp";
         totp = {
           disable = false;
           issuer = "sso.emile.space";
