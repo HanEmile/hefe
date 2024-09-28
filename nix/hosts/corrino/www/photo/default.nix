@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./photoprism.nix
-    # ./immich.nix
+    # ./photoprism.nix
+    ./immich.nix
   ];
 }
