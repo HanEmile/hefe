@@ -462,20 +462,20 @@ in
           "kvm"
         ];
       }
-      {
-        hostName = "caladan.pinto-pike.ts.net";
-        system = "aarch64-darwin";
-        protocol = "ssh-ng";
-        maxJobs = 1;
-        speedFactor = 2;
-        supportedFeatures = [
-          "nixos-test"
-          "benchmark"
-          "big-parallel"
-          "kvm"
-        ];
-        mandatoryFeatures = [ ];
-      }
+      # {
+      #   hostName = "caladan.pinto-pike.ts.net";
+      #   system = "aarch64-darwin";
+      #   protocol = "ssh-ng";
+      #   maxJobs = 1;
+      #   speedFactor = 2;
+      #   supportedFeatures = [
+      #     "nixos-test"
+      #     "benchmark"
+      #     "big-parallel"
+      #     "kvm"
+      #   ];
+      #   mandatoryFeatures = [ ];
+      # }
     ];
 
     distributedBuilds = true;
