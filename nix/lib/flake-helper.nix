@@ -177,7 +177,7 @@ rec {
       ...
     }:
     {
-      reboteBuild = true;
+      remoteBuild = true;
       hostname = "${ip}";
       fastConnection = true;
       profiles.system = {
