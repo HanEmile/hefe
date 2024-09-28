@@ -3,6 +3,8 @@
 {
   imports = [ ./overlay.nix ];
 
+  system.stateVersion = 5;
+
   users.users.emile = {
     name = "emile";
     home = "/Users/emile";
@@ -49,49 +51,53 @@
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
-        "nix-cache.emile.space:3xzJknXMsR/EL3SBTu6V6oCOkjxe6MgJm0nOrElW33A="
+        # "nix-cache.emile.space:3xzJknXMsR/EL3SBTu6V6oCOkjxe6MgJm0nOrElW33A="
       ];
       substituters = [
         "https://cache.nixos.org"
         "https://nix-community.cachix.org"
         "https://cache.garnix.io"
-        "https://nix-cache.emile.space"
+        # "https://nix-cache.emile.space"
       ];
 
       experimental-features = [
         "nix-command"
         "flakes"
       ];
+
+      # don't use the globally defined flakes, as pulling from github for each shell invocation
+      # is slow
+      flake-registry = "";
     };
 
     distributedBuilds = true;
 
     buildMachines = [
-      {
-        hostName = "corrino.emile.space";
-        system = "x86_64-linux";
-        maxJobs = 16;
-        speedFactor = 2;
+      # {
+      #   hostName = "corrino.emile.space";
+      #   system = "x86_64-linux";
+      #   maxJobs = 16;
+      #   speedFactor = 2;
 
-        # Feature	      | Derivations requiring it
-        # ----------------|-----------------------------------------------------
-        # kvm	            | Everything which builds inside a vm, like NixOS tests
-        # nixos-test	    | Machine can run NixOS tests
-        # big-parallel    | kernel config, libreoffice, evolution, llvm and chromium.
-        # benchmark	      | Machine can generate metrics (Means the builds usually
-        #                 | takes the same amount of time)
+      #   # Feature	      | Derivations requiring it
+      #   # ----------------|-----------------------------------------------------
+      #   # kvm	            | Everything which builds inside a vm, like NixOS tests
+      #   # nixos-test	    | Machine can run NixOS tests
+      #   # big-parallel    | kernel config, libreoffice, evolution, llvm and chromium.
+      #   # benchmark	      | Machine can generate metrics (Means the builds usually
+      #   #                 | takes the same amount of time)
 
-        # cat /etc/nix/machines
-        # root@corrino  x86_64-linux      /home/nix/.ssh/id_ed25519        8 1     kvm,benchmark
+      #   # cat /etc/nix/machines
+      #   # root@corrino  x86_64-linux      /home/nix/.ssh/id_ed25519        8 1     kvm,benchmark
 
-        supportedFeatures = [
-          "nixos-test"
-          "benchmark"
-          "big-parallel"
-          "kvm"
-        ];
-        mandatoryFeatures = [ ];
-      }
+      #   supportedFeatures = [
+      #     "nixos-test"
+      #     "benchmark"
+      #     "big-parallel"
+      #     "kvm"
+      #   ];
+      #   mandatoryFeatures = [ ];
+      # }
     ];
   };
 
