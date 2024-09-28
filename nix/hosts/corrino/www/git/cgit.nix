@@ -33,6 +33,9 @@ in
     };
   };
 
+  # add the cgit user to the git group allowing them to read the git repos
+  users.groups."git".members = [ "cgit" ];
+
   services = {
     nginx.virtualHosts."git.emile.space" = {
       forceSSL = true;
@@ -42,8 +45,13 @@ in
     cgit.main = {
       enable = true;
       package = pkgs.cgit-pink;
+
+      user = "cgit";
+      group = "cgit";
+
       nginx.virtualHost = "git.emile.space";
       nginx.location = "/";
+
       repos = {
 
         # ops
