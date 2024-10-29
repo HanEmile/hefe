@@ -12,6 +12,6 @@
 
     username = "marvin_test1";
     homeserver = "matrix.org";
-    accesstoken = config.age.secrets.remarvin_accesstoken.path;
+    accesstokenpath = config.age.secrets.remarvin_accesstoken.path;
   };
 }
