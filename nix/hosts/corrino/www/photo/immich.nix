@@ -1,6 +1,12 @@
-{ config, ... }:
+{ config, pkgs, ... } @ args:
 
 {
+  imports = [
+    "${args.inputs.nixpkgs-master}/nixos/modules/services/web-apps/immich.nix"
+  ];
+
+  disabledModules = [ "services/web-apps/immich.nix" ];
+
   services.nginx.virtualHosts."photo.emile.space" = {
     forceSSL = true;
     enableACME = true;
@@ -13,6 +19,7 @@
 
 	services.immich = {
 		enable = true;
+    package = pkgs.unstable.immich;
 		mediaLocation = "/var/lib/immich";
     secretsFile = config.age.secrets.immich_secrets_file.path;
 
