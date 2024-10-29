@@ -10,7 +10,7 @@ pkgs.buildGoModule rec {
 
   src = fetchgit {
     url = "git://git.emile.space/remarvin.git";
-    hash = "sha256-UahNwhsxFGSpaVTk2EFtjt/MCB4Ec/08QStylL2QPUM=";
+    hash = "sha256-jgV5bzQQ4n9v7PgFQ5n0yFTPcjgHNQ/BYPxzTp1Os4w=";
   };
 
   vendorHash = null;
@@ -19,8 +19,6 @@ pkgs.buildGoModule rec {
 
   postInstall = ''
     mkdir -p $out
-    cp -r templates $out
-
     mv $out/bin/src $out/bin/remarvin
   '';
 

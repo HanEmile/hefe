@@ -13,21 +13,6 @@ with lib;
   options.services.emile.remarvin = {
     enable = mkEnableOption "Enable remarvin";
 
-    # ip and port to listen on
-    host = mkOption {
-      type = types.str;
-      default = "127.0.0.1";
-      example = "0.0.0.0";
-      description = "The host the service listens on";
-    };
-
-    port = mkOption {
-      type = types.int;
-      default = 8080;
-      example = 8080;
-      description = "The port the service listens on";
-    };
-
     # env vars with secrets to set
     username = mkOption {
       type = types.str;
@@ -43,11 +28,11 @@ with lib;
       description = "The homeserver to use";
     };
 
-    accesstoken = mkOption {
+    accesstokenpath = mkOption {
       type = types.str;
       default = "";
-      example = "syt_bWFy2mluX34lc3Qx_VARzpUOQIzyzCHunCDnd_1hbPka";
-      description = "The accesstoken used to authenticat (element web > settings > help & about > advanced > access token)";
+      example = "/secret/remarvin_accesstoken";
+      description = "The path to the accesstoken used (element web > settings > help & about > advanced > access token)";
     };
   };
 
@@ -58,13 +43,8 @@ with lib;
         RestartSec = 5;
         Restart = "always";
       };
-      environment = {
-        SESSION_KEY = cfg.sessionKey;
-        SALT = cfg.salt;
-        VERSION = pkgs.r2wars-web.version;
-      };
       path = [ pkgs.remarvin ];
-      serviceConfig.ExecStart = "${pkgs.remarvin}/bin/remarvin -homeserver ${cfg.homeserver} -username ${cfg.username} -accesstoken ${cfg.accesstoken}";
+      serviceConfig.ExecStart = "${pkgs.remarvin}/bin/remarvin -homeserver ${cfg.homeserver} -username ${cfg.username} -accesstokenpath ${cfg.accesstokenpath}";
     };
   };
 }
