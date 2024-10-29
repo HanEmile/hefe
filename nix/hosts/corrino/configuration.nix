@@ -38,8 +38,7 @@ in
     ./www/loki.emile.space.nix
     ./www/promtail.emile.space.nix
 
-    # ./www/photo.emile.space.nix
-    # ./www/photo
+    ./www/photo
 
     ./www/tickets.emile.space.nix
     ./www/talks.emile.space.nix
@@ -65,6 +64,9 @@ in
 
     # r2wars
     ./www/r2wa.rs.nix
+    
+    # milliways
+    ./remarvin.nix
 
     # containers
   ];
@@ -199,16 +201,13 @@ in
       MAILADDR root
     '';
 
-    systemPackages = with pkgs; [
+    systemPackages = builtins.attrValues {
+      inherit (pkgs)
       git
       du-dust
       ncdu
-      # helix
-
-      sshfs
-
-      virter
-    ];
+      vim;
+    };
   };
 
   programs = {
@@ -446,7 +445,7 @@ in
 
     extraOptions = ''
       builders-use-substitutes = true
-      allowed-uris = http://github.com https://git.emile.space
+      allowed-uris = https://github.com/ https://git.emile.space/ git+https://github.com/
     '';
 
     buildMachines = [
