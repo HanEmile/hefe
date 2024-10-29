@@ -294,7 +294,7 @@ in
         core.editor = "vim";
         user = {
           name = "Emile Hansmaennel";
-          email = "emile.hansmaennel@sogeti.com";
+          email = "git@emile.space";
         };
       };
     };
@@ -327,24 +327,11 @@ in
     };
   };
 
-  # the office root_ca
-  security.pki.certificates = [
-    # office.lan
-    ''
-      *.office.lan
-      ============
-      -----BEGIN CERTIFICATE-----
-      MIIBezCCASGgAwIBAgIQdkxWKinry5WWfV2CTRRHfzAKBggqhkjOPQQDAjAcMRow
-      GAYDVQQDExFPZmZpY2UgQ0EgUm9vdCBDQTAeFw0yMDEwMjYxMjQ2MTlaFw0zMDEw
-      MjYxMjQ2MTlaMBwxGjAYBgNVBAMTEU9mZmljZSBDQSBSb290IENBMFkwEwYHKoZI
-      zj0CAQYIKoZIzj0DAQcDQgAEZ/Ac4kmThYXE0ZUBWvTSvgi4fcR19dgL2hROxSfH
-      2RLW7hQzArloxhOzs+28VttiVh13lB4rSCvHe3TGA44c5KNFMEMwDgYDVR0PAQH/
-      BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYDVR0OBBYEFE0i80PVvdecDvDp
-      MpO2VtGluzxcMAoGCCqGSM49BAMCA0gAMEUCIQDP9Z1J3Z++6atOdHNTqd0PZ/pi
-      w7HjGPxpRneD4/3vTwIgSoE5Gb3umt+FxIvv9WDFlsWSVRJ5wE6KpCkdGWWzWuU=
-      -----END CERTIFICATE-----
-    ''
-  ];
+  # security.pki.certificates = [
+  #   # office.lan
+  #   ''
+  #   ''
+  # ];
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
