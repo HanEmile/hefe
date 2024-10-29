@@ -7,7 +7,6 @@
   deploy-rs,
   home-manager,
   darwin,
-  microvm,
   ...
 }@inputs:
 
@@ -29,15 +28,16 @@ rec {
     }:
     let
 
-      localNixpkgs = if unstable == true then
-        nixpkgs-unstable
+      localNixpkgs =
+        if unstable == true then
+          nixpkgs-unstable
         else if master == true then
-        nixpkgs-master
+          nixpkgs-master
         else
-        # inputs.nixpkgs-${name}, if that doesn't exist, just use nixpkgs
-        nixpkgs.lib.attrByPath [ "nixpkgs-${name}" ] # path
-          nixpkgs # default
-          inputs; # base
+          # inputs.nixpkgs-${name}, if that doesn't exist, just use nixpkgs
+          nixpkgs.lib.attrByPath [ "nixpkgs-${name}" ] # path
+            nixpkgs # default
+            inputs; # base
 
       # determine if our system type that is used further down
       systemType =
@@ -53,6 +53,13 @@ rec {
       # this may fail if we aren't using x86_64-linux or aarch64-darwin
       inherit system;
 
+      # allow the usage of the inputs within the systemd
+      # for example:
+      # { pkgs, ... } @ args: { imports = ["${args.inputs.nixpkgs-unstable}/path/to/module.nix"] }
+      specialArgs = {
+        inherit inputs;
+      };
+
       # ; nix repl
       # nix-repl> :lf .
       # nix-repl> nixosConfigurations.corrino._module.args.modules
@@ -61,12 +68,14 @@ rec {
         modules
         ++ [
 
-          (if system == "x86_64-linux" then
+          (
+            if system == "x86_64-linux" then
               self.nixosModules.x86_64-linux
             else if system == "aarch64-darwin" then
               ({ })
             else
-              null)
+              null
+          )
 
           # a module so that we can access the flake output from inside the
           # flake (yes, I need this for fetching the system type while building the hosts for deploy-rs)
@@ -83,10 +92,21 @@ rec {
               nixpkgs.overlays = [
                 self.overlays.emile
 
+                (
+                  if system == "x86_64-linux" then
+                    self.overlays.x86_64-linux
+                  else if system == "aarch64-darwin" then
+                    self.overlays.aarch64-darwin
+                  else
+                    null
+                )
+
                 (_: _: { inherit (agenix.packages."x86_64-linux") agenix; })
+
                 (_: _: {
                   unstable = import nixpkgs-unstable {
-                    system = "x86_64-linux";
+                    # system = "x86_64-linux";
+                    inherit system;
                     config.allowUnfree = true;
                   };
                 })
