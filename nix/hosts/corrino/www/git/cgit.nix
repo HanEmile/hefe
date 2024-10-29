@@ -522,6 +522,14 @@ in
           section = "Satellite";
           owner = "emile";
         };
+
+        # milliways
+        remarvin = {
+          desc = "A small marvin bot";
+          path = "/var/lib/git/repositories/remarvin.git";
+          section = "milliways";
+          owner = "emile";
+        };
       };
       settings = {
         css = "https://emile.space/cgit.css";
