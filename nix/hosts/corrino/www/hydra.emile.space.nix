@@ -54,8 +54,8 @@
       <git-input>
         timeout = 3600
       </git-input>
-      binary_cache_public_uri = https://nix-cache.emile.space
+      # binary_cache_public_uri = https://nix-cache.emile.space
+      evaluator_restrict_eval = false
     '';
-    # evaluator_restrict_eval = false
   };
 }
