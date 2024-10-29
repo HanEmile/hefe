@@ -22,7 +22,6 @@
     microvm.url = "git+https://github.com/astro/microvm.nix";
     microvm.inputs.nixpkgs.follows = "nixpkgs";
 
-
     # hefe-internal.url = "git+ssh://gitea@git.emile.space/hanemile/hefe-internal.git?ref=main";
 
     # nix registry add flake:mylocalrepo git+file:///path/to/local/repo
@@ -52,9 +51,10 @@
       helper = lib.flake-helper;
     in
     {
-
       hosts = {
         caladan = {
+          # in /etc/nix/machines
+          # ssh://corrino.emile.space x86_64-linux - 16 2 nixos-test,benchmark,big-parallel,kvm - -
           system = "aarch64-darwin";
           sshUser = "hydra";
           homeManagerEnable = true;
@@ -99,6 +99,7 @@
         lernaeus = {
           system = "x86_64-linux"; # 8c16t (AMD ryzen 5 5600g), 32GB RAM
           description = "VM Host";
+          ip = "192.168.1.79";
         };
         # parmentier = {
         #   description = "lernaeus bmc";
