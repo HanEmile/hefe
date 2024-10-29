@@ -127,7 +127,7 @@
 
         ;; Configure SBCL as the Lisp program for SLIME
         (add-to-list 'exec-path "/Users/emile/.nix-profile/bin")
-        (defvar inerior-lisp-program "clisp")
+        (defvar inferior-lisp-program "clisp")
 
         ;; configure parinfer to be enabled as a mode when the major lisp mode is enabled
         (add-to-list 'load-path "/Users/emile/parinfer-rust")
@@ -251,7 +251,7 @@
                       ([tab] . corfu-next)
                       ("S-TAB" . corfu-previous)
                       ([backtab] . corfu-previous)
-                      ("S-<return>" . corfu-inser))
+                      ("S-<return>" . corfu-insert))
           :init
           (global-corfu-mode)
           (corfu-history-mode)
@@ -377,6 +377,8 @@
         kitty_mod = "ctrl+shift";
 
         clear_all_shortcuts = "";
+
+        allow_remote_control = "yes";
       };
 
       keybindings = {
@@ -443,11 +445,17 @@
     nixos-rebuild
 
     # editor
-    helix
-    nodePackages_latest.typescript-language-server # js language server
-    nil # nix language server
+    unstable.helix
+
+    ## formatter
     nixfmt-rfc-style # official formatter for nix code
-    nodePackages.yaml-language-server # yaml language server
+
+    ## language server
+    nodePackages_latest.typescript-language-server # js / typescript
+    nil # nix 
+    nodePackages.yaml-language-server # yaml
+    python312Packages.python-lsp-server # python
+    gopls # golang
 
     # binary foo
     radare2
@@ -485,7 +493,7 @@
     #unstable.sbcl
     # sbcl
     #clasp-common-lisp
-    clisp
+    # clisp
 
     # infrastructure as code foo
     terraform
@@ -499,7 +507,14 @@
 
     entr
 
+    python312
+
+    z3 # theorem prover
+    python312Packages.z3-solver
+
     # blender
+
+    # rustdesk
 
     # ] ++ lib.optionals stdenv.isDarwin [
   ];
