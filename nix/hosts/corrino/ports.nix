@@ -12,6 +12,7 @@
     md = 3003;
     gotosocial = 3004;
     immich = 3005;
+    monica = 3006;
     harmonia = 5000;
     irc = {
       clear = 6667;
