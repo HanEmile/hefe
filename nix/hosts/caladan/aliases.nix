@@ -26,6 +26,8 @@
   grep = "grep --color=auto";
   nix-stray-roots = ''nix-store --gc --print-roots | egrep -v "^(/nix/var|/run/w+-system|{memory)"'';
 
+  delete-empty = "sed -r '/^\s*$/d'";
+
   holdmybeer = "sudo ";
 
   servethis = "python3 -m http.server";
