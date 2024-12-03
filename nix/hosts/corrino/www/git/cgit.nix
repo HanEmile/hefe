@@ -444,6 +444,12 @@ in
           section = "Fun";
           owner = "emile";
         };
+        aoc = {
+          desc = "Advent of code";
+          path = "/var/lib/git/repositories/aoc.git";
+          section = "Fun";
+          owner = "emile";
+        };
 
         # circus
         companion = {
