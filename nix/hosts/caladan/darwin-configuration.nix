@@ -54,10 +54,19 @@
         # "nix-cache.emile.space:3xzJknXMsR/EL3SBTu6V6oCOkjxe6MgJm0nOrElW33A="
       ];
       substituters = [
+        # nix-cache mirror for when in china
+        # status: https://mirror.sjtu.edu.cn/
+        # "https://mirror.sjtu.edu.cn/nix-channels/store"
+
         "https://cache.nixos.org"
         "https://nix-community.cachix.org"
         "https://cache.garnix.io"
         # "https://nix-cache.emile.space"
+
+
+        # status: https://mirrors.ustc.edu.cn/status/
+        # "https://mirrors.ustc.edu.cn/nix-channels/store"
+
       ];
 
       experimental-features = [
