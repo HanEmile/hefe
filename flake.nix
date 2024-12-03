@@ -183,11 +183,7 @@
               };
             in
             {
-              inherit (pkgs)
-                vokobe
-                r2wars-web
-                remarvin
-                ;
+              inherit (pkgs) vokobe r2wars-web remarvin;
             }
           );
 
