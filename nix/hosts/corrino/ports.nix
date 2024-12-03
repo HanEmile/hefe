@@ -23,6 +23,7 @@
     netbox = 8001;
     restic = 8002;
     nocodb = 8003;
+    goatcounter = 8004;
     r2wars-web = 8089;
     ctf = 8338;
     magic-hash = 8339;
