@@ -33,10 +33,11 @@ in
     ./www/tmp.emile.space.nix
     ./www/hydra.emile.space.nix
     ./www/netbox.emile.space.nix
-    ./www/grafana.emile.space.nix
-    ./www/prometheus.emile.space.nix
-    ./www/loki.emile.space.nix
-    ./www/promtail.emile.space.nix
+    ./www/stats.emile.space.nix
+    # ./www/grafana.emile.space.nix
+    # ./www/prometheus.emile.space.nix
+    # ./www/loki.emile.space.nix
+    # ./www/promtail.emile.space.nix
 
     ./www/photo
 
