@@ -32,7 +32,7 @@
       self,
       nixpkgs, # packages
       nixpkgs-unstable, # unstable branch
-      nixpkgs-master, # master branch
+      # nixpkgs-master, # master branch
       darwin, # darwin related stuff
       deploy-rs, # deploy the hosts
       agenix, # store secrets crypted using age
