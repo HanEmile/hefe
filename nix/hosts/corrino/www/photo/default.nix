@@ -3,6 +3,6 @@
 {
   imports = [
     # ./photoprism.nix
-    # ./immich.nix
+    ./immich.nix
   ];
 }
