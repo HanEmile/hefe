@@ -458,7 +458,10 @@ in
       dates = [ "03:45" ];
     };
 
-    settings.trusted-users = [ "hydra" ];
+    settings.trusted-users = [
+      "root"
+      "hydra"
+    ];
 
     extraOptions = ''
       builders-use-substitutes = true
