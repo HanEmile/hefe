@@ -42,8 +42,8 @@ in
     ./www/photo
 
     ./www/tickets.emile.space.nix
-    ./www/talks.emile.space.nix
-    ./www/stream.emile.space.nix
+    # ./www/talks.emile.space.nix # TODO(emile): doesn't seem to work, some error, haven't figured it out, need to sleep, zzzzzzz
+    # ./www/stream.emile.space.nix
     ./www/md.emile.space.nix
     ./www/social.emile.space.nix
     ./www/sso.emile.space.nix
@@ -64,10 +64,10 @@ in
     # general purpose modules
 
     # r2wars
-    ./www/r2wa.rs.nix
-    
+    # ./www/r2wa.rs.nix
+
     # milliways
-    ./remarvin.nix
+    # ./remarvin.nix
 
     # containers
   ];
