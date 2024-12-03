@@ -388,6 +388,15 @@ in
       ];
     };
 
+    irc = {
+      isNormalUser = true;
+      openssh.authorizedKeys.keys = [ ] ++ keys.emile;
+      packages = with pkgs; [
+        irssi
+        tmux
+      ];
+    };
+
     hack = {
       isNormalUser = true;
       openssh.authorizedKeys.keys = [ ] ++ keys.emile;
