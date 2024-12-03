@@ -194,13 +194,14 @@ rec {
     {
       remoteBuild = true;
       hostname = "${ip}";
-      fastConnection = true;
+      # fastConnection = true;
       profiles.system = {
         user = "root"; # user to install as
         sshUser = sshUser; # user to ssh to as
 
         # make sure people can use sudo 
         # sshOpts = ["-A", "-t", "-S"];
+        sshOpts = [ "-o"  "ProxyCommand=none" ];
 
         # make sure to add the nix foo on the darwin hosts to ~/.zshenv
         # as the ~/.zshrc doesn't get sourced when ssh-ing into the system
