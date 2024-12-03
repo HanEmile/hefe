@@ -82,31 +82,31 @@
     distributedBuilds = true;
 
     buildMachines = [
-      # {
-      #   hostName = "corrino.emile.space";
-      #   system = "x86_64-linux";
-      #   maxJobs = 16;
-      #   speedFactor = 2;
+      {
+        hostName = "corrino.emile.space";
+        system = "x86_64-linux";
+        maxJobs = 16;
+        speedFactor = 2;
 
-      #   # Feature	      | Derivations requiring it
-      #   # ----------------|-----------------------------------------------------
-      #   # kvm	            | Everything which builds inside a vm, like NixOS tests
-      #   # nixos-test	    | Machine can run NixOS tests
-      #   # big-parallel    | kernel config, libreoffice, evolution, llvm and chromium.
-      #   # benchmark	      | Machine can generate metrics (Means the builds usually
-      #   #                 | takes the same amount of time)
+        # Feature	      | Derivations requiring it
+        # ----------------|-----------------------------------------------------
+        # kvm	            | Everything which builds inside a vm, like NixOS tests
+        # nixos-test	    | Machine can run NixOS tests
+        # big-parallel    | kernel config, libreoffice, evolution, llvm and chromium.
+        # benchmark	      | Machine can generate metrics (Means the builds usually
+        #                 | takes the same amount of time)
 
-      #   # cat /etc/nix/machines
-      #   # root@corrino  x86_64-linux      /home/nix/.ssh/id_ed25519        8 1     kvm,benchmark
+        # cat /etc/nix/machines
+        # root@corrino  x86_64-linux      /home/nix/.ssh/id_ed25519        8 1     kvm,benchmark
 
-      #   supportedFeatures = [
-      #     "nixos-test"
-      #     "benchmark"
-      #     "big-parallel"
-      #     "kvm"
-      #   ];
-      #   mandatoryFeatures = [ ];
-      # }
+        supportedFeatures = [
+          "nixos-test"
+          "benchmark"
+          "big-parallel"
+          "kvm"
+        ];
+        mandatoryFeatures = [ ];
+      }
     ];
   };
 
