@@ -30,7 +30,7 @@
 
   nix = {
     useDaemon = true;
-    package = pkgs.nixFlakes;
+    # package = pkgs.nixFlakes;
     extraOptions =
       ''
     		builders-use-substitutes = true
