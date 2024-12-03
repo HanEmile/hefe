@@ -204,10 +204,12 @@ in
 
     systemPackages = builtins.attrValues {
       inherit (pkgs)
-      git
-      du-dust
-      ncdu
-      vim;
+        git
+        du-dust
+        ncdu
+        vim
+        # r2wars-web
+        ;
     };
   };
 
@@ -256,6 +258,8 @@ in
     hostName = "corrino";
     domain = "emile.space";
 
+    enableIPv6 = true;
+
     # Network (Hetzner uses static IP assignments, and we don't use DHCP here)
     useDHCP = false;
     interfaces = {
@@ -266,16 +270,19 @@ in
             prefixLength = 26;
           }
         ];
+        ipv6.addresses = [
+          {
+            address = "2a01:4f9:3a:16a4::1";
+            prefixLength = 64;
+          }
+        ];
       };
-      "enp35s0".ipv6.addresses = [
-        {
-          address = "2a01:4f9:3a:16a4::1";
-          prefixLength = 64;
-        }
-      ];
     };
 
-    defaultGateway = "135.181.142.129";
+    defaultGateway = {
+      address = "135.181.142.129";
+      interface = "enp35s0";
+    };
     defaultGateway6 = {
       address = "fe80::1";
       interface = "enp35s0";
@@ -285,6 +292,16 @@ in
       "8.8.8.8"
       "8.8.4.4"
     ];
+
+    nat = {
+      enable = true;
+      enableIPv6 = true;
+      externalInterface = "enp35s0";
+      internalInterfaces = [
+        "wg0"
+        "ve-+"
+      ];
+    };
 
     # incus doesn't support iptables, so we're using nftables here 
     nftables.enable = true;
@@ -309,16 +326,6 @@ in
 
       interfaces."tailscale0".allowedTCPPorts = [
         8085 # random internal web server port
-      ];
-    };
-
-    nat = {
-      enable = true;
-      enableIPv6 = true;
-      externalInterface = "enp35s0";
-      internalInterfaces = [
-        "wg0"
-        "ve-+"
       ];
     };
 
@@ -521,25 +528,27 @@ in
   };
   # programs.virt-manager.enable = true;
 
-  fileSystems."/proc" = {
-    device = "/proc";
-    options = [
-      "nosuid"
-      "nodev"
-      "noexec"
-      "relatime" # normal foo
-      "hidepid=2" # this makes sure users can only see their own processes
-    ];
-  };
+  fileSystems = {
+    "/proc" = {
+      device = "/proc";
+      options = [
+        "nosuid"
+        "nodev"
+        "noexec"
+        "relatime" # normal foo
+        "hidepid=2" # this makes sure users can only see their own processes
+      ];
+    };
 
-  fileSystems."/mnt/storagebox-bx11" = {
-    device = "//u331921.your-storagebox.de/backup";
-    fsType = "cifs";
-    options =
-      let
-        automount_opts = "_netdev,x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-      in
-      [ "${automount_opts},credentials=${config.age.secrets.storage_box_bx11_password.path}" ];
+    "/mnt/storagebox-bx11" = {
+      device = "//u331921.your-storagebox.de/backup";
+      fsType = "cifs";
+      options =
+        let
+          automount_opts = "_netdev,x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+        in
+        [ "${automount_opts},credentials=${config.age.secrets.storage_box_bx11_password.path}" ];
+    };
   };
 
   # FIXME
