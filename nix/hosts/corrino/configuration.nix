@@ -473,7 +473,7 @@ in
         hostName = "localhost";
         system = "x86_64-linux";
         protocol = "ssh-ng";
-        maxJobs = 1;
+        maxJobs = 8;
         supportedFeatures = [
           "nixos-test"
           "benchmark"
