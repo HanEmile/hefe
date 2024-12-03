@@ -3,7 +3,6 @@
   agenix,
   nixpkgs,
   nixpkgs-unstable,
-  nixpkgs-master,
   deploy-rs,
   home-manager,
   darwin,
@@ -22,8 +21,6 @@ rec {
       group ? null,
       modules ? [ ],
       unstable ? false,
-      master ? false,
-      microvms ? false,
       ...
     }:
     let
@@ -31,8 +28,6 @@ rec {
       localNixpkgs =
         if unstable == true then
           nixpkgs-unstable
-        else if master == true then
-          nixpkgs-master
         else
           # inputs.nixpkgs-${name}, if that doesn't exist, just use nixpkgs
           nixpkgs.lib.attrByPath [ "nixpkgs-${name}" ] # path

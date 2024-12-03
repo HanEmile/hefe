@@ -19,9 +19,6 @@
     naersk.url = "git+https://github.com/nix-community/naersk";
     naersk.inputs.nixpkgs.follows = "nixpkgs";
 
-    microvm.url = "git+https://github.com/astro/microvm.nix";
-    microvm.inputs.nixpkgs.follows = "nixpkgs";
-
     # hefe-internal.url = "git+ssh://gitea@git.emile.space/hanemile/hefe-internal.git?ref=main";
 
     # nix registry add flake:mylocalrepo git+file:///path/to/local/repo
@@ -42,8 +39,7 @@
       agenix, # store secrets crypted using age
       home-manager, # manage my home envs
       naersk, # build rust stuff
-      hefe-internal, # internal tooling
-      microvm, # microvms
+      # hefe-internal, # internal tooling
       ...
     }@inputs:
     let
@@ -65,8 +61,7 @@
           system = "x86_64-linux";
           ip = "corrino";
           description = "Hetzner AX41 dual 512GB NVME";
-          modules = [ hefe-internal.nixosModules.corrino ];
-          microvms = true;
+          # modules = [ hefe-internal.nixosModules.corrino ];
           # unstable = true;
         };
         chusuk = {
