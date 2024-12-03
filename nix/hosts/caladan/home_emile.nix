@@ -289,7 +289,8 @@
         tab_bar_min_tabs = 1;
 
         # tab_title_template = "{index}[{layout_name[0:2]}]: {title.replace('emile', 'e')[title.rfind('/')+1:]}";
-        tab_title_template = "{index}[{layout_name[0:2]}]: {title.replace('emile', 'e')}";
+        # tab_title_template = "{index}[{layout_name[0:2]}]: {title.replace('emile', 'e')}";
+        tab_title_template = "{index} {title.replace('emile', 'e')}";
 
         editor = "/Users/emile/.cargo/bin/hx";
 
