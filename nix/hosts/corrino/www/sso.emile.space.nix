@@ -63,6 +63,17 @@ in
     };
   };
 
+  users.users."authelia-main" = {
+    # isNormalUser = true;
+    name = "authelia-main";
+  };
+
+  users.groups."authelia-main" = {
+    name = "authelia-main";
+    members = [ "authelia-main" ];
+  };
+
+
   # set the permissions for the secrets...
   age.secrets = {
     # ... passwed via environment vars
