@@ -52,11 +52,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1727604521,
-        "narHash": "sha256-dJM7gi63/Z80Ti3SWdOYbe8E3xKugG+iBBWmbtlyI4w=",
+        "lastModified": 1732603785,
+        "narHash": "sha256-AEjWTJwOmSnVYsSJCojKgoguGfFfwel6z/6ud6UFMU8=",
         "ref": "refs/heads/master",
-        "rev": "4b43b68281fd1a332c2aec8fbc077d92ca352c3e",
-        "revCount": 1730,
+        "rev": "6ab87b7c84d4ee873e937108c4ff80c015a40c7a",
+        "revCount": 1930,
         "type": "git",
         "url": "https://github.com/lnl7/nix-darwin"
       },
@@ -104,39 +104,6 @@
         "type": "github"
       }
     },
-    "flake-utils": {
-      "inputs": {
-        "systems": "systems_3"
-      },
-      "locked": {
-        "lastModified": 1710146030,
-        "narHash": "sha256-SZ5L6eA7HJ/nmkzGG7/ISclqe6oZdOZTNoesiInkXPQ=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "b1d9ab70662946ef0850d488da1c9019f3a9752a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "hefe-internal": {
-      "locked": {
-        "lastModified": 1725785744,
-        "narHash": "sha256-f3WryUoeDQ5gpid07hQlfgkpFsuZ1M2hkeRuq/PxpIs=",
-        "ref": "refs/heads/main",
-        "rev": "e4ddde3ae3ccf03f2b31b69c3537212fccab84d3",
-        "revCount": 128,
-        "type": "git",
-        "url": "ssh://git@git.emile.space/hefe-internal"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@git.emile.space/hefe-internal"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -165,40 +132,18 @@
         ]
       },
       "locked": {
-        "lastModified": 1726989464,
-        "narHash": "sha256-Vl+WVTJwutXkimwGprnEtXc/s/s8sMuXzqXaspIGlwM=",
-        "ref": "release-24.05",
-        "rev": "2f23fa308a7c067e52dfcc30a0758f47043ec176",
-        "revCount": 3582,
+        "lastModified": 1732466619,
+        "narHash": "sha256-T1e5oceypZu3Q8vzICjv1X/sGs9XfJRMW5OuXHgpB3c=",
+        "ref": "release-24.11",
+        "rev": "f3111f62a23451114433888902a55cf0692b408d",
+        "revCount": 3863,
         "type": "git",
         "url": "https://github.com/nix-community/home-manager"
       },
       "original": {
-        "ref": "release-24.05",
+        "ref": "release-24.11",
         "type": "git",
         "url": "https://github.com/nix-community/home-manager"
-      }
-    },
-    "microvm": {
-      "inputs": {
-        "flake-utils": "flake-utils",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "spectrum": "spectrum"
-      },
-      "locked": {
-        "lastModified": 1727444402,
-        "narHash": "sha256-IhKB3RPTrblfiq6DW9MiGrS0ULcn/0qWtlefL+Gfg0o=",
-        "ref": "refs/heads/main",
-        "rev": "04f643d06b6f3f79cb289a8c94f051b012e1750e",
-        "revCount": 791,
-        "type": "git",
-        "url": "https://github.com/astro/microvm.nix"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://github.com/astro/microvm.nix"
       }
     },
     "naersk": {
@@ -223,43 +168,28 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1727672256,
-        "narHash": "sha256-9/79hjQc9+xyH+QxeMcRsA6hDyw6Z9Eo1/oxjvwirLk=",
-        "ref": "release-24.05",
-        "rev": "1719f27dd95fd4206afb9cec9f415b539978827e",
-        "revCount": 635555,
+        "lastModified": 1732824227,
+        "narHash": "sha256-fYNXgpu1AEeLyd3fQt4Ym0tcVP7cdJ8wRoqJ+CtTRyY=",
+        "ref": "nixos-24.11",
+        "rev": "c71ad5c34d51dcbda4c15f44ea4e4aa6bb6ac1e9",
+        "shallow": true,
         "type": "git",
-        "url": "https://github.com/nixos/nixpkgs"
+        "url": "ssh://git@github.com/nixos/nixpkgs.git"
       },
       "original": {
-        "ref": "release-24.05",
+        "ref": "nixos-24.11",
+        "shallow": true,
         "type": "git",
-        "url": "https://github.com/nixos/nixpkgs"
-      }
-    },
-    "nixpkgs-master": {
-      "locked": {
-        "lastModified": 1729589804,
-        "narHash": "sha256-wAbtPvyXdsEDLe+2z28XkVSStXoF8z04DVfvhE0/xj8=",
-        "ref": "master",
-        "rev": "ee96528a72f9c15188a6df7d87c52aa2eb0eb5c1",
-        "revCount": 695869,
-        "type": "git",
-        "url": "https://github.com/nixos/nixpkgs"
-      },
-      "original": {
-        "ref": "master",
-        "type": "git",
-        "url": "https://github.com/nixos/nixpkgs"
+        "url": "ssh://git@github.com/nixos/nixpkgs.git"
       }
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1727617520,
-        "narHash": "sha256-uNfh3aMyCekMpjtL/PZtl2Hz/YqNuUpCBEzVxt1QYck=",
+        "lastModified": 1732238832,
+        "narHash": "sha256-sQxuJm8rHY20xq6Ah+GwIUkF95tWjGRd1X8xF+Pkk38=",
         "ref": "nixpkgs-unstable",
-        "rev": "7eee17a8a5868ecf596bbb8c8beb527253ea8f4d",
-        "revCount": 686986,
+        "rev": "8edf06bea5bcbee082df1b7369ff973b91618b8d",
+        "revCount": 711046,
         "type": "git",
         "url": "https://github.com/nixos/nixpkgs"
       },
@@ -274,29 +204,10 @@
         "agenix": "agenix",
         "darwin": "darwin_2",
         "deploy-rs": "deploy-rs",
-        "hefe-internal": "hefe-internal",
         "home-manager": "home-manager_2",
-        "microvm": "microvm",
         "naersk": "naersk",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-master": "nixpkgs-master",
         "nixpkgs-unstable": "nixpkgs-unstable"
-      }
-    },
-    "spectrum": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1720264467,
-        "narHash": "sha256-xzM92n3Q9L90faJIJrkrTtTx+JqCGRHMkHWztkV4PuY=",
-        "ref": "refs/heads/main",
-        "rev": "fb59d42542049f586c84b0f8bb86ff3be338e9d3",
-        "revCount": 674,
-        "type": "git",
-        "url": "https://spectrum-os.org/git/spectrum"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://spectrum-os.org/git/spectrum"
       }
     },
     "systems": {
@@ -315,21 +226,6 @@
       }
     },
     "systems_2": {
-      "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-systems",
-        "repo": "default",
-        "type": "github"
-      }
-    },
-    "systems_3": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
