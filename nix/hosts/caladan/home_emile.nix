@@ -346,6 +346,7 @@
     ripgrep
     fd
     eza
+    bat
     lsd
     tree
     broot
@@ -374,7 +375,7 @@
     nixfmt-rfc-style # official formatter for nix code
 
     ## language server
-    nodePackages_latest.typescript-language-server # js / typescript
+    # nodePackages_latest.typescript-language-server # js / typescript
     nil # nix 
     nodePackages.yaml-language-server # yaml
     python312Packages.python-lsp-server # python
@@ -414,13 +415,13 @@
 
     # lisp foo
     #unstable.sbcl
-    # sbcl
+    sbcl
     #clasp-common-lisp
     # clisp
 
     # infrastructure as code foo
     terraform
-    ansible
+    # ansible
 
     portmidi
 
@@ -434,6 +435,10 @@
 
     z3 # theorem prover
     python312Packages.z3-solver
+
+    openvpn
+
+    ocaml
 
     # blender
 
