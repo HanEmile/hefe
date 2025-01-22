@@ -3,5 +3,6 @@
     ./ports
     ./r2wars-web
     ./remarvin
+    ./filebrowser
   ];
 }

@@ -123,6 +123,15 @@ in
   programs.mosh.enable = true;
 
   services = {
+    emile = {
+      filebrowser = {
+        enable = true;
+        address = "192.168.1.196";
+        port = 8080;
+        root = "/data";
+      };
+    };
+  
     # traffic metrics
     vnstat.enable = true;
 
