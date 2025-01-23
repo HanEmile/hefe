@@ -536,6 +536,10 @@
 
     ocaml
 
+    taskwarrior3
+
+    drawio
+
     # blender
 
     # rustdesk
