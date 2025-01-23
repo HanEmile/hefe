@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 let
   emile_keys = [
@@ -59,9 +59,13 @@ in
     hostName = "lampadas";
     firewall.enable = true;
 
-    # iperf
-    firewall.allowedTCPPorts = [ 5201 ];
-    firewall.allowedUDPPorts = [ 5201 ];
+    firewall.allowedTCPPorts = [
+      # 5201 # iperf
+      8080 # filebrowser web
+    ];
+    firewall.allowedUDPPorts = [
+      # 5201
+    ];
 
     nameservers = [
       "8.8.8.8"
@@ -148,9 +152,9 @@ in
     tailscale.enable = true;
 
     # filesystem stuff
-    btrfs = {
-      autoScrub.enable = true;
-      autoScrub.interval = "weekly";
+    btrfs.autoScrub = {
+      enable = true;
+      interval = "weekly";
     };
 
     # metric exporters
@@ -161,78 +165,118 @@ in
     };
 
     # shares
+
+    # Disable delayed TCP ACK
+    # ; sysctl -w net.inet.tcp.delayed_ack=0
+
+    # Don't write .DS_Store to network shares
+    # ; defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
     samba = {
       enable = true;
       openFirewall = true;
-      securityType = "user";
-      extraConfig = ''
-        workgroup = WORKGROUP
-        server string = lampadas
-        netbios name = lampadas
-        security = user 
-        hosts allow = 100.64.0.0/255.192.0.0, 127.0.0.1/255.0.0.0, ::1, 192.168.0., 192.168.1.
-        hosts deny = 0.0.0.0/0
-        guest account = samba-guest 
-        map to guest = bad user
-        load printers = no
-        server min protocol = SMB3
-        server smb encrypt = required 
-        min receivefile size = 16384
-        use sendfile = true
-        aio read size = 16384
-        aio write size = 16384
-        server multi channel support = yes
-        socket options = TCP_NODELAY IPTOS_LOWDELAY SO_RCVBUF=131072 SO_SNDBUF=131072
-        read raw = Yes
-        write raw = Yes
-        large readwrite = yes
-      '';
-      shares = {
-        public = {
-          path = "/data/public";
-          "browseable" = "yes";
-          "read only" = "no";
-          "guest ok" = "yes";
-          "guest only" = "yes";
-          "available" = "yes";
-          "create mask" = "2775";
-          "directory mask" = "2775";
-          # "force create mask" = "2775";
-          # "force directory mask" = "2775";
-          "force user" = "samba-guest";
-          "comment" = "public data";
-          "writable" = "yes";
+      settings = {
+        global = {
+          "security" = "user";
+          "passwd program" = "/run/wrappers/bin/passwd %u";
+          "invalid users" = ["root"];
+
+          "workgroup" = "WORKGROUP";
+          "server string" = "lampadas";
+          "netbios name" = "lampadas";
+          "hosts allow" = [
+            "100.64.0.0/255.192.0.0"
+            "127.0.0.1/255.0.0.0"
+            "::1"
+            "192.168.0."
+            "192.168.1."
+          ];
+          "hosts deny" = "0.0.0.0/0";
+          "guest account" = "samba-guest";
+          "map to guest" = "bad user";
+          "load printers" = "no";
+          "server min protocol" = "SMB3";
+          "server smb encrypt" = "required";
+          "min receivefile size" = "16384";
+          "use sendfile" = "yes";
+          "aio read size" = "16384";
+          "aio write size" = "16384";
+          "server multi channel support" = "yes";
+          "socket options" = [
+            "TCP_NODELAY"
+            "IPTOS_LOWDELAY"
+            "SO_RCVBUF=131072"
+            "SO_SNDBUF=131072"
+          ];
+          "read raw" = "yes";
+          "write raw" = "yes";
+          "large readwrite" = "yes";
+          "getwd cache" = "yes";
+          "deadtime" = "30";
+
+          # make SMB work faster when being accessed from macos
+          "file_ids_off" = "yes";
+          "signing_required" = "no";
         };
+        
         private = {
-          path = "/data/private";
+          "path" = "/data/private";
+          "comment" = "private data (no flags though)";
+
           "browseable" = "yes";
-          "read only" = "no";
-          "guest ok" = "no";
           "create mask" = "0644";
           "directory mask" = "0755";
           "force user" = "emile";
-          "comment" = "private data (no flags though)";
+          "guest ok" = "no";
+          "read only" = "no";
+
+          # "fruit:aapl" = "yes";
+          # "fruit:copyfile" = "yes";
+          # "fruit:delete_empty_adfiles" = "yes";
+          # "fruit:metadata" = "stream";
+          # "fruit:posix_rename" = "yes";
+          # "fruit:time machine" = "yes";
+          # "fruit:veto_appledouble" = "no";
+          # "fruit:wipe_intentionally_left_blank_rfork" = "yes";
+          # "fruit:nfs_aces" = "no";
+          # "fruit:zero_file_id" = "yes";
+          # "fruit:encoding" = "native";
         };
+
+        public = {
+          "path" = "/data/public";
+          "comment" = "public data";
+
+          "available" = "yes";
+          "browseable" = "yes";
+          "create mask" = "2775";
+          "directory mask" = "2775";
+          "force user" = "samba-guest";
+          "guest ok" = "yes";
+          "guest only" = "yes";
+          "read only" = "no";
+          "writable" = "yes";
+        };
+
         time_machine = {
-          path = "/data/time_machine";
-          "public" = "no";
-          "writeable" = "yes";
-          "valid users" = "emile";
+          "path" = "/data/time_machine";
+          "comment" = "time machine backups";
+
           "force user" = "emile";
           "fruit:aapl" = "yes";
-          "fruit:time machine" = "yes";
+          "fruit:copyfile" = "yes";
           "fruit:delete_empty_adfiles" = "yes";
+          "fruit:metadata" = "stream";
+          "fruit:posix_rename" = "yes";
+          "fruit:time machine" = "yes";
           "fruit:veto_appledouble" = "no";
           "fruit:wipe_intentionally_left_blank_rfork" = "yes";
-          "fruit:posix_rename" = "yes";
-          "fruit:metadata" = "stream";
-
-          # otherwise, copying on the server happens Server -> Client ->
-          # Server (but only on macos)
-          "fruit:copyfile" = "yes";
-
-          "vfs objects" = "catia fruit streams_xattr";
-          "comment" = "time machine backups";
+          "fruit:nfs_aces" = "no";
+          # "fruit:zero_file_id" = "yes";
+          # "fruit:encoding" = "native";
+          "public" = "no";
+          "valid users" = "emile";
+          "vfs objects" = ["catia" "fruit" "streams_xattr"];
+          "writeable" = "yes";
         };
       };
     };
