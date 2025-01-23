@@ -57,6 +57,25 @@
             { targets = [ "lampadas:9633" ]; }
           ];
         }
+
+        # adding this halts on...
+        #
+        # "waiting for lock on
+        #   /nix/store/bpncr2rkz5larhbw51m4if7bmy0rs1d3-prometheus.yml"
+        #
+        # no idea why, as this is just another entry in the list and the other
+        # two work
+
+        # {
+        #   job_name = "mail";
+        #   static_configs = [
+        #     { targets = [ "mail.emile.space:9002" ]; } # node
+        #     { targets = [ "mail.emile.space:9558" ]; } # systemd
+        #     { targets = [ "mail.emile.space:9633" ]; } # smartctl
+        #     { targets = [ "mail.emile.space:9913" ]; } # nginx
+        #     { targets = [ "mail.emile.space:9753" ]; } # restic
+        #   ];
+        # }
       ];
     };
   };
