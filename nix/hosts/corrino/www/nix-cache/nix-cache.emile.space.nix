@@ -22,7 +22,7 @@
 
     # TODO(emile): manage this using age
     # signKeyPath = "/var/lib/secrets/harmonia.secret";
-    signKeyPath = config.age.secrets.harmonia-signkey.path;
+    signKeyPaths = [ config.age.secrets.harmonia-signkey.path ];
 
     settings.bind = "[::1]:${toString config.emile.ports.harmonia}";
   };
