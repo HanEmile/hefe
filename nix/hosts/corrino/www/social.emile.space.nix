@@ -29,12 +29,12 @@
       '';
 
       "/.well-known/host-meta".extraConfig = ''
-              rewrite ^.*$ https://social.emile.space/.well-known/host-meta permanent;
-        		'';
+        rewrite ^.*$ https://social.emile.space/.well-known/host-meta permanent;
+  		'';
 
       "/.well-known/nodeinfo".extraConfig = ''
-              rewrite ^.*$ https://social.emile.space/.well-known/nodeinfo permanent;
-        		'';
+        rewrite ^.*$ https://social.emile.space/.well-known/nodeinfo permanent;
+  		'';
     };
   };
 
