@@ -1,5 +1,3 @@
-HOSTNAME=corrino
-
 .PHONY: help
 
 help:
@@ -13,7 +11,7 @@ corrino:
 	deploy .#corrino --skip-checks -- --show-trace -L
 
 build:
-	nix run nixpkgs#nix-output-monitor build .#nixosConfigurations.corrino.config.system.build.toplevel
+	nix run nixpkgs#nix-output-monitor build ".#nixosConfigurations.${HOSTNAME}.config.system.build.toplevel"
 
 update:
 	nix flake update --commit-lock-file
@@ -27,9 +25,9 @@ build-corrino:
 deploy: build
 	nix run -- nixpkgs#nixos-rebuild switch \
 		--fast \
-		--build-host root@${HOSTNAME} \
+		--build-host root@${BUILDHOST} \
 		--target-host root@${HOSTNAME} \
-		--flake ".#corrino"
+		--flake ".#${HOSTNAME}"
 
 check:
 	nix flake check
