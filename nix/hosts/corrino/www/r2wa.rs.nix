@@ -16,7 +16,7 @@
 
   # deploy:
   # - push code
-  # - build in order to get the new hash (nix build .#r2war-sweb)
+  # - build in order to get the new hash (nix build .#r2wars-web)
   # - update hash in the package (//nix/pkgs/r2wars-web/default.nix)
   # - deploy
 
