@@ -51,9 +51,7 @@ rec {
       # allow the usage of the inputs within the systemd
       # for example:
       # { pkgs, ... } @ args: { imports = ["${args.inputs.nixpkgs-unstable}/path/to/module.nix"] }
-      specialArgs = {
-        inherit inputs;
-      };
+      specialArgs = { inherit inputs self; };
 
       # ; nix repl
       # nix-repl> :lf .
@@ -200,8 +198,8 @@ rec {
         sshUser = sshUser; # user to ssh to as
 
         # make sure people can use sudo 
-        # sshOpts = ["-A", "-t", "-S"];
-        sshOpts = [ "-o"  "ProxyCommand=none" ];
+        sshOpts = ["-A" "-t" "-S"];
+        # sshOpts = [ "-o"  "ProxyCommand=none" ];
 
         # make sure to add the nix foo on the darwin hosts to ~/.zshenv
         # as the ~/.zshrc doesn't get sourced when ssh-ing into the system
