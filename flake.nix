@@ -17,28 +17,27 @@
 
     naersk.url = "git+https://github.com/nix-community/naersk";
     naersk.inputs.nixpkgs.follows = "nixpkgs";
-
     # hefe-internal.url = "git+ssh://gitea@git.emile.space/hanemile/hefe-internal.git?ref=main";
 
     # nix registry add flake:mylocalrepo git+file:///path/to/local/repo
     # nix registry list
     # hefe-internal.url = "flake:mylocalrepo";
-    # hefe-internal.url = "git+file:///Users/emile/hefe-internal";
-    hefe-internal.url = "git+ssh://git@git.emile.space/hefe-internal";
+    hefe-internal.url = "git+file:///Users/emile/hefe-internal";
+    # hefe-internal.url = "git+ssh://git@git.emile.space/hefe-internal";
   };
 
   outputs =
     {
       self,
-      nixpkgs, # packages
+      nixpkgs,          # packages
       nixpkgs-unstable, # unstable branch
       # nixpkgs-master, # master branch
-      darwin, # darwin related stuff
-      deploy-rs, # deploy the hosts
-      agenix, # store secrets crypted using age
-      home-manager, # manage my home envs
-      naersk, # build rust stuff
-      # hefe-internal, # internal tooling
+      darwin,           # darwin related stuff
+      deploy-rs,        # deploy the hosts
+      agenix,           # store secrets crypted using age
+      home-manager,     # manage my home envs
+      naersk,           # build rust stuff
+      hefe-internal,    # internal tooling
       ...
     }@inputs:
     let
@@ -58,10 +57,11 @@
         };
         corrino = {
           system = "x86_64-linux";
-          ip = "corrino";
+          ip = "corrino"; # resolv whatever is reacable, tailscale, ssh config, ...
           description = "Hetzner AX41 dual 512GB NVME";
-          # modules = [ hefe-internal.nixosModules.corrino ];
-          # unstable = true;
+          modules = [
+            hefe-internal.nixosModules.corrino
+          ];
         };
         chusuk = {
           # ip = "chusuk.pinto-pike.ts.net";
