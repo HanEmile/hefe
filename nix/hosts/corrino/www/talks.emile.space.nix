@@ -11,7 +11,7 @@
     };
 
     pretalx = {
-      package = pkgs.pretalx;
+      package = pkgs.pretalx_old;
       enable = true;
       plugins = with config.services.pretalx.package.plugins; [ pages ];
       user = "pretalx";
