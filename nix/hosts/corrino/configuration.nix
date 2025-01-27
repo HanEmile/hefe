@@ -31,7 +31,7 @@ in
     # web
     ./www/emile.space.nix
     ./www/tmp.emile.space.nix
-    ./www/hydra.emile.space.nix
+    # ./www/hydra.emile.space.nix
     ./www/netbox.emile.space.nix
     ./www/stats.emile.space.nix
     # ./www/grafana.emile.space.nix
@@ -41,8 +41,8 @@ in
 
     ./www/photo
 
-    ./www/tickets.emile.space.nix
-    # ./www/talks.emile.space.nix # TODO(emile): doesn't seem to work, some error, haven't figured it out, need to sleep, zzzzzzz
+    # ./www/tickets.emile.space.nix
+    ./www/talks.emile.space.nix
     # ./www/stream.emile.space.nix
     ./www/md.emile.space.nix
     ./www/social.emile.space.nix
@@ -52,10 +52,7 @@ in
     ./www/irc.emile.space.nix
     # ./www/db.emile.space.nix
 
-    ./www/irc.emile.space.nix
-    # ./www/irc
-
-    ./www/ctf.emile.space.nix
+    # ./www/ctf.emile.space.nix
     # ./www/magic-hash.emile.space.nix
 
     # gemini
@@ -64,7 +61,7 @@ in
     # general purpose modules
 
     # r2wars
-    # ./www/r2wa.rs.nix
+    ./www/r2wa.rs.nix
 
     # milliways
     # ./remarvin.nix
@@ -112,6 +109,7 @@ in
           authorizedKeys = config.users.users.root.openssh.authorizedKeys.keys;
           hostKeys = [ "/initrd_ssh_host_ecdsa_key" ];
         };
+
         postCommands = ''
           echo 'cryptsetup-askpass' >> /root/.profile
         '';
@@ -304,7 +302,7 @@ in
     };
 
     # incus doesn't support iptables, so we're using nftables here 
-    nftables.enable = true;
+    # nftables.enable = true;
 
     firewall = {
       enable = true;
@@ -315,7 +313,7 @@ in
         config.emile.ports.gitDaemon
       ];
       allowedUDPPorts = [
-        51820 # wireguard
+        # 51820 # wireguard
       ];
       allowedUDPPortRanges = [
         {
@@ -329,41 +327,41 @@ in
       ];
     };
 
-    wireguard = {
-      enable = true;
-      interfaces."wg0" = {
-        ips = [ "10.87.0.1/24" ];
-        listenPort = 51820;
-        # This allows the wireguard server to route your traffic to the internet and hence be like a VPN
-        # For this to work you have to set the dnsserver IP of your router (or dnsserver of choice) in your clients
-        postSetup = ''
-          ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.87.0.0/24 -o eth0 -j MASQUERADE
-        '';
+    # wireguard = {
+    #   enable = true;
+    #   interfaces."wg0" = {
+    #     ips = [ "10.87.0.1/24" ];
+    #     listenPort = 51820;
+    #     # This allows the wireguard server to route your traffic to the internet and hence be like a VPN
+    #     # For this to work you have to set the dnsserver IP of your router (or dnsserver of choice) in your clients
+    #     postSetup = ''
+    #       ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.87.0.0/24 -o eth0 -j MASQUERADE
+    #     '';
 
-        # This undoes the above command
-        postShutdown = ''
-          ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.87.0.0/24 -o eth0 -j MASQUERADE
-        '';
+    #     # This undoes the above command
+    #     postShutdown = ''
+    #       ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.87.0.0/24 -o eth0 -j MASQUERADE
+    #     '';
 
-        privateKeyFile = config.age.secrets.wireguard_privatekey.path;
+    #     privateKeyFile = config.age.secrets.wireguard_privatekey.path;
 
-        peers = [
-          # List of allowed peers.
-          {
-            # Emiles-MBA
-            publicKey = "Ebsjn7w2FeUs5lUN6ALoUcF/o9/+SopDL324YJPSCDY=";
-            # List of IPs assigned to this peer within the tunnel subnet. Used to configure routing.
-            allowedIPs = [ "10.87.0.2/32" ];
-          }
-          {
-            # Emiles-IphoneX
-            publicKey = "xGfmwraI0Eh3eFEXjJrd2AYCgUM1uK4Y+FX5ACAQZ3M=";
-            # List of IPs assigned to this peer within the tunnel subnet. Used to configure routing.
-            allowedIPs = [ "10.87.0.3/32" ];
-          }
-        ];
-      };
-    };
+    #     peers = [
+    #       # List of allowed peers.
+    #       {
+    #         # Emiles-MBA
+    #         publicKey = "Ebsjn7w2FeUs5lUN6ALoUcF/o9/+SopDL324YJPSCDY=";
+    #         # List of IPs assigned to this peer within the tunnel subnet. Used to configure routing.
+    #         allowedIPs = [ "10.87.0.2/32" ];
+    #       }
+    #       {
+    #         # Emiles-IphoneX
+    #         publicKey = "xGfmwraI0Eh3eFEXjJrd2AYCgUM1uK4Y+FX5ACAQZ3M=";
+    #         # List of IPs assigned to this peer within the tunnel subnet. Used to configure routing.
+    #         allowedIPs = [ "10.87.0.3/32" ];
+    #       }
+    #     ];
+    #   };
+    # };
   };
 
   # Initial empty root password for easy login:
