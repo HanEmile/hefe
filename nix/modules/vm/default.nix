@@ -6,12 +6,12 @@
 }:
 
 let
-  cfg = config.services.emile.r2wars-web;
+  cfg = config.services.emile.vm;
 in
 with lib;
 {
-  options.services.emile.r2wars-web = {
-    enable = mkEnableOption "Enable r2wars-web";
+  options.services.emile.vm = {
+    enable = mkEnableOption "Enable vm";
 
     # ip and port to listen on
     guest = mkOption {
