@@ -17,13 +17,13 @@
 
     naersk.url = "git+https://github.com/nix-community/naersk";
     naersk.inputs.nixpkgs.follows = "nixpkgs";
-    # hefe-internal.url = "git+ssh://gitea@git.emile.space/hanemile/hefe-internal.git?ref=main";
+
+    hefe-internal.url = "git+file:///Users/emile/hefe-internal";
+    # hefe-internal.url = "git+ssh://git@git.emile.space/hefe-internal";
 
     # nix registry add flake:mylocalrepo git+file:///path/to/local/repo
     # nix registry list
     # hefe-internal.url = "flake:mylocalrepo";
-    hefe-internal.url = "git+file:///Users/emile/hefe-internal";
-    # hefe-internal.url = "git+ssh://git@git.emile.space/hefe-internal";
   };
 
   outputs =
@@ -31,7 +31,6 @@
       self,
       nixpkgs,          # packages
       nixpkgs-unstable, # unstable branch
-      # nixpkgs-master, # master branch
       darwin,           # darwin related stuff
       deploy-rs,        # deploy the hosts
       agenix,           # store secrets crypted using age
@@ -55,9 +54,22 @@
           description = "macbook air";
           # nix run https://github.com/LnL7/nix-darwin/archive/master.tar.gz -- switch --flake .#caladan
         };
+
+        # main vm host
+        # 
+        # in case of broken config, reboot into recovery, then:
+        # 
+        # cryptsetup luksOpen /dev/md1 luks0
+        # mount /dev/disk/by-label/root /mnt
+        # mkdir /mnt/boot
+        # mount /dev/disk/by-label/root /mnt
+        # grub-reboot --boot-directory /mnt/boot "Ni" <- press tab and choose wisely
+        # 
+        # also see
+        # //nix/hosts/corrino/hetzner-dedicated-wipe-and-install-nixos-luks-raid-lvm.sh
         corrino = {
           system = "x86_64-linux";
-          ip = "corrino"; # resolv whatever is reacable, tailscale, ssh config, ...
+          ip = "corrino";
           description = "Hetzner AX41 dual 512GB NVME";
           modules = [
             hefe-internal.nixosModules.corrino
