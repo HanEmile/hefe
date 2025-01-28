@@ -69,7 +69,6 @@
           magit # Git
           parinfer-rust-mode # Lisp Parens
           tuareg # OCaml
-          howm # Notes
         ];
       extraConfig = ''
         (require 'package)
@@ -123,12 +122,6 @@
           ;; mode. Vertico commands are hidden in normal buffers. This setting is
           ;; useful beyond Vertico.
           (setq read-extended-command-predicate #'command-completion-default-include-p))
-
-        ;; Add "lisp" to the list of languages babel is allowed to eval
-        ;(setq-default org-babel-lisp-eval-fn #'sly-eval)
-        (org-babel-do-load-languages
-         'org-babel-load-languages
-         '((lisp . t)))
 
         ;; org-mode
         (use-package org)
@@ -226,13 +219,6 @@
           (setq which-key-idle-secondary-delay 0.1)
           (which-key-mode))
 
-        ;; imenu-list - Display imenu (symbols) in a separate buffer
-        ;; https://github.com/bmag/imenu-list
-        (use-package imenu-list :ensure t
-          :init
-          (setq imenu-list-auto-resize t)
-          (setq imenu-list-focus-after-activation t))
-
         ;; flycheck - Syntax checking for GNU Emacs¶
         ;; https://www.flycheck.org/en/latest/
         (use-package flycheck
@@ -244,44 +230,6 @@
           :ensure nil ; no need to install it as it is built-in, but needs to be activated
           :hook (after-init . delete-selection-mode))
 
-        ; howm mode
-        ; (require 'howm)
-        (use-package howm
-          :ensure t
-          :init
-          ;; Where to store the files?
-          (setq howm-file-name-format "%Y/%m/%Y-%m-%d-%H%M%S.md")
-          (setq howm-view-title-header "#") ; markdown mode!
-          (setq howm-directory "~/Notes")
-          (setq howm-home-directory howm-directory)
-          (setq howm-keyword-file (expand-file-name ".howm-keys" howm-home-directory))
-          (setq howm-history-file (expand-file-name ".howm-history" howm-home-directory))
-
-          ;; Use ripgrep as grep
-          (setq howm-view-use-grep t)
-          (setq howm-view-grep-command "rg")
-          (setq howm-view-grep-option "-nH --no-heading --color never")
-          (setq howm-view-grep-extended-option nil)
-          (setq howm-view-grep-fixed-option "-F")
-          (setq howm-view-grep-expr-option nil)
-          (setq howm-view-grep-file-stdin-option nil))
-
-
-        ;; Rename buffers to their title
-        (add-hook 'howm-mode-hook 'howm-mode-set-buffer-name)
-        (add-hook 'after-save-hook 'howm-mode-set-buffer-name)
-
-        ; OCaml mode
-        (use-package tuareg)
-        (setq tuareg-indent-align-with-first-arg t)
-
-        (defun insert-date ()
-          "Insert today's date at point"
-          (interactive "*")
-          (insert (format-time-string "%F")))
-        (global-set-key (kbd "C-c C-.") #'insert-date)
-
-
         ;; Configure the Lisp program for SLIME
         (add-to-list 'exec-path "/Users/emile/.nix-profile/bin")
         (defvar inferior-lisp-program "sbcl")
@@ -291,32 +239,7 @@
         (add-hook 'emacs-lisp-mode 'parinfer-rust-mode)
         (add-hook 'emacs-lisp-mods (lambda () (lispy-mode 1)))
 
-        ;; erc (emacs irc) settings
-        (use-package erc
-            :config
-            (setopt erc-modules
-                (seq-union '(sals nicks bufbar nickbar scrolltobottom)
-                           etc-modules))
-            (setopt erc-sasl-mechanism 'external)
-
-
-            :custom
-            (erc-prompt-for-nickserv-password nil)
-            (erc-inhibit-multiline-input t)
-            (erc-send-whitespace-lines t)
-            (erc-ask-about-multiline-input t)
-            (erc-server-reconnect-timeout 30)
-            (erc-interactive-display 'buffer)
-
-            (erc-autojoin-timing 'ident)
-            (erc-autojoin-channels-alist '((Libera.Chat "#r2wars")))
-
-            :bind
-            ;; Insert \n when hitting <RET> and send messages using C-c C-c
-            (:map erc-mode-map
-                  ("RET" . nil)
-                  ("C-c C-c" . #'erc-send-current-line)))
-
+        ; pixel perfect ultra precise low latency scrolling
         (use-package ultra-scroll
              ; if you git clone'd instead of package-vc-install
              ;:load-path "~/code/emacs/ultra-scroll"
@@ -326,39 +249,15 @@
                  scroll-margin 0) 
              :config
                  (ultra-scroll-mode 1))
-        
-        (global-set-key (kbd "C-c e l") (lambda ()
-            (interactive)
-            (if (get-buffer "irc.libera.chat")
-                (erc-track-switch-buffer 1)
-                (when (y-or-n-p "Start ERC? ")
-                  (erc-tls :server "irc.libera.chat"
-                           :port 6697
-                           :nick "hanemile"
-                           :client-certificate
-                             '(,(expand-file-name "~/libera.key")
-                               ,(expand-file-name "~/libera.crt")))))))
 
-        (use-package org-roam
-          :ensure t
-          :custom
-          (org-roam-directory (file-truename "/Users/emile/notes"))
-          :bind (("C-c n l" . org-roam-buffer-toggle)
-                 ("C-c n f" . org-roam-node-find)
-                 ("C-c n g" . org-roam-graph)
-                 ("C-c n i" . org-roam-node-insert)
-                 ("C-c n c" . org-roam-capture)
-                 ;; Dailies
-                 ("C-c n j" . org-roam-dailies-capture-today))
-          :config
-
-          ;; If you're using a vertical completion framework, you might want a more informative completion interface
-          (setq org-roam-node-display-template
-            (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
-          (org-roam-db-autosync-mode)
-
-          ;; If using org-roam-protocol
-          (require 'org-roam-protocol))
+        ;(setq circe-network-options
+        ;  '(("Libera Chat"
+        ;     :tls t
+        ;     :tls-keylist (("/Users/emile/libera.crt"
+        ;                    "/Users/emile/libera.key"))
+        ;     :sasl-external t
+        ;     :nick "hanemile"
+        ;     :channels ("#test"))))
 
         (provide '.emacs)                       ; makes flycheck happy
       '';
