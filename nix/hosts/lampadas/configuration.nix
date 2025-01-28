@@ -60,11 +60,11 @@ in
     firewall.enable = true;
 
     firewall.allowedTCPPorts = [
-      # 5201 # iperf
+      5201 # iperf
       8080 # filebrowser web
     ];
     firewall.allowedUDPPorts = [
-      # 5201
+      5201 # iperf
     ];
 
     nameservers = [
@@ -130,7 +130,8 @@ in
     emile = {
       filebrowser = {
         enable = true;
-        address = "192.168.1.196";
+        # address = "192.168.1.196";
+        address = "100.87.209.97";
         port = 8080;
         root = "/data";
       };
@@ -176,12 +177,46 @@ in
       openFirewall = true;
       settings = {
         global = {
-          "security" = "user";
-          "passwd program" = "/run/wrappers/bin/passwd %u";
-          "invalid users" = ["root"];
 
-          "workgroup" = "WORKGROUP";
+          ## Browsing/Identification ###
+          "workgroup" = "Pacific";
           "server string" = "lampadas";
+          "disable netbios" = "yes";
+
+          #### Debugging/Accounting ####
+          "log level" = "0";
+          "max log size" = "1000";
+          "logging" = "file";
+          "log file" = "/dev/null";
+
+          ####### Authentication #######
+          "server role" = "standalone server";
+          "obey pam restrictions" = "yes";
+          "unix password sync" = "yes";
+          "passwd program" = "/usr/bin/env passwd %u";
+          "passwd chat" = "*Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .";
+          "pam password change" = "yes";
+          "map to guest" = "bad user";
+
+          "ea support" = "yes";
+          "client ipc signing" = "disabled";
+          "aio max threads" = "200";
+          "aio read size" = "1";
+          "aio write size" = "1";
+
+          # optimization adapted from https://docs.openmediavault.org/en/latest/administration/services/samba.html
+          "load printers" = "no";
+          "disable spoolss" = "yes";
+          "printing" = "bsd";
+          "printcap name" = "/dev/null";
+          "time server" = "no";
+          "wins support" = "no";
+
+
+          # random other settings that seem to make sense
+          "server min protocol" = "SMB3";
+          "security" = "user";
+          "invalid users" = ["root"];
           "netbios name" = "lampadas";
           "hosts allow" = [
             "100.64.0.0/255.192.0.0"
@@ -192,26 +227,32 @@ in
           ];
           "hosts deny" = "0.0.0.0/0";
           "guest account" = "samba-guest";
-          "map to guest" = "bad user";
-          "load printers" = "no";
-          "server min protocol" = "SMB3";
           "server smb encrypt" = "required";
-          "min receivefile size" = "16384";
+          "min receivefile size" = "65536";
           "use sendfile" = "yes";
-          "aio read size" = "16384";
-          "aio write size" = "16384";
           "server multi channel support" = "yes";
           "socket options" = [
             "TCP_NODELAY"
             "IPTOS_LOWDELAY"
-            "SO_RCVBUF=131072"
-            "SO_SNDBUF=131072"
+            "SO_RCVBUF=67108864"
+            "SO_SNDBUF=67108864"
           ];
           "read raw" = "yes";
           "write raw" = "yes";
           "large readwrite" = "yes";
           "getwd cache" = "yes";
           "deadtime" = "30";
+          "store dos attributes" = "yes";
+          "dns proxy" = "no";
+          "map hidden" = "no";
+          "map system" = "no";
+          "map archive" = "no";
+          "nt acl support" = "yes";
+
+          "inherit acls" = "yes";
+          "map acl inherit" = "yes";
+          "encrypt passwords" = "yes";
+          "client plaintext auth" = "no";
 
           # make SMB work faster when being accessed from macos
           "file_ids_off" = "yes";
@@ -261,18 +302,23 @@ in
           "path" = "/data/time_machine";
           "comment" = "time machine backups";
 
+          # macOS / iOS config, adaption from https://wiki.samba.org/index.php/Configure_Samba_to_Work_Better_with_Mac_OS_X
+          "fruit:metadata" = "stream";
+          "fruit:model" = "MacSamba";
+          "fruit:posix_rename" = "yes";
+          "fruit:veto_appledouble" = "no";
+          "fruit:nfs_aces" = "no";
+          "fruit:wipe_intentionally_left_blank_rfork" = "yes";
+          "fruit:delete_empty_adfiles" = "yes";
+          "fruit:encoding" = "private";
+          "fruit:locking" = "none";
+          "fruit:resource" = "file";
+
           "force user" = "emile";
           "fruit:aapl" = "yes";
           "fruit:copyfile" = "yes";
-          "fruit:delete_empty_adfiles" = "yes";
-          "fruit:metadata" = "stream";
-          "fruit:posix_rename" = "yes";
           "fruit:time machine" = "yes";
-          "fruit:veto_appledouble" = "no";
-          "fruit:wipe_intentionally_left_blank_rfork" = "yes";
-          "fruit:nfs_aces" = "no";
           # "fruit:zero_file_id" = "yes";
-          # "fruit:encoding" = "native";
           "public" = "no";
           "valid users" = "emile";
           "vfs objects" = ["catia" "fruit" "streams_xattr"];
