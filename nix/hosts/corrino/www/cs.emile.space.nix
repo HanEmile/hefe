@@ -44,18 +44,17 @@ in
   services.hound = {
     enable = true;
 
-    config = ''
-      			{
-      			  "dbpath": "/var/lib/hound/data",
-      			  "max-concurrent-indexers" : 6,
-      		    "vcs-config" : {
-      	        "git" : {
-                  "detect-ref" : true
-      	        }
-      		    },
-      			  "repos" : ${repos}
-      			}
-      		'';
+    settings = {
+              title = "cs.emile.space";
+      			  dbpath = "/var/lib/hound/data";
+      			  max-concurrent-indexers = 6;
+      		    vcs-config = {
+      	        git = {
+                  detect-ref = true;
+      	        };
+      		    };
+      			  repos = repos;
+      			};
 
     listen = "127.0.0.1:${toString config.emile.ports.hound}";
   };

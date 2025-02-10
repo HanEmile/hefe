@@ -48,7 +48,7 @@ in
     ./www/social.emile.space.nix
     ./www/sso.emile.space.nix
     ./www/s3.emile.space.nix
-    ./www/cs.emile.space.nix
+    # ./www/cs.emile.space.nix
     ./www/irc.emile.space.nix
     # ./www/db.emile.space.nix
 
