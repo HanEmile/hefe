@@ -439,6 +439,8 @@
 
     drawio
 
+    libc-database
+
     # blender
 
     # rustdesk
