@@ -24,12 +24,10 @@ Print the generated secrets file as follows:
 
 ## Deploy
 
-Using [deploy-rs](https://github.com/serokell/deploy-rs) to deploy
-
 ```bash
-; deploy .#corrino
-; deploy .#caladan
-; deploy .#lampadas
-; deploy .#lernaeus
+; BUILDHOST=corrino HOSTNAME=corrino make deploy
+; BUILDHOST=corrino HOSTNAME=lampadas make deploy
+; BUILDHOST=corrino HOSTNAME=lankiveil make deploy
+; make switch-caladan
 ```
 
