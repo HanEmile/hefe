@@ -18,7 +18,7 @@ pkgs.stdenv.mkDerivation rec {
 
   # not building, we just want to download the repo
   buildPhase = '''';
-
+  
   installPhase = ''
 		mkdir -p $out/bin
 		ls -l
@@ -28,7 +28,7 @@ pkgs.stdenv.mkDerivation rec {
   meta = {
     description = "Build a database of libc offsets to simplify exploitation";
     homepage = "https://github.com/niklasb/libc-database";
-    license = lib.license.mit;
+    licenses = lib.license.mit;
     maintainers = with lib.maintainers; [ hanemile ];
   };
 }
