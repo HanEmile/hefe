@@ -116,9 +116,9 @@ in
         theme = "dark";
 
         server = {
-          # address = "127.0.0.1:${toString config.emile.ports.authelia}";
-          host = "127.0.0.1";
-          port = config.emile.ports.authelia;
+          address = "127.0.0.1:${toString config.emile.ports.authelia}";
+          # host = "127.0.0.1";
+          # port = config.emile.ports.authelia;
         };
 
         # we're using a file to store the user information
