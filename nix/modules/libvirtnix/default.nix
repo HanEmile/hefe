@@ -7,31 +7,36 @@
 
 let
   cfg = config.services.emile.libvirtnix;
-in {
+in
+{
   options.services.emile.libvirtnix = with lib; {
     enable = mkEnableOption "enable libvirtnix";
-    instances = 
-      mkOption {
-        type = types.attrsOf (types.submodule ({ name, ... }: {
-          options = {
-            enable = mkEnableOption "enable this instance";
-            domain = mkOption {
-              type = types.submodule (import ./domain.nix);
-            };
-          };
-        }));
-        default = {};
-        description = ''
-          A full libvirt config, statically defined using nix.
-        '';
-        example = ''
+    instances = mkOption {
+      type = types.attrsOf (
+        types.submodule (
+          { name, ... }:
           {
-            domain = {
-              name = "vm";
+            options = {
+              enable = mkEnableOption "enable this instance";
+              domain = mkOption {
+                type = types.submodule (import ./domain.nix);
+              };
             };
           }
-        '';
-      };
+        )
+      );
+      default = { };
+      description = ''
+        A full libvirt config, statically defined using nix.
+      '';
+      example = ''
+        {
+          domain = {
+            name = "vm";
+          };
+        }
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -47,8 +52,8 @@ in {
         };
         script =
           let
-            xml = pkgs.writeText "libvirt-guest-${name}.xml" ''
-              <domain ''
+            xml =
+              pkgs.writeText "libvirt-guest-${name}.xml" ''<domain ''
               + (lib.optionalString (guest.domain.type != "") "type='${guest.domain.type}' ")
               + (lib.optionalString (guest.domain.id != 0) "id='${guest.domain.type}'")
               + ''>''
@@ -57,26 +62,28 @@ in {
               + (lib.optionalString (guest.domain.uuid != "") "<uuid>${guest.domain.uuid}</uuid>")
               + (lib.optionalString (guest.domain.genid != "") "<genid>${guest.domain.genid}</genid>")
               + (lib.optionalString (guest.domain.title != "") "<title>${guest.domain.title}</title>")
-              + (lib.optionalString (guest.domain.description != "") "<description>${guest.domain.description}</description>")
+              + (lib.optionalString (
+                guest.domain.description != ""
+              ) "<description>${guest.domain.description}</description>")
               + (lib.optionalString (guest.domain.metadata != "") "${guest.domain.metadata}")
               + ''
-                <os>
-                  <type>hvm</type>
-                </os>
-                <memory unit="GiB">${toString guest.domain.memory}</memory>
-                <devices>
-                  <disk type="volume">
-                    <source volume="guest-${name}"/>
-                    <target dev="vda" bus="virtio"/>
-                  </disk>
-                  <graphics type="spice" autoport="yes"/>
-                  <input type="keyboard" bus="usb"/>
-                </devices>
-                <features>
-                  <acpi/>
-                </features>
-              </domain>
-            '';
+                  <os>
+                    <type>hvm</type>
+                  </os>
+                  <memory unit="GiB">${toString guest.domain.memory}</memory>
+                  <devices>
+                    <disk type="volume">
+                      <source volume="guest-${name}"/>
+                      <target dev="vda" bus="virtio"/>
+                    </disk>
+                    <graphics type="spice" autoport="yes"/>
+                    <input type="keyboard" bus="usb"/>
+                  </devices>
+                  <features>
+                    <acpi/>
+                  </features>
+                </domain>
+              '';
           in
           ''
             uuid="$(${pkgs.libvirt}/bin/virsh domuuid '${name}' || true)"
