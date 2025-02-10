@@ -47,12 +47,15 @@ in
 
   services = {
     dbus.enable = true;
+
+    displayManager.defaultSession = "xfce+i3";
+
     xserver = {
       enable = true;
 
       # Keyboard settings
-      layout = "us";
-      xkbOptions = "caps:compose";
+      xkb.layout = "us";
+      xkb.options = "caps:compose";
 
       desktopManager = {
         xterm.enable = false;
@@ -68,7 +71,6 @@ in
 
       # default display manager when logging in
       displayManager = {
-        defaultSession = "xfce+i3";
         sessionCommands = '''';
       };
 
@@ -92,7 +94,7 @@ in
   # Enable sound.
   # sound.enable = true;
   # hardware.pulseaudio.enable = true;
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -252,7 +254,10 @@ in
   # started in user sessions.
   programs = {
 
-    vim.defaultEditor = true;
+    vim = {
+      enable = true;
+      defaultEditor = true;
+    };
 
     htop = {
       enable = true;
