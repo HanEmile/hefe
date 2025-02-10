@@ -19,7 +19,7 @@ pkgs.stdenvNoCC.mkDerivation rec {
     eval "$(${pkgs.unzip}/bin/unzip -p ${src} chromium.properties)"
     mkdir -p "$HOME/.BurpSuite/burpbrowser/$linux64"
     ln -sf "${pkgs.chromium}/bin/chromium" "$HOME/.BurpSuite/burpbrowser/$linux64/chrome"
-    exec ${pkgs.jdk19}/bin/java -jar ${src} "$@"' > $out/bin/burpsuitepro
+    exec ${pkgs.jdk23}/bin/java -jar ${src} "$@"' > $out/bin/burpsuitepro
     chmod +x $out/bin/${pname}
     runHook postInstall
   '';
@@ -38,7 +38,7 @@ pkgs.stdenvNoCC.mkDerivation rec {
     downloadPage = "https://portswigger.net/burp/freedownload";
     sourceProvenance = with sourceTypes; [ binaryBytecode ];
     #license = licenses.unfree;
-    platforms = pkgs.jdk19.meta.platforms;
+    platforms = pkgs.jdk23.meta.platforms;
     hydraPlatforms = [ ];
     maintainers = with maintainers; [ hanemile ];
   };
