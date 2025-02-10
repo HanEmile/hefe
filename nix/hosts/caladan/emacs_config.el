@@ -1,7 +1,15 @@
+;;; emacs-config --- My emacs config
+
+;;; Commentary:
+;;; This is my (currently often changing) Emacs config
+
+;;; Code:
+
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives
-  '("melpa" . "https://melpa.org/packages/") t)
+             '("melpa" . "https://melpa.org/packages/") t)
+
 (unless package-archive-contents
   (package-refresh-contents))
 
@@ -64,6 +72,10 @@
 
 ;; Corfu - COmpletion in Region FUnction
 ;; https://github.com/minad/corfu
+(declare-function global-corfu-mode "proced")
+(declare-function corfu-history-mode "proced")
+(declare-function corfu-mode "proced")
+(defvar corfu-map)
 (use-package corfu
   :custom
   (corfu-cycle-tab t)
@@ -96,6 +108,7 @@
 
 ;; Marginalia - Marginalia in the minibuffer
 ;; https://github.com/minad/marginalia
+(declare-function marginalia-mode "proced")
 (use-package marginalia
   :custom
   (marginalia-max-relative-age 0)
@@ -109,7 +122,8 @@
 (use-package all-the-icons
   :if (display-graphic-p))
 
-;; ... also in completions 
+;; ... also in completions
+(declare-function all-the-icons-completion-mode "proced")
 (use-package all-the-icons-completion
   :after (marginalia all-the-icons)
   :hook (marginalia . all-the-icons-completion-marginalia-setup)
@@ -117,6 +131,7 @@
 
 ;; vectico.el - VERTical Interactive COmpletion
 ;; https://github.com/minad/vertico
+(declare-function vertico-mode "proced")
 (use-package vertico
   :init (vertico-mode)
   :custom (vertico-count 13)
@@ -136,6 +151,7 @@
 
 ;; markdown mode
 ;; https://jblevins.org/projects/markdown-mode/
+(defvar markdown-command)
 (use-package markdown-mode
   :ensure t
   :mode ("README\\.md\\'" . gfm-mode)
@@ -143,6 +159,9 @@
 
 ;; Minibuffer with help when waiting too long
 ;; In emacs per default with Emacs v30
+(declare-function which-key-mode "proced")
+(defvar which-key-idle-delay)
+(defvar which-key-idle-secondary-delay)
 (use-package which-key
   :ensure t
   :config
@@ -152,6 +171,7 @@
 
 ;; flycheck - Syntax checking for GNU Emacs¶
 ;; https://www.flycheck.org/en/latest/
+(declare-function global-flycheck-mode "proced")
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
@@ -168,16 +188,18 @@
 ;; configure parinfer to be enabled as a mode when the major lisp mode is enabled
 (add-to-list 'load-path "/Users/emile/parinfer-rust")
 (add-hook 'emacs-lisp-mode 'parinfer-rust-mode)
+(declare-function lispy-mode "proced")
 (add-hook 'emacs-lisp-mods (lambda () (lispy-mode 1)))
 
-; pixel perfect ultra precise low latency scrolling
+;; pixel perfect ultra precise low latency scrolling
+(declare-function ultra-scroll-mode "proced")
 (use-package ultra-scroll
      ; if you git clone'd instead of package-vc-install
      ;:load-path "~/code/emacs/ultra-scroll"
 
      :init
      (setq scroll-conservatively 101 ; important!
-         scroll-margin 0) 
+         scroll-margin 0)
      :config
      (ultra-scroll-mode 1))
 
@@ -193,4 +215,5 @@
 ;     :nick "hanemile"
 ;     :channels ("#test"))))
 
-(provide '.emacs)                       ; makes flycheck happy
+(provide '.emacs)
+;;; emacs_config.el ends here
