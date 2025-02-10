@@ -22,6 +22,7 @@ in
     ./hardware-configuration.nix
 
     ./ports.nix
+    ./vm.nix
 
     ./www/git
     ./www/nix-cache
