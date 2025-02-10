@@ -20,13 +20,6 @@ in
     ./hardware-configuration.nix
   ];
 
-  ##################
-  # sound
-
-  sound.enable = true;
-
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.support32Bit = true;    ## If compatibility with 32-bit applications is desired.
 
   users.extraUsers.emile.extraGroups = [ "audio" ];
 
@@ -39,11 +32,8 @@ in
   };
 
   # Enable OpenGL
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
+  hardware.graphics.enable = true;
+  hardware.graphics.enable32Bit = true;
 
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = [ "nvidia" ];
