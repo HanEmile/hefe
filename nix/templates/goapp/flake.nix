@@ -36,16 +36,15 @@
               fd
               tokei
               tree
-
               eza
               ;
           };
 
           shellHook = ''
-                          alias ls=eza
-            							echo "goapp shell"
-                          export PS1='>; '
-            						'';
+            alias ls=eza
+            echo "goapp shell"
+            export PS1='>; '
+          '';
         };
       }
     );
