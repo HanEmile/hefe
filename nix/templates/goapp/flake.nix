@@ -3,7 +3,7 @@
   inputs.flake-utils.url = "git+https://github.com/numtide/flake-utils";
 
   outputs =
-    { nixpkgs, flake-utils, ... }:
+    { self, nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (
       system:
       let
@@ -12,19 +12,24 @@
           overlays = [ ];
         };
 
-        package-and-docker = packagename: {
+        package-and-docker = name: system: (let
+          pkgname = name + "-pkg";
+          dockername = name + "-docker";
+        in {
           # the raw package
-          "${packagename}" = import ./${packagename} { inherit pkgs packagename; };
+          ${pkgname} = import ./${name} { inherit pkgs name; };
 
           # the docker image
-          "${packagename}-docker" = pkgs.dockerTools.buildImage {
-            name = "${packagename}";
-            config.Cmd = [ "${packagename}/bin/${packagename}" ];
+          ${dockername} = pkgs.dockerTools.buildImage {
+            name = "${name}";
+            config.Cmd = [ "${self.packages.${system}.${pkgname}}/bin/${name}" ];
           };
-        };
+        });
       in
       {
-        packages = { } // (package-and-docker "backend") // (package-and-docker "frontend");
+        packages = { }
+                   // (package-and-docker "backend" system)
+                   // (package-and-docker "frontend" system);
 
         devShells.default = pkgs.mkShell {
           buildInputs = builtins.attrValues {

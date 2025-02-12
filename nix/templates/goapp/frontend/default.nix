@@ -1,21 +1,16 @@
-{ pkgs, packagename, ... }:
+{ pkgs, name, ... }:
 
 let
   version = "0.0.1";
 in
 pkgs.buildGoModule {
-  name = "${packagename}-${version}";
-  pname = "${packagename}";
+  name = "${name}-${version}";
+  pname = "${name}";
   version = "${version}";
 
   src = ./.;
-  subPackages = [ "src" ];
-  vendorHash = "sha256-8wYERVt3PIsKkarkwPu8Zy/Sdx43P6g2lz2xRfvTZ2E=";
-
-  postInstall = ''
-    mkdir -p $out
-    mv $out/bin/src $out/bin/${packagename}
-  '';
+  subPackages = [ "" ];
+  vendorHash = "sha256-tIk8lmyuVETrOW7fA7K7uNNXAAtJAYSM4uH+xZaMWqc=";
 
   doCheck = true;
 }
