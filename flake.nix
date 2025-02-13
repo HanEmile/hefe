@@ -213,9 +213,15 @@
             }
           );
 
-      hydraJobs = {
-        inherit (self) packages;
+      hydraJobs = let
+        goapp-flake = import ./nix/templates/goapp/flake.nix;
+        goapp-flake-outputs = goapp-flake.outputs {
+          inherit self nixpkgs flake-utils;
+        };
+      in {
+        inherit (self) packages templates;
         nixosConfigurations = helper.buildHosts self.nixosConfigurations;
+        goapp-packages = goapp-flake.packages.""."backend-pkg";
       };
 
       templates = {
@@ -235,6 +241,14 @@
             - ...
           '';
         };
+        goapp = {
+          description = "A basic golang service";
+          path = ./nix/templates/goapp;
+          welcomeText = ''
+            # A basic golang service
+             
+            - using gorilla/mux
+          '';
       };
 
       # checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
