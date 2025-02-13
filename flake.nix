@@ -215,9 +215,7 @@
 
       hydraJobs = let
         goapp-flake = import ./nix/templates/goapp/flake.nix;
-        goapp-flake-outputs = goapp-flake.outputs {
-          inherit self nixpkgs flake-utils;
-        };
+        goapp-flake-outputs = goapp-flake.outputs {};
       in {
         inherit (self) packages templates;
         nixosConfigurations = helper.buildHosts self.nixosConfigurations;
