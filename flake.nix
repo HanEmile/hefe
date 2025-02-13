@@ -220,7 +220,14 @@
         # A function taking an attribute set of flake templates, importing their flake.nix and returning an attribute ste of their packages (if the template has one or more)
         template-packages = templ:
           (builtins.mapAttrs
-            (name: value: (((import ./nix/templates/${name}/flake.nix).outputs) inputs).packages or {})
+            (name: value:
+              (
+                (
+                  (import ./nix/templates/${name}/flake.nix).outputs) {
+                    inherit nixpkgs flake-utils;
+                    # Self needs to be the imported flake, as some packages in some templates rely on each other, such as the goapp/backend-docker package which relies on the goapp/backend-pkg. Cross-template references are not supported (yet);
+                    self = (import ./nix/templates/${name}/flake.nix);
+                  }).packages or {})
               templ);
       in {
         inherit (self) packages;
