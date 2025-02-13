@@ -3,7 +3,11 @@
     nixpkgs.url = "git+ssh://git@github.com/nixos/nixpkgs.git?shallow=1&ref=nixos-24.11";
     nixpkgs-unstable.url = "git+https://github.com/nixos/nixpkgs?ref=nixpkgs-unstable";
 
-    darwin.url = "git+https://github.com/lnl7/nix-darwin";
+    # nix darwin version must match nixpkgs version:
+    #   nixpkgs:    nixos-xx.yy
+    #   nix-darwin: nix-darwin-xx.yy
+    # with xx.yy being the same
+    darwin.url = "git+https://github.com/lnl7/nix-darwin?ref=nix-darwin-24.11";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     deploy-rs.url = "git+https://github.com/serokell/deploy-rs?ref=master";
@@ -18,7 +22,7 @@
     naersk.url = "git+https://github.com/nix-community/naersk";
     naersk.inputs.nixpkgs.follows = "nixpkgs";
 
-    hefe-internal.url = "git+file:///Users/emile/hefe-internal";
+    # hefe-internal.url = "git+file:///Users/emile/hefe-internal";
     # hefe-internal.url = "git+ssh://git@git.emile.space/hefe-internal";
 
     # nix registry add flake:mylocalrepo git+file:///path/to/local/repo
@@ -36,7 +40,7 @@
       agenix,           # store secrets crypted using age
       home-manager,     # manage my home envs
       naersk,           # build rust stuff
-      hefe-internal,    # internal tooling
+      # hefe-internal,    # internal tooling
       ...
     }@inputs:
     let
@@ -72,7 +76,7 @@
           ip = "corrino";
           description = "Hetzner AX41 dual 512GB NVME";
           modules = [
-            hefe-internal.nixosModules.corrino
+            # hefe-internal.nixosModules.corrino
           ];
         };
         chusuk = {
@@ -161,6 +165,16 @@
             config.allowUnfree = true;
           };
         };
+
+        # no clue why, but when rebuilding corrino and this not being commented, something in the
+        # hardware.bluetooth module breaks
+        # 
+        # unstable-darwin = final: prev: {
+        #   unstable-darwin = import nixpkgs-unstable {
+        #     system = "aarch64-darwin";
+        #     config.allowUnfree = true;
+        #   };
+        # };
       };
 
       deploy.nodes = helper.mapToDeployRsConfiguration self.hosts;
