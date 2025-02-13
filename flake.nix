@@ -226,7 +226,7 @@
                   (import ./nix/templates/${name}/flake.nix).outputs) {
                     inherit nixpkgs flake-utils;
                     # Self needs to be the imported flake, as some packages in some templates rely on each other, such as the goapp/backend-docker package which relies on the goapp/backend-pkg. Cross-template references are not supported (yet);
-                    self = (import ./nix/templates/${name}/flake.nix);
+                    self = (import ./nix/templates/${name}/flake.nix).outputs;
                   }).packages or {})
               templ);
       in {
