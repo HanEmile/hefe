@@ -10,11 +10,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1723293904,
-        "narHash": "sha256-b+uqzj+Wa6xgMS9aNbX4I+sXeb5biPDi39VgvSFqFvU=",
+        "lastModified": 1736955230,
+        "narHash": "sha256-uenf8fv2eG5bKM8C/UvFaiJMZ4IpUFaQxk9OH5t/1gA=",
         "ref": "refs/heads/main",
-        "rev": "f6291c5935fdc4e0bef208cfc0dcab7e3f7a1c41",
-        "revCount": 314,
+        "rev": "e600439ec4c273cf11e06fe4d9d906fb98fa097c",
+        "revCount": 320,
         "type": "git",
         "url": "https://github.com/ryantm/agenix"
       },
@@ -52,15 +52,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1732603785,
-        "narHash": "sha256-AEjWTJwOmSnVYsSJCojKgoguGfFfwel6z/6ud6UFMU8=",
-        "ref": "refs/heads/master",
-        "rev": "6ab87b7c84d4ee873e937108c4ff80c015a40c7a",
-        "revCount": 1930,
+        "lastModified": 1739302249,
+        "narHash": "sha256-C2vkThXQfsV7Ub0NP+rmm0iLLNjN9MvDjrbeZw2ZxCQ=",
+        "ref": "nix-darwin-24.11",
+        "rev": "f81c16138a6d047dcd257952688114898f5f7878",
+        "revCount": 1996,
         "type": "git",
         "url": "https://github.com/lnl7/nix-darwin"
       },
       "original": {
+        "ref": "nix-darwin-24.11",
         "type": "git",
         "url": "https://github.com/lnl7/nix-darwin"
       }
@@ -104,19 +105,22 @@
         "type": "github"
       }
     },
-    "hefe-internal": {
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems_3"
+      },
       "locked": {
-        "lastModified": 1733861329,
-        "narHash": "sha256-nof2TIYOlKKc7EPb/N/LeLY3c+ZzGGZskCpr/nE9btA=",
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
         "ref": "refs/heads/main",
-        "rev": "bd91c9a6d25df1f00cb77ce66ee5f1738835cc05",
-        "revCount": 129,
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "revCount": 102,
         "type": "git",
-        "url": "file:///Users/emile/hefe-internal"
+        "url": "https://github.com/numtide/flake-utils"
       },
       "original": {
         "type": "git",
-        "url": "file:///Users/emile/hefe-internal"
+        "url": "https://github.com/numtide/flake-utils"
       }
     },
     "home-manager": {
@@ -147,11 +151,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1732466619,
-        "narHash": "sha256-T1e5oceypZu3Q8vzICjv1X/sGs9XfJRMW5OuXHgpB3c=",
+        "lastModified": 1736373539,
+        "narHash": "sha256-dinzAqCjenWDxuy+MqUQq0I4zUSfaCvN9rzuCmgMZJY=",
         "ref": "release-24.11",
-        "rev": "f3111f62a23451114433888902a55cf0692b408d",
-        "revCount": 3863,
+        "rev": "bd65bc3cde04c16755955630b344bc9e35272c56",
+        "revCount": 3879,
         "type": "git",
         "url": "https://github.com/nix-community/home-manager"
       },
@@ -168,11 +172,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1721727458,
-        "narHash": "sha256-r/xppY958gmZ4oTfLiHN0ZGuQ+RSTijDblVgVLFi1mw=",
+        "lastModified": 1736429655,
+        "narHash": "sha256-BwMekRuVlSB9C0QgwKMICiJ5EVbLGjfe4qyueyNQyGI=",
         "ref": "refs/heads/master",
-        "rev": "3fb418eaf352498f6b6c30592e3beb63df42ef11",
-        "revCount": 345,
+        "rev": "0621e47bd95542b8e1ce2ee2d65d6a1f887a13ce",
+        "revCount": 352,
         "type": "git",
         "url": "https://github.com/nix-community/naersk"
       },
@@ -183,10 +187,10 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1735669367,
-        "narHash": "sha256-tfYRbFhMOnYaM4ippqqid3BaLOXoFNdImrfBfCp4zn0=",
+        "lastModified": 1739206421,
+        "narHash": "sha256-PwQASeL2cGVmrtQYlrBur0U20Xy07uSWVnFup2PHnDs=",
         "ref": "nixos-24.11",
-        "rev": "edf04b75c13c2ac0e54df5ec5c543e300f76f1c9",
+        "rev": "44534bc021b85c8d78e465021e21f33b856e2540",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/nixos/nixpkgs.git"
@@ -200,11 +204,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1732238832,
-        "narHash": "sha256-sQxuJm8rHY20xq6Ah+GwIUkF95tWjGRd1X8xF+Pkk38=",
+        "lastModified": 1739138025,
+        "narHash": "sha256-M4ilIfGxzbBZuURokv24aqJTbdjPA9K+DtKUzrJaES4=",
         "ref": "nixpkgs-unstable",
-        "rev": "8edf06bea5bcbee082df1b7369ff973b91618b8d",
-        "revCount": 711046,
+        "rev": "b2243f41e860ac85c0b446eadc6930359b294e79",
+        "revCount": 751383,
         "type": "git",
         "url": "https://github.com/nixos/nixpkgs"
       },
@@ -219,7 +223,7 @@
         "agenix": "agenix",
         "darwin": "darwin_2",
         "deploy-rs": "deploy-rs",
-        "hefe-internal": "hefe-internal",
+        "flake-utils": "flake-utils",
         "home-manager": "home-manager_2",
         "naersk": "naersk",
         "nixpkgs": "nixpkgs",
@@ -242,6 +246,21 @@
       }
     },
     "systems_2": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_3": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",

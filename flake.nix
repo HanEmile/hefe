@@ -22,6 +22,8 @@
     naersk.url = "git+https://github.com/nix-community/naersk";
     naersk.inputs.nixpkgs.follows = "nixpkgs";
 
+    flake-utils.url = "git+https://github.com/numtide/flake-utils";
+
     # hefe-internal.url = "git+file:///Users/emile/hefe-internal";
     # hefe-internal.url = "git+ssh://git@git.emile.space/hefe-internal";
 
@@ -40,6 +42,7 @@
       agenix,           # store secrets crypted using age
       home-manager,     # manage my home envs
       naersk,           # build rust stuff
+      flake-utils,      # common flake utils
       # hefe-internal,    # internal tooling
       ...
     }@inputs:
@@ -214,12 +217,15 @@
           );
 
       hydraJobs = let
-        goapp-flake = import ./nix/templates/goapp/flake.nix;
-        goapp-flake-outputs = goapp-flake.outputs {};
+        # A function taking an attribute set of flake templates, importing their flake.nix and returning an attribute ste of their packages (if the template has one or more)
+        template-packages = templ:
+          (builtins.mapAttrs
+            (name: value: (((import ./nix/templates/${name}/flake.nix).outputs) inputs).packages or {})
+              templ);
       in {
-        inherit (self) packages templates;
+        inherit (self) packages;
         nixosConfigurations = helper.buildHosts self.nixosConfigurations;
-        goapp-packages = goapp-flake.packages.""."backend-pkg";
+        templates = template-packages self.templates;
       };
 
       templates = {
