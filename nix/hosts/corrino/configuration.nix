@@ -483,7 +483,7 @@ in
       {
         hostName = "caladan.pinto-pike.ts.net";
         sshUser = "hydra";
-        sshKey = "/root/.ssh/id_ed25519";
+        sshKey = "/var/lib/hydra/.ssh/id_ed25519";
         system = "aarch64-darwin";
         protocol = "ssh-ng";
         maxJobs = 1;
