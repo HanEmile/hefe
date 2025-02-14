@@ -22,7 +22,7 @@ in
     ./hardware-configuration.nix
 
     ./ports.nix
-    ./vm.nix
+    # ./vm.nix
 
     ./www/git
     ./www/nix-cache
@@ -32,7 +32,7 @@ in
     # web
     ./www/emile.space.nix
     ./www/tmp.emile.space.nix
-    # ./www/hydra.emile.space.nix
+    ./www/hydra.emile.space.nix
     ./www/netbox.emile.space.nix
     ./www/stats.emile.space.nix
     # ./www/grafana.emile.space.nix
@@ -43,7 +43,7 @@ in
     ./www/photo
 
     # ./www/tickets.emile.space.nix
-    ./www/talks.emile.space.nix
+    # ./www/talks.emile.space.nix
     # ./www/stream.emile.space.nix
     ./www/md.emile.space.nix
     ./www/social.emile.space.nix
