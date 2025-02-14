@@ -32,8 +32,6 @@
     # Directory that holds Hydra garbage collector roots.
     gcRootsDir = "/nix/var/nix/gcroots/hydra";
 
-    # a standalone hydra will require you to unset the buildMachinesFiles list to avoid using a nonexistant /etc/nix/hosts
-    buildMachinesFiles = [ ];
     # you will probably also want, otherwise *everything* will be built from scratch
     useSubstitutes = true;
 
