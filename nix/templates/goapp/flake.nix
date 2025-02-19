@@ -30,7 +30,6 @@
       in
       {
         packages = { }
-                   // (package-and-docker "backend")
                    // (package-and-docker "frontend");
 
         devShells.default = pkgs.mkShell {

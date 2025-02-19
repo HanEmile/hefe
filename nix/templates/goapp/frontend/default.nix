@@ -9,8 +9,8 @@ pkgs.buildGoModule {
   version = "${version}";
 
   src = ./.;
-  subPackages = [ "" ];
-  vendorHash = "sha256-tIk8lmyuVETrOW7fA7K7uNNXAAtJAYSM4uH+xZaMWqc=";
+  subPackages = [ "src" ];
+  vendorHash = "sha256-VXuhsXejduIcthawj4qu7hruBEDegj27YY0ym5srMQY=";
 
   doCheck = true;
 }

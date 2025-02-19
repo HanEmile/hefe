@@ -50,6 +50,7 @@ type DB interface {
 
 func init() {
 	gob.Register(time.Time{})
+	gob.Register(Claims{})
 }
 
 func NewSqliteStore(endpoint string, tableName string, path string, maxAge int, keyPairs ...[]byte) (*SqliteStore, error) {

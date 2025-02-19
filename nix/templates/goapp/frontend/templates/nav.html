@@ -1,0 +1,41 @@
+{{ define "nav" }}
+  <header>
+    <p style="margin: 1ex 0; display: block; width: 100%; background-color: #ffaa00; color: white;">
+      v0.0.1 EARLY BETA - Data can be deleted at random!
+    </p>
+  </header>
+  <nav>
+
+    <ul>
+      {{ range .Breadcrumbs }}
+        <li>
+          <a class="local" href="{{ .Main.Target }}">{{ .Main.Name }}</a>
+          {{ if .Options }}
+          <ul>
+          {{ range $opt := .Options }}
+            <li><a class="local" href="{{ $opt.Target }}">{{ $opt.Name }}</a></li>
+          {{ end }}
+          </ul>
+          {{ end }}
+        </li>
+      {{ end }}
+    </ul>
+
+  
+    <ul style="float: right">
+        <li>
+            <a href="https://github.com/HanEmile/hefe/tree/main/nix/templates/goapp">src</a>
+        </li>
+    </ul>
+  </nav>
+  <ul>
+    {{ if .NextLinks }}
+    {{ range .NextLinks }}
+      <li><a class="local" href="{{ .Target }}">{{ .Name }}</a></li>
+    {{ end }}
+    {{ end }}
+  </ul>
+	<br>
+{{ end }}
+
+
