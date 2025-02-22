@@ -83,8 +83,6 @@ rec {
             { ... }:
             {
               nixpkgs.overlays = [
-                self.overlays.emile
-
                 (
                   if system == "x86_64-linux" then
                     self.overlays.x86_64-linux
@@ -93,6 +91,11 @@ rec {
                   else
                     null
                 )
+
+                # no clue why, but when rebuilding corrino and this not being commented,
+                # something in the hardware.bluetooth module breaks
+                #
+                # (if system == "aarch64-darwin" then self.overlays.unstable-darwin else null)
 
                 (_: _: { inherit (agenix.packages."x86_64-linux") agenix; })
 
@@ -197,8 +200,12 @@ rec {
         user = "root"; # user to install as
         sshUser = sshUser; # user to ssh to as
 
-        # make sure people can use sudo 
-        sshOpts = ["-A" "-t" "-S"];
+        # make sure people can use sudo
+        sshOpts = [
+          "-A"
+          "-t"
+          "-S"
+        ];
         # sshOpts = [ "-o"  "ProxyCommand=none" ];
 
         # make sure to add the nix foo on the darwin hosts to ~/.zshenv
