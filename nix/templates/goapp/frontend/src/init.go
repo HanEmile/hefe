@@ -32,12 +32,17 @@ func dbInit() {
 
 func sessionInit() {
 	log.Println("[i] Setting up Session Storage...")
+	session_key, err := os.ReadFile(options.SessionKeyPath)
+	if err != nil {
+		log.Println("Could not read Session key")
+		panic(err)
+	}
 	store, err := NewSqliteStore(
 		sessiondbPath,
 		"sessions",
 		"/",
 		3600,
-		[]byte(os.Getenv("SESSION_KEY")))
+		session_key)
 	if err != nil {
 		panic(err)
 	}
@@ -60,14 +65,21 @@ func oauth2Init() (err error) {
 	}
 
 	verifier = provider.Verifier(&oidc.Config{ClientID: options.ClientID})
+
+	clientSecretBytes, err := os.ReadFile(options.ClientSecretPath)
+	if err != nil {
+		panic(err)
+	}
+	clientSecret := string(clientSecretBytes)
+
 	log.Printf("[ ] ClientID: %s", options.ClientID)
-	log.Printf("[ ] ClientSecret: %s", options.ClientSecret)
+	log.Printf("[ ] ClientSecret: %s", clientSecret)
 	log.Printf("[ ] redirectURL: %s", redirectURL.String())
 	log.Printf("[ ] providerEndpoint: %+v", provider.Endpoint())
 	log.Printf("[ ] Scopes: %s", options.Scopes)
 	oauth2Config = oauth2.Config{
 		ClientID:     options.ClientID,
-		ClientSecret: options.ClientSecret,
+		ClientSecret: clientSecret,
 		RedirectURL:  redirectURL.String(),
 		Endpoint:     provider.Endpoint(),
 		Scopes:       strings.Split(options.Scopes, ","),

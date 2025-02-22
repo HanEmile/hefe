@@ -1,6 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "git+ssh://git@github.com/nixos/nixpkgs.git?shallow=1&ref=nixos-24.11";
+    nixpkgs2.url = "git+ssh://git@github.com/nixos/nixpkgs.git?shallow=1&ref=nixos-24.11";
     nixpkgs-unstable.url = "git+https://github.com/nixos/nixpkgs?ref=nixpkgs-unstable";
 
     # nix darwin version must match nixpkgs version:
@@ -35,20 +36,56 @@
   outputs =
     {
       self,
-      nixpkgs,          # packages
+      nixpkgs, # packages
+      nixpkgs2, # packages2
       nixpkgs-unstable, # unstable branch
-      darwin,           # darwin related stuff
-      deploy-rs,        # deploy the hosts
-      agenix,           # store secrets crypted using age
-      home-manager,     # manage my home envs
-      naersk,           # build rust stuff
-      flake-utils,      # common flake utils
+      darwin, # darwin related stuff
+      deploy-rs, # deploy the hosts
+      agenix, # store secrets crypted using age
+      home-manager, # manage my home envs
+      naersk, # build rust stuff
+      flake-utils, # common flake utils
       # hefe-internal,    # internal tooling
       ...
     }@inputs:
     let
       lib = import ./nix/lib inputs;
       helper = lib.flake-helper;
+
+      # TODO(emile): move all these functions into the helper, keeping the flake.nix clean
+
+      # A function taking an attribute set of flake templates, importing their
+      # flake.nix/output/packages (if there are any) and returning an attribute set
+      # of their packages (if the template has one or more)
+      template-packages =
+        templ:
+        (builtins.mapAttrs (
+          name: value:
+          (((import ./nix/templates/${name}/flake.nix).outputs) {
+            inherit flake-utils;
+
+            # need to provide nixpkgs WITHOUT the overlay for the packages defined in the template applied
+            nixpkgs = nixpkgs;
+          }).packages or { }
+        ) templ);
+
+      # apply the above function to the templates
+      templates = template-packages self.templates;
+
+      # Merge template packages into root packages with template prefix
+      mergedTemplatePackages =
+        system:
+        let
+          lib = nixpkgs.lib;
+        in
+        lib.foldl (
+          acc: tplName:
+          let
+            tplPkgs = templates.${tplName}.${system} or { };
+            prefixed = lib.mapAttrs' (pkgName: pkg: lib.nameValuePair "${tplName}-${pkgName}" pkg) tplPkgs;
+          in
+          acc // prefixed
+        ) { } (builtins.attrNames templates);
     in
     {
       hosts = {
@@ -63,15 +100,15 @@
         };
 
         # main vm host
-        # 
+        #
         # in case of broken config, reboot into recovery, then:
-        # 
+        #
         # cryptsetup luksOpen /dev/md1 luks0
         # mount /dev/disk/by-label/root /mnt
         # mkdir /mnt/boot
         # mount /dev/disk/by-label/root /mnt
         # grub-reboot --boot-directory /mnt/boot "Ni" <- press tab and choose wisely
-        # 
+        #
         # also see
         # //nix/hosts/corrino/hetzner-dedicated-wipe-and-install-nixos-luks-raid-lvm.sh
         corrino = {
@@ -80,6 +117,18 @@
           description = "Hetzner AX41 dual 512GB NVME";
           modules = [
             # hefe-internal.nixosModules.corrino
+            (
+              { self, ... }:
+              {
+                nixpkgs.overlays = [
+                  (final: prev: {
+                    inherit (self.packages.x86_64-linux)
+                      goapp-frontend
+                      ;
+                  })
+                ];
+              }
+            )
           ];
         };
         chusuk = {
@@ -120,7 +169,7 @@
 
         # lankiveil = {
         #   system = "x86_64-linux"; # ???, ???, RTX A2000
-        #   description = "";
+        #   description = "Router";
         # };
         # poritrin = {
         #   description = "lankiveil bmc";
@@ -155,12 +204,10 @@
       };
 
       overlays = {
-        emile = import ./nix/pkgs/overlay.nix;
+        default = self.overlays.x86_64-linux;
 
         x86_64-linux = import ./nix/pkgs/x86_64-linux.nix;
         aarch64-darwin = import ./nix/pkgs/aarch64-darwin.nix;
-
-        default = self.overlays.x86_64-linux;
 
         unstable = final: prev: {
           unstable = import nixpkgs-unstable {
@@ -169,9 +216,9 @@
           };
         };
 
-        # no clue why, but when rebuilding corrino and this not being commented, something in the
-        # hardware.bluetooth module breaks
-        # 
+        # no clue why, but when rebuilding corrino and this not being commented,
+        # something in the hardware.bluetooth module breaks
+        #
         # unstable-darwin = final: prev: {
         #   unstable-darwin = import nixpkgs-unstable {
         #     system = "aarch64-darwin";
@@ -195,7 +242,6 @@
               pkgs = import nixpkgs {
                 inherit system;
                 overlays = [
-
                   (
                     if system == "x86_64-linux" then
                       self.overlays.x86_64-linux
@@ -204,30 +250,20 @@
                     else
                       null
                   )
-                  # self.overlays.emile
-
                   # some arguments for packages
                   (_: _: { inherit naersk; })
                 ];
               };
             in
-            {
+            # take all the packages exposed from templates and add them to
+            # the packages exposed by this flake
+            mergedTemplatePackages system
+            // {
               inherit (pkgs) vokobe r2wars-web remarvin;
             }
           );
 
-      hydraJobs = let
-        # A function taking an attribute set of flake templates, importing their flake.nix and returning an attribute ste of their packages (if the template has one or more)
-        template-packages = templ:
-          (builtins.mapAttrs
-            (name: value:
-              (
-                (
-                  (import ./nix/templates/${name}/flake.nix).outputs) {
-                    inherit nixpkgs flake-utils;
-                  }).packages or {})
-              templ);
-      in {
+      hydraJobs = {
         inherit (self) packages;
         nixosConfigurations = helper.buildHosts self.nixosConfigurations;
         templates = template-packages self.templates;
@@ -260,7 +296,8 @@
           '';
         };
 
-      # checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
+        # checks = builtins.mapAttrs (system: deployLib:
+        #     deployLib.deployChecks self.deploy) deploy-rs.lib;
+      };
     };
-  };
 }

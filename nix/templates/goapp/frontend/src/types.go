@@ -50,16 +50,19 @@ type ClamsAddress struct {
 }
 
 type Options struct {
-	Host          string
-	Port          int
-	LogFilePath   string
-	TemplatesPath string
-	ClientID      string
-	ClientSecret  string
-	Issuer        string
-	PublicURL     string
-	Scopes        string
-	CookieName    string
-	Filters       []string
-	GroupsFilter  []string
+	ClientID         string
+	ClientSecretPath string
+	CookieName       string
+	DatabasePath     string
+	Filters          []string
+	GroupsFilter     []string
+	Host             string
+	Issuer           string
+	LogFilePath      string
+	Port             int
+	PublicURL        string
+	Scopes           string
+	SessionDBPath    string
+	SessionKeyPath   string
+	TemplatesPath    string
 }

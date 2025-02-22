@@ -1,20 +1,20 @@
-module github.com/hanemile/goapp/backend
+module github.com/hanemile/goapp/frontend
 
 go 1.23.5
 
 require (
+	github.com/coreos/go-oidc/v3 v3.12.0
 	github.com/gorilla/handlers v1.5.2
 	github.com/gorilla/mux v1.8.1
 	github.com/gorilla/securecookie v1.1.2
 	github.com/gorilla/sessions v1.4.0
 	github.com/mattn/go-sqlite3 v1.14.24
-	golang.org/x/crypto v0.33.0
+	github.com/spf13/cobra v1.9.1
 	golang.org/x/oauth2 v0.21.0
 	modernc.org/sqlite v1.34.5
 )
 
 require (
-	github.com/coreos/go-oidc/v3 v3.12.0 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/go-jose/go-jose/v4 v4.0.2 // indirect
@@ -23,8 +23,8 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/ncruces/go-strftime v0.1.9 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
-	github.com/spf13/cobra v1.9.1 // indirect
 	github.com/spf13/pflag v1.0.6 // indirect
+	golang.org/x/crypto v0.33.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect
 	modernc.org/libc v1.55.3 // indirect
 	modernc.org/mathutil v1.6.0 // indirect

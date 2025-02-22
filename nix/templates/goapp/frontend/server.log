@@ -177,3 +177,5 @@
 ::1 - - [19/Feb/2025:19:43:29 +0100] "GET /oauth2/callback?code=authelia_ac_8UdV__GJCN9gxJrYa629TC3FToyDDhsbacPbJzhvcJ4.uPw2-_N4jQr7xf7JNZ_IZBNHEq-eeOFoZup7Vwjx1Y0&iss=https%3A%2F%2Fsso.emile.space&scope=openid+profile+email+groups&state=random-string-here HTTP/1.1" 500 142
 ::1 - - [19/Feb/2025:19:49:22 +0100] "GET / HTTP/1.1" 200 6587
 ::1 - - [19/Feb/2025:19:49:23 +0100] "GET /login HTTP/1.1" 302 242
+::1 - - [19/Feb/2025:19:56:09 +0100] "GET / HTTP/1.1" 200 6587
+::1 - - [19/Feb/2025:19:56:12 +0100] "GET /login HTTP/1.1" 302 242

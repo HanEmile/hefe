@@ -12,20 +12,26 @@
           overlays = [ ];
         };
 
+        # take a name and return an attrset with a corresponding package and docker container
         package-and-docker = name: (let
-          pkgname = name + "-pkg";
+          # define the name for the package and docker container
+          pkgname = name;
           dockername = name + "-docker";
 
+          # import the package itself
           package = import ./${name} { inherit pkgs name; };
+
+          # define the container
+          container = pkgs.dockerTools.buildImage {
+            name = "${name}"; # TODO(emile): this could simply be `inherit name;` iinw
+            config.Cmd = [ "${package}/bin/${name}" ];
+          };
         in {
           # the raw package
           ${pkgname} = package;
 
           # the docker image
-          ${dockername} = pkgs.dockerTools.buildImage {
-            name = "${name}";
-            config.Cmd = [ "${package}/bin/${name}" ];
-          };
+          ${dockername} = container;
         });
       in
       {

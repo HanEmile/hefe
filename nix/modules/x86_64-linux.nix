@@ -4,6 +4,7 @@
     ./r2wars-web
     ./remarvin
     ./filebrowser
-    ./libvirtnix
+    # ./libvirtnix
+    ./goapp-frontend
   ];
 }

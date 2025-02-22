@@ -27,6 +27,8 @@ in
     ./www/git
     ./www/nix-cache
 
+    ./www/goapp.emile.space.nix
+
     # screego
 
     # web
@@ -42,7 +44,7 @@ in
 
     ./www/photo
 
-    # ./www/tickets.emile.space.nix
+    ./www/tickets.emile.space.nix
     # ./www/talks.emile.space.nix
     # ./www/stream.emile.space.nix
     ./www/md.emile.space.nix

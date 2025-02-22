@@ -38,18 +38,21 @@ func main() {
 
 	rootCmd := &cobra.Command{Use: "goapp", RunE: root}
 
-	rootCmd.Flags().StringVar(&options.Host, "host", "0.0.0.0", "Specifies the tcp host to listen on")
+	rootCmd.Flags().StringVar(&options.Host, "host", "127.0.0.1", "Specifies the tcp host to listen on")
 	rootCmd.Flags().IntVar(&options.Port, "port", 8080, "Specifies the port to listen on")
 	rootCmd.Flags().StringVar(&options.PublicURL, "public-url", "http://localhost:8080/", "Specifies the root URL to generate the redirect URI")
 	rootCmd.Flags().StringVar(&options.ClientID, "id", "", "Specifies the OpenID Connect Client ID")
-	rootCmd.Flags().StringVarP(&options.ClientSecret, "secret", "s", "", "Specifies the OpenID Connect Client Secret")
+	rootCmd.Flags().StringVarP(&options.ClientSecretPath, "oidc-secret-path", "s", "", "Specifies the OpenID Connect Client Secret path")
 	rootCmd.Flags().StringVarP(&options.Issuer, "issuer", "i", "", "Specifies the URL for the OpenID Connect OP")
 	rootCmd.Flags().StringVar(&options.Scopes, "scopes", "openid,profile,email,groups", "Specifies the OpenID Connect scopes to request")
 	rootCmd.Flags().StringVar(&options.CookieName, "cookie-name", "oidc-client", "Specifies the storage cookie name to use")
 	rootCmd.Flags().StringSliceVar(&options.Filters, "filters", []string{}, "If specified filters the specified text from html output (not json) out of the email addresses, display names, audience, etc")
 	rootCmd.Flags().StringSliceVar(&options.GroupsFilter, "groups-filter", []string{}, "If specified only shows the groups in this list")
-	rootCmd.Flags().StringVar(&options.LogFilePath, "logpath", "./server.log", "Specifies the path to store the server logs at")
+	rootCmd.Flags().StringVar(&options.LogFilePath, "logfilepath", "./server.log", "Specifies the path to store the server logs at")
 	rootCmd.Flags().StringVar(&options.TemplatesPath, "templatespath", "./templates", "Specifies the path to where the templates are stored")
+	rootCmd.Flags().StringVar(&options.DatabasePath, "databasepath", "./main.db", "Specifies the path to where the database is stored")
+	rootCmd.Flags().StringVar(&options.SessionDBPath, "sessiondbpath", "./sessions.db", "Specifies the path to where the session database is stored")
+	rootCmd.Flags().StringVar(&options.SessionKeyPath, "sessionkeypath", "", "Specifies the path to where the session key is stored")
 
 	_ = rootCmd.MarkFlagRequired("id")
 	_ = rootCmd.MarkFlagRequired("secret")

@@ -7,4 +7,5 @@ export SESSION_KEY=aes1Itheich4aeQu9Ouz7ahcaiVoogh9
 go run ./... \
   --id goapp \
   --issuer "https://sso.emile.space" \
-  --secret "KGFO5LQnUxu1Zs.35gOem3MaG8odthg1U0v0.kScVPS6TPTWVRnAdT_nj4PYYSfuU6jdzTM6"
+  --secret "KGFO5LQnUxu1Zs.35gOem3MaG8odthg1U0v0.kScVPS6TPTWVRnAdT_nj4PYYSfuU6jdzTM6" \
+  $@

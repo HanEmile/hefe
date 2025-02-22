@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{  pkgs, ... }:
 
 {
   services.emile.libvirtnix = {
@@ -14,6 +14,19 @@
 
           uuid = "E34DE478-1402-45BB-B3FD-FC960549258E";
           genid = "CA1E2462-1E9D-404C-8DDB-19EEF9D9651B";
+
+          os = {
+            nvram = {
+              type = "network";
+              source = {
+                mirror = {
+                  abi = "copy";
+                  ready = "yes";
+                  type = "network";
+                };
+              };
+            };
+          };
 
           packages = {
             libvirt = pkgs.libvirt;

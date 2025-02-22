@@ -134,7 +134,6 @@ func oauthCallbackHandler(res http.ResponseWriter, req *http.Request) {
 	if req.FormValue("error") != "" {
 		log.Printf("got an error from the idp: %s", req.FormValue("error"))
 		http.Redirect(res, req, fmt.Sprintf("/error?%s", req.Form.Encode()), http.StatusFound)
-
 		return
 	}
 

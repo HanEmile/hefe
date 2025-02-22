@@ -218,6 +218,23 @@
         "url": "https://github.com/nixos/nixpkgs"
       }
     },
+    "nixpkgs2": {
+      "locked": {
+        "lastModified": 1739923778,
+        "narHash": "sha256-BqUY8tz0AQ4to2Z4+uaKczh81zsGZSYxjgvtw+fvIfM=",
+        "ref": "nixos-24.11",
+        "rev": "36864ed72f234b9540da4cf7a0c49e351d30d3f1",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/nixos/nixpkgs.git"
+      },
+      "original": {
+        "ref": "nixos-24.11",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/nixos/nixpkgs.git"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -227,7 +244,8 @@
         "home-manager": "home-manager_2",
         "naersk": "naersk",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-unstable": "nixpkgs-unstable"
+        "nixpkgs-unstable": "nixpkgs-unstable",
+        "nixpkgs2": "nixpkgs2"
       }
     },
     "systems": {
