@@ -2,6 +2,8 @@
 # $1 = hostname
 # $2 = secretname (with .age suffix)
 
+set -xe
+
 if [ $# -lt 2 ]; then
     # TODO: print usage
     echo "USAGE: ./secret_create.sh <hostname> <secretname>"
