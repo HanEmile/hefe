@@ -17,11 +17,10 @@
       id = "goapp";
 
       # ; nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512 --random --random.length 72 --random.charset rfc3986
-      secret = "$pbkdf2-sha512$310000$/Ht5DUFmIeu/7Ty2PWHXnw$.uJIN1vmZMyGjCAoA0PzUcVaTMIH36AK80KvOZAHVXgLr1Y9ZOrRjoiwK.srHAO29mrcw1BNpCjFTYdWOoympg";
+      secret = "$pbkdf2-sha512$310000$LPXJRoGR9RyTcaT6cADljg$FK8RV5CnKj5ano4fXmRzzvXcX/00F7k/G6nd67t.8iewpwyq8FntV4JgYZSV8AynYMxz1qnL4j3BzITLCM0KgQ";
       public = false;
       authorization_policy = "two_factor";
       redirect_uris = [
-        # "http://localhost:8080/oauth2/callback"
         "https://goapp.emile.space/oauth2/callback"
       ];
       scopes = [
@@ -51,28 +50,40 @@
   # - build in order to get the new hash (nix build .#goapp-frontend-pkg)
   # - update hash in the package (//nix/templates/goapp/frontent/default.nix)
   # - deploy
+  #
+  # https://goapp.emile.space/oauth2/callback?code=authelia_ac_iZKCXtRMnj2yjUAmiSkg_LBWjiME2-ghE6KMkxdb6Zw.nDLgCVpu9ctH1llEKUml5rr8szd3bkZYaGa_MAOtNLI&iss=https%3A%2F%2Fsso.emile.space&scope=openid+profile+email+groups&state=random-string-here
+  #
+  # Unable to exchange authorization code for tokens
+  #
+  # unable to exchange authorization code for tokens: oauth2: "invalid_client" "Client authentication failed (e.g., unknown client, no client authentication included, or unsupported authentication method)."
 
-  # services.emile.goapp-frontend = {
-  #   enable = true;
-  #   package = pkgs.goapp-frontend;
+  services.emile.goapp-frontend = {
+    enable = true;
+    package = pkgs.goapp-frontend;
 
-  #   host = "127.0.0.1";
-  #   port = config.emile.ports.goapp-frontend;
-  #   public-url = "https://goapp-frontend.emile.space/";
+    host = "127.0.0.1";
+    port = config.emile.ports.goapp;
+    public-url = "https://goapp.emile.space/";
 
-  #   oidc = {
-  #     id = "goapp-frontend";
-  #     issuer = "https://sso.emile.space";
-  #     cookie-name = "oidc-client";
-  #     scopes = [ "openid" "profile" "email" "groups" ];
-  #     secret-path = "/run/goapp-frontend_oidc_secret";
-  #   };
+    oidc = {
+      id = "goapp";
+      issuer = "https://sso.emile.space";
+      cookie-name = "oidc-client";
+      scopes = [
+        "openid"
+        "profile"
+        "email"
+        "groups"
+      ];
+      # secret-path = "/run/goapp-frontend_oidc_secret";
+      secret-path = config.age.secrets.goapp_oidc_secret.path;
+    };
 
-  #   # TODO(emile): change these when going live
-  #   session-key-path = config.age.secrets.goapp-frontend_oidc_secret.path;
+    # TODO(emile): change these when going live
+    session-key-path = config.age.secrets.goapp_oidc_secret.path;
 
-  #   logfile-path = "/var/log/goapp-frontend.log";
-  #   database-path = "/var/lib/goapp-frontend/main.db";
-  #   sessiondb-path = "/var/lib/goapp-frontend/session.db";
-  # };
+    logfile-path = "/var/log/goapp-frontend.log";
+    database-path = "/var/lib/goapp-frontend/main.db";
+    sessiondb-path = "/var/lib/goapp-frontend/session.db";
+  };
 }

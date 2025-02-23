@@ -114,7 +114,7 @@ with lib;
       };
       path = [ pkgs.goapp-frontend ];
       serviceConfig.ExecStart = ''
-        ${pkgs.goapp-frontend}/bin/goapp-frontend \
+        ${pkgs.goapp-frontend}/bin/frontend \
           --host ${cfg.host} \
           --port ${toString cfg.port} \
           --public-url ${cfg.public-url} \

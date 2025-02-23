@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
+	//  "crypto/tls"
 	"fmt"
 	"log"
+	//  "net/http"
 	"net/url"
 	"os"
 	"strings"
@@ -70,13 +72,15 @@ func oauth2Init() (err error) {
 	if err != nil {
 		panic(err)
 	}
-	clientSecret := string(clientSecretBytes)
+	clientSecret := strings.TrimSpace(string(clientSecretBytes))
 
 	log.Printf("[ ] ClientID: %s", options.ClientID)
 	log.Printf("[ ] ClientSecret: %s", clientSecret)
 	log.Printf("[ ] redirectURL: %s", redirectURL.String())
 	log.Printf("[ ] providerEndpoint: %+v", provider.Endpoint())
 	log.Printf("[ ] Scopes: %s", options.Scopes)
+	log.Printf("[ ] Endpoint: %+v", provider.Endpoint())
+
 	oauth2Config = oauth2.Config{
 		ClientID:     options.ClientID,
 		ClientSecret: clientSecret,
@@ -84,5 +88,8 @@ func oauth2Init() (err error) {
 		Endpoint:     provider.Endpoint(),
 		Scopes:       strings.Split(options.Scopes, ","),
 	}
+
+	oauth2Config.Endpoint.AuthStyle = oauth2.AuthStyleInParams
+
 	return nil
 }

@@ -12,7 +12,7 @@ import (
 )
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	session, err := globalState.sessions.Get(r, "session")
+	session, err := globalState.sessions.Get(r, options.CookieName)
 	if err != nil {
 		log.Println("error getting the session")
 	}
@@ -37,9 +37,14 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 			},
 		},
 	}
-	tpl.NextLinks = []Link{
-		{"Login", "/login"},
-	}
+
+	//  session.Values["id_token"] = claimsIDToken
+	//  session.Values["userinfo"] = claimsUserInfo
+	//  session.Values["logged"] = true
+	//
+	log.Println("logged", session.Values["logged"])
+	log.Println("id-token", session.Values["id_token"])
+	log.Println("userinfo", session.Values["userinfo"])
 
 	if logged, ok := session.Values["logged"].(bool); ok && logged {
 		tpl.LoggedIn = true
@@ -68,6 +73,10 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		tpl.Claims.UserInfo.Name = filterText(tpl.Claims.UserInfo.Name, options.Filters)
 		tpl.RawToken = rawTokens[tpl.Claims.IDToken.JWTIdentifier]
 		tpl.AuthorizeCodeURL = acURLs[tpl.Claims.IDToken.JWTIdentifier].String()
+
+		tpl.NextLinks = []Link{{"Logout", "/logout"}}
+	} else {
+		tpl.NextLinks = []Link{{"Login", "/login"}}
 	}
 
 	w.Header().Add("Content-Type", "text/html")
@@ -129,11 +138,11 @@ func logoutHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusFound)
 }
 
-func oauthCallbackHandler(res http.ResponseWriter, req *http.Request) {
+func oauthCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("hit the oauth callback handler")
-	if req.FormValue("error") != "" {
-		log.Printf("got an error from the idp: %s", req.FormValue("error"))
-		http.Redirect(res, req, fmt.Sprintf("/error?%s", req.Form.Encode()), http.StatusFound)
+	if r.FormValue("error") != "" {
+		log.Printf("got an error from the idp: %s", r.FormValue("error"))
+		http.Redirect(w, r, fmt.Sprintf("/error?%s", r.Form.Encode()), http.StatusFound)
 		return
 	}
 
@@ -145,24 +154,32 @@ func oauthCallbackHandler(res http.ResponseWriter, req *http.Request) {
 		ok         bool
 	)
 
+	log.Println(r.URL)
+
 	// The state should be checked here in production
-	if token, err = oauth2Config.Exchange(req.Context(), req.URL.Query().Get("code")); err != nil {
+	if token, err = oauth2Config.Exchange(
+		r.Context(),
+		r.URL.Query().Get("code"),
+		//  oauth2.SetAuthURLParam("client_id", oauth2Config.ClientID),
+		//  oauth2.SetAuthURLParam("client_secret", oauth2Config.ClientSecret),
+	); err != nil {
 		log.Println("Unable to exchange authorization code for tokens")
-		writeErr(res, err, "unable to exchange authorization code for tokens", http.StatusInternalServerError)
+		log.Println(err)
+		writeErr(w, err, "unable to exchange authorization code for tokens", http.StatusInternalServerError)
 		return
 	}
 
 	// Extract the ID Token from OAuth2 token.
 	if idTokenRaw, ok = token.Extra("id_token").(string); !ok {
 		log.Println("missing id token")
-		writeErr(res, nil, "missing id token", http.StatusInternalServerError)
+		writeErr(w, nil, "missing id token", http.StatusInternalServerError)
 		return
 	}
 
 	// Parse and verify ID Token payload.
-	if idToken, err = verifier.Verify(req.Context(), idTokenRaw); err != nil {
+	if idToken, err = verifier.Verify(r.Context(), idTokenRaw); err != nil {
 		log.Printf("unable to verify id token or token is invalid: %+v", idTokenRaw)
-		writeErr(res, err, "unable to verify id token or token is invalid", http.StatusInternalServerError)
+		writeErr(w, err, "unable to verify id token or token is invalid", http.StatusInternalServerError)
 		return
 	}
 
@@ -171,15 +188,15 @@ func oauthCallbackHandler(res http.ResponseWriter, req *http.Request) {
 
 	if err = idToken.Claims(&claimsIDToken); err != nil {
 		log.Printf("unable to decode id token claims: %+v", &claimsIDToken)
-		writeErr(res, err, "unable to decode id token claims", http.StatusInternalServerError)
+		writeErr(w, err, "unable to decode id token claims", http.StatusInternalServerError)
 		return
 	}
 
 	var userinfo *oidc.UserInfo
 
-	if userinfo, err = provider.UserInfo(req.Context(), oauth2.StaticTokenSource(token)); err != nil {
+	if userinfo, err = provider.UserInfo(r.Context(), oauth2.StaticTokenSource(token)); err != nil {
 		log.Printf("unable to retreive userinfo claims")
-		writeErr(res, err, "unable to retrieve userinfo claims", http.StatusInternalServerError)
+		writeErr(w, err, "unable to retrieve userinfo claims", http.StatusInternalServerError)
 		return
 	}
 
@@ -187,15 +204,15 @@ func oauthCallbackHandler(res http.ResponseWriter, req *http.Request) {
 
 	if err = userinfo.Claims(&claimsUserInfo); err != nil {
 		log.Printf("unable to decode userinfo claims")
-		writeErr(res, err, "unable to decode userinfo claims", http.StatusInternalServerError)
+		writeErr(w, err, "unable to decode userinfo claims", http.StatusInternalServerError)
 		return
 	}
 
 	var session *sessions.Session
 
-	if session, err = globalState.sessions.Get(req, options.CookieName); err != nil {
+	if session, err = globalState.sessions.Get(r, options.CookieName); err != nil {
 		log.Printf("unable to get session from cookie")
-		writeErr(res, err, "unable to get session from cookie", http.StatusInternalServerError)
+		writeErr(w, err, "unable to get session from cookie", http.StatusInternalServerError)
 		return
 	}
 
@@ -203,11 +220,11 @@ func oauthCallbackHandler(res http.ResponseWriter, req *http.Request) {
 	session.Values["userinfo"] = claimsUserInfo
 	session.Values["logged"] = true
 	rawTokens[claimsIDToken.JWTIdentifier] = idTokenRaw
-	acURLs[claimsIDToken.JWTIdentifier] = req.URL
+	acURLs[claimsIDToken.JWTIdentifier] = r.URL
 
-	if err = session.Save(req, res); err != nil {
+	if err = session.Save(r, w); err != nil {
 		log.Printf("unable to save session")
-		writeErr(res, err, "unable to save session", http.StatusInternalServerError)
+		writeErr(w, err, "unable to save session", http.StatusInternalServerError)
 		return
 	}
 
@@ -215,11 +232,11 @@ func oauthCallbackHandler(res http.ResponseWriter, req *http.Request) {
 
 	if redirectUrl, ok = session.Values["redirect-url"].(string); ok {
 		log.Printf("all fine!")
-		http.Redirect(res, req, redirectUrl, http.StatusFound)
+		http.Redirect(w, r, redirectUrl, http.StatusFound)
 		return
 	}
 
-	http.Redirect(res, req, "/", http.StatusFound)
+	http.Redirect(w, r, "/", http.StatusFound)
 }
 
 func writeErr(w http.ResponseWriter, err error, msg string, statusCode int) {

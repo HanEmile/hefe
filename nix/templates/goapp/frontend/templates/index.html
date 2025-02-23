@@ -5,6 +5,8 @@
 
 <h1>goapp</h1>
 
+{{ . }}
+
 {{- if .LoggedIn }}
 <p id="welcome">Logged in as {{ or .Claims.UserInfo.PreferredUsername .Claims.IDToken.Subject "unknown" }}!</p>
 <p><a href="/logout" id="log-out">Log out</a></p>
