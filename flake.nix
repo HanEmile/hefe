@@ -1,7 +1,6 @@
 {
   inputs = {
     nixpkgs.url = "git+ssh://git@github.com/nixos/nixpkgs.git?shallow=1&ref=nixos-24.11";
-    nixpkgs2.url = "git+ssh://git@github.com/nixos/nixpkgs.git?shallow=1&ref=nixos-24.11";
     nixpkgs-unstable.url = "git+https://github.com/nixos/nixpkgs?ref=nixpkgs-unstable";
 
     # nix darwin version must match nixpkgs version:
@@ -37,7 +36,6 @@
     {
       self,
       nixpkgs, # packages
-      nixpkgs2, # packages2
       nixpkgs-unstable, # unstable branch
       darwin, # darwin related stuff
       deploy-rs, # deploy the hosts
