@@ -52,11 +52,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1739302249,
-        "narHash": "sha256-C2vkThXQfsV7Ub0NP+rmm0iLLNjN9MvDjrbeZw2ZxCQ=",
+        "lastModified": 1739553546,
+        "narHash": "sha256-L4ou3xfOr17EAe836djRoQ7auVkYOREMtiQa82wVGqU=",
         "ref": "nix-darwin-24.11",
-        "rev": "f81c16138a6d047dcd257952688114898f5f7878",
-        "revCount": 1996,
+        "rev": "353846417f985e74fdc060555f17939e4472ea2c",
+        "revCount": 2010,
         "type": "git",
         "url": "https://github.com/lnl7/nix-darwin"
       },
@@ -151,11 +151,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1736373539,
-        "narHash": "sha256-dinzAqCjenWDxuy+MqUQq0I4zUSfaCvN9rzuCmgMZJY=",
+        "lastModified": 1739757849,
+        "narHash": "sha256-Gs076ot1YuAAsYVcyidLKUMIc4ooOaRGO0PqTY7sBzA=",
         "ref": "release-24.11",
-        "rev": "bd65bc3cde04c16755955630b344bc9e35272c56",
-        "revCount": 3879,
+        "rev": "9d3d080aec2a35e05a15cedd281c2384767c2cfe",
+        "revCount": 3881,
         "type": "git",
         "url": "https://github.com/nix-community/home-manager"
       },
@@ -172,11 +172,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1736429655,
-        "narHash": "sha256-BwMekRuVlSB9C0QgwKMICiJ5EVbLGjfe4qyueyNQyGI=",
+        "lastModified": 1739824009,
+        "narHash": "sha256-fcNrCMUWVLMG3gKC5M9CBqVOAnJtyRvGPxptQFl5mVg=",
         "ref": "refs/heads/master",
-        "rev": "0621e47bd95542b8e1ce2ee2d65d6a1f887a13ce",
-        "revCount": 352,
+        "rev": "e5130d37369bfa600144c2424270c96f0ef0e11d",
+        "revCount": 353,
         "type": "git",
         "url": "https://github.com/nix-community/naersk"
       },
@@ -187,10 +187,10 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1739206421,
-        "narHash": "sha256-PwQASeL2cGVmrtQYlrBur0U20Xy07uSWVnFup2PHnDs=",
+        "lastModified": 1740603184,
+        "narHash": "sha256-t+VaahjQAWyA+Ctn2idyo1yxRIYpaDxMgHkgCNiMJa4=",
         "ref": "nixos-24.11",
-        "rev": "44534bc021b85c8d78e465021e21f33b856e2540",
+        "rev": "f44bd8ca21e026135061a0a57dcf3d0775b67a49",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/nixos/nixpkgs.git"
@@ -204,11 +204,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1739138025,
-        "narHash": "sha256-M4ilIfGxzbBZuURokv24aqJTbdjPA9K+DtKUzrJaES4=",
+        "lastModified": 1740547748,
+        "narHash": "sha256-Ly2fBL1LscV+KyCqPRufUBuiw+zmWrlJzpWOWbahplg=",
         "ref": "nixpkgs-unstable",
-        "rev": "b2243f41e860ac85c0b446eadc6930359b294e79",
-        "revCount": 751383,
+        "rev": "3a05eebede89661660945da1f151959900903b6a",
+        "revCount": 759303,
         "type": "git",
         "url": "https://github.com/nixos/nixpkgs"
       },
@@ -216,23 +216,6 @@
         "ref": "nixpkgs-unstable",
         "type": "git",
         "url": "https://github.com/nixos/nixpkgs"
-      }
-    },
-    "nixpkgs2": {
-      "locked": {
-        "lastModified": 1739923778,
-        "narHash": "sha256-BqUY8tz0AQ4to2Z4+uaKczh81zsGZSYxjgvtw+fvIfM=",
-        "ref": "nixos-24.11",
-        "rev": "36864ed72f234b9540da4cf7a0c49e351d30d3f1",
-        "shallow": true,
-        "type": "git",
-        "url": "ssh://git@github.com/nixos/nixpkgs.git"
-      },
-      "original": {
-        "ref": "nixos-24.11",
-        "shallow": true,
-        "type": "git",
-        "url": "ssh://git@github.com/nixos/nixpkgs.git"
       }
     },
     "root": {
@@ -244,8 +227,7 @@
         "home-manager": "home-manager_2",
         "naersk": "naersk",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-unstable": "nixpkgs-unstable",
-        "nixpkgs2": "nixpkgs2"
+        "nixpkgs-unstable": "nixpkgs-unstable"
       }
     },
     "systems": {
