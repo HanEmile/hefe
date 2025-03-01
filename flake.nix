@@ -276,14 +276,11 @@
           description = "A basic ctf env with pwn, rev, ... tools";
           path = ./nix/templates/ctf;
           welcomeText = ''
-            # A basic CTF env
-            ## Intended usage
-            The intended usage of this flake is...
+            # CTF flake template
 
-            ## More info
-            - [Rust language](https://www.rust-lang.org/)
-            - [Rust on the NixOS Wiki](https://nixos.wiki/wiki/Rust)
-            - ...
+            Run `nix develop` to get a shell with pwntools, pwndbg, pycryptodome, ...
+
+            Add packages in the flake as you like.
           '';
         };
         goapp = {
