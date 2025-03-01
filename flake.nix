@@ -56,22 +56,17 @@
       # flake.nix/output/packages (if there are any) and returning an attribute set
       # of their packages (if the template has one or more)
       template-packages =
-        templ:
-        (builtins.mapAttrs (
-          name: value:
-          (((import ./nix/templates/${name}/flake.nix).outputs) {
-            inherit flake-utils;
-
-            # need to provide nixpkgs WITHOUT the overlay for the packages defined in the template applied
-            nixpkgs = nixpkgs;
-          }).packages or { }
-        ) templ);
+        builtins.mapAttrs (name: value:
+          (((import ./nix/templates/${name}/flake.nix).outputs)
+            { inherit nixpkgs flake-utils; })
+            .packages or { }
+        );
 
       # apply the above function to the templates
       templates = template-packages self.templates;
 
       # Merge template packages into root packages with template prefix
-      mergedTemplatePackages =
+      merged-template-packages =
         system:
         let
           lib = nixpkgs.lib;
@@ -255,7 +250,7 @@
             in
             # take all the packages exposed from templates and add them to
             # the packages exposed by this flake
-            mergedTemplatePackages system
+            merged-template-packages system
             // {
               inherit (pkgs) vokobe r2wars-web remarvin;
             }
