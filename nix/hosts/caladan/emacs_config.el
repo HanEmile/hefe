@@ -17,10 +17,7 @@
   (unless (package-installed-p package)
     (package-install package)))
 
-(when (display-graphic-p)
-  (tool-bar-mode 0)
-  (scroll-bar-mode 'left))
-
+(scroll-bar-mode -1)
 (load-theme 'leuven) ;; light theme
 (setq pixel-scroll-precision-mode 1)
 (xterm-mouse-mode 1)
@@ -41,9 +38,6 @@
              '("\\`\\*\\(Warnings\\|Compile-Log\\)\\*\\'"
                (display-buffer-no-window)
                (allow-no-window . t)))
-
-(when (not (display-graphic-p))
-      (menu-bar-mode -1))
 
 ;; general purpose emacs settings
 (use-package emacs
@@ -148,7 +142,6 @@
               completion-category-overrides '((file (styles partial-completion)))))
               
 
-
 ;; markdown mode
 ;; https://jblevins.org/projects/markdown-mode/
 (defvar markdown-command)
@@ -181,7 +174,7 @@
   :ensure nil ; no need to install it as it is built-in, but needs to be activated
   :hook (after-init . delete-selection-mode))
 
-;; Configure the Lisp program for SLIME
+;; Configure the Lisp program for SLY
 (add-to-list 'exec-path "/Users/emile/.nix-profile/bin")
 (defvar inferior-lisp-program "sbcl")
 
@@ -205,15 +198,6 @@
 
 (use-package breadcrumb
      :ensure t)
-
-;(setq circe-network-options
-;  '(("Libera Chat"
-;     :tls t
-;     :tls-keylist (("/Users/emile/libera.crt"
-;                    "/Users/emile/libera.key"))
-;     :sasl-external t
-;     :nick "hanemile"
-;     :channels ("#test"))))
 
 (provide '.emacs)
 ;;; emacs_config.el ends here
