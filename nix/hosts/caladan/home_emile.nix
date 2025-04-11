@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
   home = {
@@ -57,6 +57,18 @@
         eval "$(direnv hook zsh)"
 
         setopt autocd 		# cd without needing to use the cd command
+      '';
+    };
+
+    neovim = let
+      custom_plugins = pkgs.callPackage ./nvim_plugins.nix { };
+    in {
+      enable = true;
+      plugins = with pkgs.vimPlugins // custom_plugins; [
+        neovim-ayu
+        lisp.vlime
+      ];
+      extraConfig = ''
       '';
     };
 
@@ -174,7 +186,7 @@
     nixos-rebuild
 
     # editor
-    unstable.helix
+    unstable-darwin.helix
 
     ## formatter
     nixfmt-rfc-style # official formatter for nix code
@@ -200,6 +212,7 @@
     # go foo
     go
     delve
+    gotools
 
     # c foo
     cmake
@@ -249,6 +262,10 @@
 
     drawio
 
+    # cargo rustup
+    cargo
+
+    # custom
     libc-database
 
     # blender

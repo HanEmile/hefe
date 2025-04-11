@@ -1,14 +1,11 @@
 { vimUtils, fetchgit, ... }:
 
 let
-  build-vim = vimUtils.buildVimPluginFrom2Nix;
-
-  build = ({name, owner, rev, sha256}: build-vim {
-    name = name;
+  build = ({name, owner, rev, sha256}: vimUtils.buildVimPlugin {
+    inherit name;
     src = fetchgit {
+      inherit rev sha256;
       url = "https://github.com/${owner}/${name}";
-      rev = rev;
-      sha256 = sha256;
     };
     dependencies = [];
   });
