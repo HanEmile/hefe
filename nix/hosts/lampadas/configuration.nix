@@ -181,10 +181,41 @@ in
     };
 
     # metric exporters
-    prometheus.exporters = {
-      node.enable = true; # port 9100
-      systemd.enable = true; # port 9558
-      smartctl.enable = true; # port 9633
+    prometheus = {
+      enable = true;
+      port = 9090;
+      listenAddress = "100.87.209.97";
+      scrapeConfigs = [
+        {
+          job_name = "node";
+          static_configs = [{
+            targets = [
+              "localhost:${toString config.services.prometheus.exporters.node.port}"
+            ];
+          }];
+        }  
+        {
+          job_name = "systemd";
+          static_configs = [{
+            targets = [
+              "localhost:${toString config.services.prometheus.exporters.systemd.port}"
+            ];
+          }];
+        }  
+        {
+          job_name = "smartctl";
+          static_configs = [{
+            targets = [
+              "localhost:${toString config.services.prometheus.exporters.smartctl.port}"
+            ];
+          }];
+        }  
+      ];
+      exporters = {
+        node.enable = true; # port 9100
+        systemd.enable = true; # port 9558
+        smartctl.enable = true; # port 9633
+      };
     };
 
     # shares
