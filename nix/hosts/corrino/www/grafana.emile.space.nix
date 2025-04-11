@@ -91,19 +91,30 @@
       provision = {
         dashboards.settings = { };
         datasources.settings = {
+          deleteDatasources = [
+            { name = "Prometheus"; orgId = 1; }  
+            { name = "Lampadas"; orgId = 1; }  
+          ];
           datasources = [
             {
               url = "http://localhost:${toString config.services.prometheus.port}";
               type = "prometheus";
-              name = "Prometheus";
+              name = "Prometheus Corrino";
               editable = false;
               access = "proxy"; # server = "proxy", browser = "direct"
             }
             {
-              name = "loki";
-              url = "http://${config.services.loki.configuration.common.instance_addr}:${toString config.services.loki.configuration.server.http_listen_port}";
-              type = "loki";
+              url = "http://lampadas:9009";
+              type = "prometheus";
+              name = "Prometheus Lampadas";
+              editable = false;
+              access = "proxy"; # server = "proxy", browser = "direct"
             }
+            # {
+            #   name = "loki";
+            #   url = "http://${config.services.loki.configuration.common.instance_addr}:${toString config.services.loki.configuration.server.http_listen_port}";
+            #   type = "loki";
+            # }
           ];
         };
 
