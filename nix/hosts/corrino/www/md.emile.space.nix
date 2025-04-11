@@ -6,7 +6,7 @@
     enableACME = true;
     locations = {
       "/" = {
-        proxyPass = "http://127.0.0.1:${toString config.services.hedgedoc.settings.port}";
+        proxyPass = "http://[${config.services.hedgedoc.settings.host}]:${toString config.services.hedgedoc.settings.port}";
       };
     };
   };
@@ -47,7 +47,7 @@
     environmentFile = config.age.secrets.hedgedoc_environment_variables.path;
 
     settings = {
-      host = "127.0.0.1";
+      host = "::1";
       port = config.emile.ports.md;
 
       domain = "md.emile.space";
