@@ -85,10 +85,10 @@
       {
         hostName = "corrino.emile.space";
         system = "x86_64-linux";
-        maxJobs = 16;
+        maxJobs = 10;
         speedFactor = 2;
 
-        # Feature	      | Derivations requiring it
+        # Feature	        | Derivations requiring it
         # ----------------|-----------------------------------------------------
         # kvm	            | Everything which builds inside a vm, like NixOS tests
         # nixos-test	    | Machine can run NixOS tests
@@ -110,8 +110,9 @@
     ];
   };
 
-  nixpkgs = {
-    config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    allowUnsupportedSystem = true;
   };
 
   services.nix-daemon.enable = true;
