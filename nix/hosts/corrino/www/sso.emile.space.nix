@@ -141,9 +141,22 @@ in
         storage.local.path = "/var/lib/authelia-main/db.sqlite";
 
         session = {
-          domain = "sso.emile.space";
-          expiration = 3600; # 1 hour
-          inactivity = 300; # 5 minutes
+          # domain = "sso.emile.space";
+          # expiration = 3600; # 1 hour
+          # inactivity = 300; # 5 minutes
+
+          cookies = [
+            {
+              domain = "emile.space";
+              authelia_url = "https://sso.emile.space";
+              # The period of time the user can be inactive for until the session is destroyed. Useful if you want long session timers but don’t want unused devices to be vulnerable.
+              inactivity = "1h";
+              # The period of time before the cookie expires and the session is destroyed. This is overridden by remember_me when the remember me box is checked.
+              expiration = "1d";
+              # The period of time before the cookie expires and the session is destroyed when the remember me box is checked. Setting this to -1 disables this feature entirely for this session cookie domain
+              remember_me = "3M";
+            }
+          ];
         };
 
         notifier = {
@@ -195,6 +208,16 @@ in
         access_control = {
           default_policy = "deny";
           rules = [
+            {
+              # silverbullet needs access to these without auth
+              domain = "sb.emile.space";
+              policy = "bypass";
+              resources = [
+                "/.client/manifest.json$"
+                "/.client/[a-zA-Z0-9_-]+.png$"
+                "/service_worker.js$"
+              ];
+            }
             {
               domain = "*.emile.space";
               policy = "two_factor";
