@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   services.nginx.virtualHosts."sb.emile.space" = {
@@ -6,7 +6,7 @@
     enableACME = true;
     locations = {
       "/" = {
-        proxyPass = "http://${config.services.silverbullet.listenSddress}:${toString config.services.silverbullet.listenPort}";
+        proxyPass = "http://${config.services.silverbullet.listenAddress}:${toString config.services.silverbullet.listenPort}";
         extraConfig = ''
           ## Send a subrequest to Authelia to verify if the user is authenticated and has permission to access the resource.
           auth_request /internal/authelia/authz;
@@ -73,7 +73,7 @@
           proxy_connect_timeout 240;
         '';
       };
-
+    };
   };
 
   # auth via authelia
