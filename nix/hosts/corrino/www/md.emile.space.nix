@@ -14,10 +14,10 @@
   # auth via authelia
   services.authelia.instances.main.settings.identity_providers.oidc.clients = [
     {
-      id = "HedgeDoc";
+      client_id = "HedgeDoc";
 
       # ; nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512 --random --random.length 72 --random.charset rfc3986
-      secret = "$pbkdf2-sha512$310000$l4Kyec7Q9oY2GAhWA/xMig$P/MYFmulfgsDNyyiclUzd6le0oSiOvqCIvl4op5DkXtVTxLWlMA3ZwhJ6Z7u.OfIREuEM2htH6asxWPhBhkpNQ";
+      client_secret = "$pbkdf2-sha512$310000$l4Kyec7Q9oY2GAhWA/xMig$P/MYFmulfgsDNyyiclUzd6le0oSiOvqCIvl4op5DkXtVTxLWlMA3ZwhJ6Z7u.OfIREuEM2htH6asxWPhBhkpNQ";
       public = false;
       authorization_policy = "two_factor";
       redirect_uris = [ "https://md.emile.space/auth/oauth2/callback" ];
