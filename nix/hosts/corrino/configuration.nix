@@ -557,13 +557,25 @@ in
     };
 
     "/mnt/storagebox-bx11" = {
-      device = "//u331921.your-storagebox.de/backup";
-      fsType = "cifs";
-      options =
-        let
-          automount_opts = "_netdev,x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-        in
-        [ "${automount_opts},credentials=${config.age.secrets.storage_box_bx11_password.path}" ];
+      device = "u331921@u331921.your-storagebox.de:/home/backup";
+      fsType = "sshfs";
+      options = [ # Filesystem options
+        "allow_other"          # for non-root access
+        "_netdev"              # this is a network fs
+
+        # We don't mount on demand, as that will cause services like navidrome to fail
+        # as the share doesn't yet exist.
+        #"x-systemd.automount" # mount on demand, rather than boot
+
+        #"debug"               # print debug logging
+                               # warning: this causes the one-shot service to never exit
+
+        # SSH options
+        "StrictHostKeyChecking=no"  # prevent the connection from failing if the host's key hasn't been trusted yet
+        "ServerAliveInterval=15" # keep connections alive
+        "Port=23"
+        "IdentityFile=/root/.ssh/id_ed25519"
+      ];
     };
   };
 

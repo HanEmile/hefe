@@ -133,4 +133,18 @@
      
     addons = {};
   };
+
+  services.restic.backups."minecraft" = {
+    repository = "/mnt/storagebox-bx11/minecraft";
+    paths = [ "/var/lib/minecraft" ];
+    timerConfig = null;
+    passwordFile = config.age.secrets.restic_password.path;
+    initialize = true;
+    pruneOpts = [
+      "--keep-daily 7"
+      "--keep-weekly 5"
+      "--keep-monthly 12"
+      "--keep-yearly 75"
+    ];
+  };
 }
