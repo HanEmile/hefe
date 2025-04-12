@@ -46,6 +46,7 @@ in
 
     ./www/tickets.emile.space.nix
     # ./www/talks.emile.space.nix
+    ./www/miniflux.emile.space.nix
     # ./www/stream.emile.space.nix
     ./www/md.emile.space.nix
     ./www/social.emile.space.nix
