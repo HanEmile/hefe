@@ -85,6 +85,20 @@
     };
   };
 
+  services.restic.backups."hedgedoc" = {
+    repository = "/mnt/storagebox-bx11/hedgedoc";
+    paths = [ "/var/lib/hedgedoc" ];
+    timerConfig = null;
+    passwordFile = config.age.secrets.restic_password.path;
+    initialize = true;
+    pruneOpts = [
+      "--keep-daily 7"
+      "--keep-weekly 5"
+      "--keep-monthly 12"
+      "--keep-yearly 75"
+    ];
+  };
+
   # backups
   # services.restic.backups."hedgedoc" = {
   #   user = "u331921";
