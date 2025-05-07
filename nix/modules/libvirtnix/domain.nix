@@ -21,17 +21,17 @@ in
           type = lib.types.submodule {
             options = {
               mode = lib.mkOption {
-                type = lib.types.string;
+                type = lib.types.str;
                 example = "host-passthrough";
                 default = "";
               };
               check = lib.mkOption {
-                type = lib.types.string;
+                type = lib.types.str;
                 example = "none";
                 default = "";
               };
               migratable = lib.mkOption {
-                type = lib.types.string;
+                type = lib.types.str;
                 example = "on";
                 default = "";
               };
@@ -49,7 +49,7 @@ in
                 type = lib.types.submodule {
                   options = {
                     state = lib.mkOption {
-                      type = lib.types.string;
+                      type = lib.types.str;
                       example = "off";
                       default = "";
                     };
