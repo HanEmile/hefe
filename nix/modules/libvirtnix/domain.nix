@@ -1,701 +1,483 @@
-{ pkgs, lib, ... }:
+{ config, lib, ... }:
 
+let
+  mkTag = import ./xml.nix { inherit lib; };
+  pkgs = import <nixpkgs> { };
+
+  stringOption =
+    {
+      default ? "",
+    }:
+    lib.mkOption {
+      type = lib.types.str;
+      default = "${default}";
+    };
+in
 {
-  options = with lib; {
-
-    # meta, this allows defining the package used for each vm individually, defaults should be sane
-    packages = mkOption {
-      type = types.submodule {
-        options = {
-          libvirt = mkPackageOption pkgs "libvirt" { };
-          qemu = mkPackageOption pkgs "qemu" { };
-        };
-      };
-    };
-
-    # attributs for the root `<domain ...>` node
-    type = mkOption {
-      type = types.enum [
-        "xen"
-        "hvm"
-        "kvm"
-        "qemu"
-        "lxc"
-      ];
-      default = "kvm";
-      example = "qemu";
-      description = ''
-        				hypervisor used for running the domain
-
-        				allowed values are driver specific, if missing, plz send PR
-
-        				hvm since since 8.1.0 and QEMU 2.12
-        			'';
-    };
-
-    id = mkOption {
-      type = types.int;
-      default = 0;
-      example = 42;
-    };
-
-    # General metadata
-    name = mkOption {
-      type = types.str;
-      example = "MyGuest";
-    };
-
-    uuid = mkOption {
-      type = types.str;
-      example = "3e3fce45-4f53-4fa7-bb32-11f34168b82b";
-    };
-
-    genid = mkOption {
-      type = types.str;
-      example = "43dc0cf8-809b-4adb-9bea-a9abb5f3d90e";
-    };
-
-    title = mkOption {
-      type = types.str;
-      example = "A short description - title - of the domain";
-    };
-
-    description = mkOption {
-      type = types.str;
-      example = "Some human readable description";
-    };
-
-    metadata = mkOption {
-      type = types.str;
-      default = "";
-      example = ''
-        			  <metadata>
-        			    <app1:foo xmlns:app1="http://app1.org/app1/">..</app1:foo>
-        			    <app2:bar xmlns:app2="http://app1.org/app2/">..</app2:bar>
-        			  </metadata>
-        			'';
-    };
-
-    os = mkOption {
-      type = types.submodule {
-        options = {
-          firmware = mkOption {
-            type = types.enum [
-              "bios"
-              "efi"
-            ];
-            default = "efi";
-            example = "bios";
-          };
-          type = mkOption {
-            type = types.enum [
-              "hvm"
-              "linux"
-            ];
-            default = "hvm";
-            example = "linux";
-          };
-          arch = mkOption { type = types.str; };
-          machine = mkOption { type = types.str; };
-
-          # TODO(emile): features
-          # Search for the following...
-          # > When using firmware auto-selection there are different features enabled in the firmwares
-          # ... here: https://libvirt.org/formatdomain.html
-          # can't bother to implement this now
-
-          # features = mkOption {
-          # 	type = types.submodule {
-          # 		options = {
-          # 			enabled = {
-          # 				type = types.enum [ "yes" "no" ];
-          # 			};
-          # 			name = {};
-          # 		};
-          # 	};
-          # };
-
-          # such as:
-          # <loader readonly='yes' secure='yes' type='pflash'>/usr/share/OVMF/OVMF_CODE.fd</loader>
-          loader = mkOption {
-            type = types.submodule {
-              options = {
-                readonly = mkOption {
-                  type = types.enum [
-                    "yes"
-                    "no"
-                  ];
-                };
-                type = mkOption {
-                  type = types.enum [
-                    "rom"
-                    "pflash"
-                  ];
-                };
-                secure = mkOption {
-                  type = types.enum [
-                    "yes"
-                    "no"
-                  ];
-                };
-                stateless = mkOption {
-                  type = types.enum [
-                    "yes"
-                    "no"
-                  ];
-                };
-                format = mkOption {
-                  type = types.enum [
-                    "raw"
-                    "qcow2"
-                  ];
-                };
-                value = mkOption {
-                  type = types.str;
-                  example = "/usr/share/OVMF/OVMF_CODE.fd";
-                };
+  options = {
+    services.emile.libvirtnix =
+      let
+        cpu = lib.mkOption {
+          type = lib.types.submodule {
+            options = {
+              mode = lib.mkOption {
+                type = lib.types.string;
+                example = "host-passthrough";
+                default = "";
+              };
+              check = lib.mkOption {
+                type = lib.types.string;
+                example = "none";
+                default = "";
+              };
+              migratable = lib.mkOption {
+                type = lib.types.string;
+                example = "on";
+                default = "";
               };
             };
           };
+        };
 
-          # <nvram type='network'>
-          #   <source protocol='iscsi' name='iqn.2013-07.com.example:iscsi-nopool/0'>
-          #     <host name='example.com' port='6000'/>
-          #     <auth username='myname'>
-          #       <secret type='iscsi' usage='mycluster_myname'/>
-          #     </auth>
-          #   </source>
-          # </nvram>
+        features = lib.mkOption {
+          type = lib.types.submodule {
+            options = {
+              acpi = lib.mkEnableOption "enable acpi";
+              apic = lib.mkEnableOption "enable apic";
 
-          # nvram = {
-          # 	type = "network";
-          # 	source = {
-          # 		protocol = "iscsi";
-          # 		name = "iqn.2013-07.com.example:iscsi-nopool/0";
-          # 	};
-          # };
-
-          nvram = mkOption {
-            type = types.submodule {
-              options = {
-                type = mkOption {
-                  type = types.enum [
-                    "file"
-                    "block"
-                    "dir"
-                    "network"
-                    "volume"
-                    "nvme"
-                    "vhostuser"
-                    "vhostvdpa"
-                  ];
-                  default = "";
-                };
-
-                source = mkOption {
-                  type = types.submodule {
-                    options = {
-                      # TODO(emile): figure out how to conditionally allow setting the options below
-                      #              if the type defined above has been set
-
-                      # if type == file
-                      file = mkOption { type = types.str; };
-                      fdgroup = mkOption { type = types.str; };
-
-                      # if type == block
-                      dev = mkOption { type = types.str; };
-
-                      # if type == dir
-                      dir = mkOption { type = types.str; };
-
-                      # if type == network
-                      protocol = mkOption {
-                        type = types.enum [
-                          "nbd"
-                          "iscsi"
-                          "rbd"
-                          "sheepdog"
-                          "gluster"
-                          "vxhs"
-                          "nfs"
-                          "http"
-                          "https"
-                          "ftp"
-                          "ftps"
-                          "tftp"
-                          "ssh"
-                        ];
-                      };
-                      name = mkOption { type = types.str; };
-                      tls = mkOption {
-                        type = types.enum [
-                          "yes"
-                          "no"
-                        ];
-                      };
-                      tlsHostname = mkOption { type = types.str; };
-                      query = mkOption { type = types.str; };
-
-                      # if type == volume
-                      pool = mkOption { type = types.str; };
-                      volume = mkOption { type = types.str; };
-                      mode = mkOption {
-                        type = types.enum [
-                          "direct"
-                          "host"
-                        ];
-                        default = "host";
-                      };
-
-                      # if type == nvme
-                      type = mkOption {
-                        type = types.enum [ "pci" ];
-                        default = "pci";
-                        description = ''
-                          													When the type is `nvme`, only `pci` is supported
-                          													When the type is `vhostuser`, only `unix` is supported
-
-                          													(I've got not clue how to model this is nix, it's essentially an attribute that is overloaded based on another value)
-                          												'';
-                      };
-                      managed = mkOption {
-                        type = types.enum [
-                          "yes"
-                          "no"
-                        ];
-                      };
-                      namespace = mkOption {
-                        type = types.int;
-                        default = 0;
-                      };
-
-                      # if type == vhostuser
-                      # type = see the type in the nvme section above
-                      path = mkOption { type = types.str; };
-
-                      # if type == vhostvdpa
-                      # dev = (defined above in the "type == block" section)
-
-                      # if type == file
-                      # if type == block
-                      # if type == volume
-                      seclabel = mkOption { type = types.str; };
-
-                      index = mkOption {
-                        type = types.int;
-                        default = 0;
-                      };
-
-                      # TODO(emile): implement checks here
-                      # start here and scroll down a bit to the table
-                      # https://libvirt.org/formatdomain.html#hard-drives-floppy-disks-cdroms
-                      # if type == network
-                      host = mkOption {
-                        type = types.submodule {
-                          options = {
-                            name = mkOption { type = types.str; };
-                            port = mkOption {
-                              type = types.int;
-                              default = 0;
-                            };
-                            transport = mkOption { type = types.str; };
-                            socket = mkOption { type = types.str; };
-
-                          };
-                        };
-                      };
-
-                      snapshot = mkOption {
-                        type = types.submodule {
-                          options = {
-                            name = mkOption { type = types.str; };
-                          };
-                        };
-                      };
-
-                      config = mkOption {
-                        type = types.submodule {
-                          options = {
-                            file = mkOption { type = types.str; };
-                          };
-                        };
-                      };
-
-                      # Since 3.9.0, the auth element is supported for a disk type "network" that is using a source element with the protocol attributes "rbd", "iscsi", or "ssh".
-                      auth = mkOption {
-                        type = types.submodule {
-                          options = {
-                            type = mkOption {
-                              # type = types.enum [ "chap" ];
-                              # freeform, yet "chap" is one of the allowed options, I don't know others (yet)
-                              type = types.str;
-                            };
-                            username = mkOption { type = types.str; };
-
-                            # https://libvirt.org/formatsecret.html
-                            secret = mkOption {
-                              type = types.submodule {
-                                options = {
-                                  ephemeral = mkOption {
-                                    type = types.enum [
-                                      "yes"
-                                      "no"
-                                    ];
-                                    default = "no";
-                                  };
-                                  private = mkOption {
-                                    type = types.enum [
-                                      "yes"
-                                      "no"
-                                    ];
-                                    default = "no";
-                                  };
-
-                                  uuid = types.submodule {
-                                    options = {
-                                      value = mkOption {
-                                        type = types.str;
-                                        default = "";
-                                      };
-                                    };
-                                  };
-                                  description = types.submodule {
-                                    options = {
-                                      value = mkOption {
-                                        type = types.str;
-                                        default = "";
-                                      };
-                                    };
-                                  };
-
-                                  usage = types.submodule {
-                                    options = {
-                                      type = mkOption {
-                                        type = types.enum [
-                                          "volume"
-                                          "ceph"
-                                          "iscsi"
-                                          "tls"
-                                          "vtpm"
-                                        ];
-                                        default = "";
-                                      };
-                                      value = mkOption {
-                                        type = types.str;
-                                        default = "";
-                                      };
-
-                                      name = mkOption {
-                                        type = types.submodule {
-                                          options = {
-                                            value = mkOption { type = types.str; };
-                                          };
-                                        };
-                                      };
-
-                                      volume = mkOption {
-                                        type = types.submodule {
-                                          options = {
-                                            value = mkOption { type = types.str; };
-                                          };
-                                        };
-                                      };
-
-                                      # when using the "iscsi" type
-                                      target = mkOption {
-                                        type = types.submodule {
-                                          options = {
-                                            value = mkOption { type = types.str; };
-                                          };
-                                        };
-                                      };
-
-                                    };
-                                  };
-
-                                };
-                              };
-                            }; # end of secret
-
-                          };
-                        };
-                      }; # end of auth
-
-                      # https://libvirt.org/formatstorageencryption.html
-                      encryption = mkOption {
-                        type = types.submodule {
-                          options = {
-                            type = mkOption { type = types.str; };
-
-                            # mandatory
-                            format = mkOption {
-                              type = types.enum [
-                                "default"
-                                "qcow"
-                                "luks"
-                                "luks2"
-                                "luks-any"
-                              ];
-                            };
-
-                            engine = mkOption {
-                              type = types.enum [
-                                "qemu"
-                                "librbd"
-                              ];
-                            };
-
-                            secrets = mkOption {
-                              type = types.listOf (mkOption {
-                                type = types.submodule {
-                                  options = {
-
-                                    # mandatory
-                                    type = mkOption { type = types.enum [ "volume" ]; };
-
-                                    # uuid or usage
-                                    uuid = mkOption { type = types.str; };
-                                    usage = mkOption { type = types.str; };
-
-                                  };
-                                };
-                              });
-                            }; # end of secrets
-
-                            cipher = mkOption {
-                              type = types.submodule {
-                                options = {
-                                  name = mkOption {
-                                    type = types.str;
-                                    example = "'aes', 'des', 'cast5', 'serpent', 'twofish', etc.";
-                                  };
-                                  size = mkOption {
-                                    type = types.str;
-                                    example = "'256', '192', '128', etc.";
-                                  };
-                                  mode = mkOption {
-                                    type = types.str;
-                                    example = "'cbc', 'xts', 'ecb', etc.";
-                                  };
-                                  hash = mkOption {
-                                    type = types.str;
-                                    example = "'md5', 'sha1', 'sha256', etc.";
-                                  };
-                                };
-                              };
-                            }; # end of cipher
-
-                            ivgen = mkOption {
-                              type = types.submodule {
-                                options = {
-                                  name = mkOption {
-                                    type = types.str;
-                                    example = "'plain', 'plain64', 'essiv', etc.";
-                                  };
-                                  hash = mkOption {
-                                    type = types.str;
-                                    example = "'md5', 'sha1', 'sha256'";
-                                  };
-                                };
-                              };
-                            }; # end of ivygen
-                          };
-                        };
-                      }; # end of encryption
-
-                      # TODO(emile): reservations
-                      # Looking at the following, it seems like this can use the source element recursively
-                      # Haven't looked into how to define recursive nix options yet...
-                      # https://github.com/virt-manager/virt-manager/blob/5ddd3456a0ca9836a98fc6ca4f0b2eaab268bf47/tests/data/cli/compare/virt-install-many-devices.xml#L398-L400
-
-                      # TODO(emile): initiator
-
-                      # Based on this here:
-                      # https://github.com/virt-manager/virt-manager/blob/5ddd3456a0ca9836a98fc6ca4f0b2eaab268bf47/tests/data/cli/compare/virt-install-many-devices.xml#L440
-                      address = mkOption {
-                        type = types.submodule {
-                          options = {
-                            domain = mkOption { type = types.int; };
-                            bus = mkOption { type = types.int; };
-                            slot = mkOption { type = types.int; };
-                            function = mkOption { type = types.int; };
-                          };
-                        };
-                      }; # end of address
-
-                      # TODO(emile): slices
-                      # Didn't find any usage of it, why is there documentation for it then?
-
-                      ssl = mkOption {
-                        type = types.submodule {
-                          options = {
-                            verify = mkOption {
-                              type = types.enum [
-                                "yes"
-                                "no"
-                              ];
-                            };
-                          };
-                        };
-                      }; # end of ssl
-
-                      # TODO(emile): cookies for http and https
-
-                      readahead = mkOption {
-                        type = types.submodule {
-                          options = {
-                            size = mkOption { type = types.int; };
-                          };
-                        };
-                      }; # end of readahead
-
-                      timeout = mkOption {
-                        type = types.submodule {
-                          options = {
-                            seconds = mkOption { type = types.int; };
-                          };
-                        };
-                      }; # end of timeout
-
-                      identity = mkOption {
-                        type = types.submodule {
-                          options = {
-                            user = mkOption { type = types.str; };
-                            group = mkOption { type = types.str; };
-
-                            # if ssh
-                            # required
-                            username = mkOption { type = types.str; };
-
-                            # one of these:
-                            agentsock = mkOption { type = types.str; };
-                            keyfile = mkOption { type = types.str; };
-                          };
-                        };
-                      }; # end of identity
-
-                      # disk type "vhostuser"
-                      reconnect = mkOption {
-                        type = types.submodule {
-                          options = {
-                            # mandatory
-                            enabled = mkOption {
-                              type = types.enum [
-                                "yes"
-                                "no"
-                              ];
-                            };
-                            timeout = mkOption {
-                              type = types.int;
-                              description = "seconds";
-                            };
-
-                            # optional for disk type network and protocol nbd
-                            delay = mkOption {
-                              type = types.int;
-                              default = 0;
-                              description = "seconds";
-                            };
-                          };
-                        };
-                      }; # end of reconnect
-
-                      # disk type "ssh"
-                      knownHosts = mkOption {
-                        type = types.submodule {
-                          options = {
-                            path = mkOption { type = types.str; };
-                          };
-                        };
-                      }; # end of knownHosts
-
-                      dataStore = mkOption {
-                        type = types.submodule {
-                          options = {
-                            # TODO(emile): can accept the same types as a `source` element
-                            type = mkOption { type = types.str; };
-
-                            # TODO(emile): can accept format and source subelements
-                            # this is (once again) recursive for the source, stil need to figure
-                            # out how to handle this, just not now
-                          };
-                        };
-                      }; # end of dataStore
-
-                      startupPolicy = mkOption {
-                        type = types.enum [
-                          "mandatory"
-                          "requisite"
-                          "optional"
-                        ];
-                        default = "mandatory";
-                      }; # end of startupPolicy
-
-                      backingStore = mkOption {
-                        type = types.submodule {
-                          options = {
-                            type = mkOption {
-                              # TODO(emile): can accept the same types as a `source` element
-                              type = types.str;
-                            };
-
-                            index = mkOption {
-                              # TODO(emile): figure out if this can just be an int
-                              type = types.str;
-                            };
-
-                            # TODO(emile): can use the following sub elements:
-                            # - format
-                            # - source
-                            # - backingStore
-                          };
-                        };
-                      }; # end of backingStore
-
-                      mirror = mkOption {
-                        type = types.submodule {
-                          options = {
-                            api = mkOption {
-                              type = types.enum [
-                                "copy"
-                                "active-commit"
-                              ];
-                            };
-                            ready = mkOption {
-                              type = types.enum [
-                                "yes"
-                                "abort"
-                                "pivot"
-                              ];
-                            };
-                            # TODO(emile): can use the following sub elements:
-                            # - type (disk types)
-                            # - format
-                            # - source
-                            # - file
-                          };
-                        };
-                      }; # end of mirror
-
+              vmport = lib.mkOption {
+                type = lib.types.submodule {
+                  options = {
+                    state = lib.mkOption {
+                      type = lib.types.string;
+                      example = "off";
+                      default = "";
                     };
                   };
-                }; # end of source
-
+                };
               };
             };
-          }; # end of nvram
+          };
+        };
+      
+        os_boot = lib.mkOption {
+          type = lib.types.submodule {
+            options = {
+              dev = lib.mkOption {
+                type = lib.types.str;
+                example = "hd";
+                default = "";
+              };
+            };
+          };
+        };
+      
+        os_nvram = lib.mkOption {
+          type = lib.types.submodule {
+            options = {
+              value = lib.mkOption {
+                type = lib.types.str;
+                example = "/var/lib/libvirt/qemu/nvram/fileserver2_VARS.fd";
+                default = "";
+              };
+            };
+          };
+        };
+      
+        os_loader = lib.mkOption {
+          type = lib.types.submodule {
+            options = {
+              readonly = lib.mkOption {
+                type = lib.types.str;
+                example = "yes";
+                default = "";
+              };
+              type = lib.mkOption {
+                type = lib.types.str;
+                example = "pflash";
+                default = "";
+              };
+              value = lib.mkOption {
+                type = lib.types.str;
+                example = "/usr/share/OVMF/OVMF_CODE.fd";
+                default = "";
+              };
+            };
+          };
+        };
+      
+        os_type = lib.mkOption {
+          type = lib.types.submodule {
+            options = {
+              arch = lib.mkOption {
+                type = lib.types.str;
+                example = "x86_64";
+                default = "";
+              };
+              machine = lib.mkOption {
+                type = lib.types.str;
+                example = "pc-q35-3.1";
+                default = "";
+              };
+              value = lib.mkOption {
+                type = lib.types.str;
+                example = "hvm";
+                default = "";
+              };
+            };
+          };
+        };
 
+        os = lib.mkOption {
+          description = "os";
+          type = lib.types.submodule {
+            options = {
+              type = os_type;
+              loader = os_loader;
+              nvram = os_nvram;
+              boot = os_boot;
+            };
+          };
+        };
+
+        resource = lib.mkOption {
+          description = "resource";
+          type = lib.types.submodule {
+            options = {
+              partition = lib.mkOption {
+                type = lib.types.str;
+                example = "/machine";
+                default = "";
+              };
+            };
+          };
+        };
+
+        vcpu = lib.mkOption {
+          description = "vcpu";
+          type = lib.types.submodule {
+            options = {
+              placement = lib.mkOption {
+                # TODO(emile): fill up
+                type = lib.types.enum [ "static" ];
+                example = "static";
+                default = "static";
+              };
+              count = lib.mkOption {
+                type = lib.types.int;
+                example = 4;
+                default = 1;
+              };
+            };
+          };
+        };
+
+        mem = lib.mkOption {
+          description = "memory";
+          type = lib.types.submodule {
+            options = {
+              unit = lib.mkOption {
+                # TODO(emile): fill up
+                type = lib.types.enum [
+                  "KiB"
+                  "MiB"
+                  "GiB"
+                  "TiB"
+                ];
+                example = "KiB";
+                default = "KiB";
+              };
+              value = lib.mkOption {
+                type = lib.types.int;
+                example = 2097152;
+                default = 1000;
+              };
+            };
+          };
+        };
+
+        memory = mem;
+        currentMemory = mem;
+
+        metadata = lib.mkOption {
+          description = "metadata submodule";
+          type = lib.types.submodule {
+            options = {
+              libosinfo = lib.mkOption {
+                type = lib.types.str;
+                example = "https://libosinfo.org/xmlns/libvirt/domain/1.0";
+                default = "";
+              };
+              libosinfo_os = lib.mkOption {
+                type = lib.types.str;
+                example = "https://nixos.org/nixos/unknown";
+                default = "";
+              };
+            };
+          };
+        };
+
+        vm = lib.types.submodule {
+          options = {
+            vm_type = stringOption { default = "kvm"; };
+            id = stringOption { };
+            name = stringOption { };
+            uuid = stringOption { };
+
+            inherit
+              metadata
+              memory
+              currentMemory
+              vcpu
+              resource
+              os
+              features
+              cpu
+              ;
+          };
+        };
+      in
+      {
+        enable = lib.mkEnableOption "Enable r2wars-web";
+      
+
+        # Temporary output we write the domain to, in order to inspect the correctness of
+        # the generated xml
+        output.domain = lib.mkOption { type = lib.types.path; };
+
+        # An attrset of VMs
+        vm = lib.mkOption {
+          description = "VMs to define";
+          type = lib.types.attrsOf vm;
         };
       };
-    };
+  };
 
-    memory = lib.mkOption {
-      type = lib.types.int;
-      default = 1024;
-      example = 2048;
-      description = ''
-        The amount of memory to provide to the VM
-      '';
-    };
+  config = lib.mkIf config.services.emile.libvirtnix.enable {
+    services.emile.libvirtnix =
+      let
+        vm = config.services.emile.libvirtnix.vm;
+
+        cpu =
+          vm_name:
+          mkTag {
+            name = "cpu";
+            args = let
+              mode = vm.${vm_name}.cpu.mode;
+              check = vm.${vm_name}.cpu.check;
+              migratable= vm.${vm_name}.cpu.migratable;
+            in [
+              (if (mode != null)
+               then {key = "mode"; val = mode;}
+               else "")
+              (if (check != null)
+               then {key = "check"; val = check;}
+               else "")
+              (if (migratable != null)
+               then {key = "migratable"; val = migratable;}
+               else "")
+            ];
+            closing = false;
+          };
+        
+        features =
+          vm_name:
+          mkTag {
+            name = "features";
+            children = let
+              acpi = vm_name: mkTag {
+                name = "acpi";
+                closing = false;
+              };
+              apic = vm_name: mkTag {
+                name = "apic";
+                closing = false;
+              };
+              vmport = vm_name: mkTag {
+                name = "vmport";
+                args = [
+                  { key = "state"; val = vm.${vm_name}.features.vmport.state; }
+                ];
+                closing = false;
+              };
+            in [
+              (if (vm.${vm_name}.features.acpi != false) then (acpi vm_name) else "")
+              (if (vm.${vm_name}.features.apic != false) then (apic vm_name) else "")
+              (if (vm.${vm_name}.features.vmport != null) then (vmport vm_name) else "")
+            ];
+          };
+
+        os =
+          vm_name:
+          mkTag {
+            name = "os";
+            children = let
+              os_type = vm_name: mkTag {
+                name = "type";
+                args = [
+                  { key = "arch"; val = vm.${vm_name}.os.type.arch; }
+                  { key = "machine"; val = vm.${vm_name}.os.type.machine; }
+                ];
+                value = vm.${vm_name}.os.type.value;
+              };
+              os_loader = vm_name: mkTag {
+                name = "loader";
+                args = [
+                  { key = "readonly"; val = vm.${vm_name}.os.loader.readonly; }
+                  { key = "pflash"; val = vm.${vm_name}.os.loader.type; }
+                ];
+                value = vm.${vm_name}.os.loader.value;
+              };
+              os_nvram = vm_name: mkTag {
+                name = "nvram";
+                value = vm.${vm_name}.os.nvram.value;
+              };
+              os_boot = vm_name: mkTag {
+                name = "type";
+                args = [
+                  { key = "dev"; val = vm.${vm_name}.os.boot.dev; }
+                ];
+                closing = false;
+              };
+            in [
+              (os_type vm_name)
+              (os_loader vm_name)
+              (os_nvram vm_name)
+              (os_boot vm_name)
+            ];
+          };
+
+        resource =
+          vm_name:
+          mkTag {
+            name = "resource";
+            children = [
+              (mkTag {
+                name = "partition";
+                value = "${toString vm.${vm_name}.resource.partition}";
+              })
+            ];
+          };
+
+        vcpu =
+          vm_name:
+          mkTag {
+            name = "vcpu";
+            args = [
+              {
+                key = "placement";
+                val = vm.${vm_name}.vcpu.placement;
+              }
+            ];
+            value = "${toString vm.${vm_name}.vcpu.count}";
+          };
+
+        currentMemory =
+          vm_name:
+          mkTag {
+            name = "currentMemory";
+            args = [
+              {
+                key = "unit";
+                val = vm.${vm_name}.currentMemory.unit;
+              }
+            ];
+            value = "${toString vm.${vm_name}.currentMemory.value}";
+          };
+        memory =
+          vm_name:
+          mkTag {
+            name = "memory";
+            args = [
+              {
+                key = "unit";
+                val = vm.${vm_name}.memory.unit;
+              }
+            ];
+            value = "${toString vm.${vm_name}.memory.value}";
+          };
+
+        libosinfo_os =
+          vm_name:
+          mkTag {
+            name = "libosinfo:os";
+            args = [
+              {
+                key = "id";
+                val = vm.${vm_name}.metadata.libosinfo_os;
+              }
+            ];
+            closing = false;
+          };
+
+        libosinfo_libosinfo =
+          vm_name:
+          mkTag {
+            name = "libosinfo:libosinfo";
+            args = [
+              {
+                key = "xmlns:libosinfo";
+                val = vm.${vm_name}.metadata.libosinfo;
+              }
+            ];
+            children = [
+              (libosinfo_os vm_name)
+            ];
+          };
+
+        metadata =
+          vm_name:
+          mkTag {
+            name = "metadata";
+            children = [ (libosinfo_libosinfo vm_name) ];
+          };
+
+        uuid =
+          vm_name:
+          mkTag {
+            name = "uuid";
+            value = vm.${vm_name}.uuid;
+          };
+
+        name =
+          vm_name:
+          mkTag {
+            name = "name";
+            value = vm.${vm_name}.name;
+          };
+
+        # the vm_name has to be passed in, as we want to accesses the value for the given vm when
+        # generating the config
+        domain =
+          vm_name:
+          mkTag {
+            name = "domain";
+            args = [
+              {
+                key = "type";
+                val = vm.${vm_name}.vm_type;
+              }
+              {
+                key = "id";
+                val = vm.${vm_name}.id;
+              }
+            ];
+            children = [
+              (name vm_name)
+              (uuid vm_name)
+              (metadata vm_name)
+              (memory vm_name)
+              (currentMemory vm_name)
+              (vcpu vm_name)
+              (resource vm_name)
+              (os vm_name)
+              (features vm_name)
+              (cpu vm_name)
+            ];
+          };
+      in
+      {
+        output.domain = pkgs.writeText "libvirt-domain-config.xml" (domain "alan");
+      };
   };
 }
