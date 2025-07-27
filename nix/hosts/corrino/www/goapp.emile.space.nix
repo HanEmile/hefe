@@ -12,12 +12,16 @@
     };
   };
 
+  age.secrets.goapp_oidc_client_secret.owner = "authelia-main";
+  age.secrets.goapp_oidc_client_secret.group = "authelia-main";
+  
   services.authelia.instances.main.settings.identity_providers.oidc.clients = [
     {
-      id = "goapp";
+      client_id = "goapp";
 
       # ; nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512 --random --random.length 72 --random.charset rfc3986
-      secret = "$pbkdf2-sha512$310000$LPXJRoGR9RyTcaT6cADljg$FK8RV5CnKj5ano4fXmRzzvXcX/00F7k/G6nd67t.8iewpwyq8FntV4JgYZSV8AynYMxz1qnL4j3BzITLCM0KgQ";
+      client_secret = "{{ secret \"${config.age.secrets.goapp_oidc_client_secret.path}\" }}";
+
       public = false;
       authorization_policy = "two_factor";
       redirect_uris = [

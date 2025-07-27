@@ -7,18 +7,19 @@
 
     locations = {
       "/" = {
-        proxyPass = "http://127.0.0.1:${toString config.emile.ports.ctf}";
+        # proxyPass = "http://127.0.0.1:${toString config.emile.ports.ctf}";
+        proxyPass = "http://138.199.213.51";
       };
     };
   };
 
-  virtualisation.oci-containers = {
-    # backend = "docker";
-    containers = {
-      "ctfd" = {
-        image = "ctfd/ctfd";
-        ports = [ "${toString config.emile.ports.ctf}:8000" ];
-      };
-    };
-  };
+  # virtualisation.oci-containers = {
+  #   # backend = "docker";
+  #   containers = {
+  #     "ctfd" = {
+  #       image = "ctfd/ctfd";
+  #       ports = [ "${toString config.emile.ports.ctf}:8000" ];
+  #     };
+  #   };
+  # };
 }

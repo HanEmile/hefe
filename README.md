@@ -1,5 +1,14 @@
 # hefe
 
+## Buildhosts
+
+[hydra](https://hydra.emile.space) builds the packages, templates and hosts continously.
+
+- x86_64-linux: corrino (Hetzner AX41)
+- x86_64-darwin: kaitain (Mac Mini)
+- aarch64-linux: pi4
+- aarch64-darwin: caladan (m1 macbook air)
+
 ## Secrets
 
 - Managed using agenix
@@ -30,4 +39,8 @@ Print the generated secrets file as follows:
 ; BUILDHOST=corrino HOSTNAME=lankiveil make deploy
 ; make switch-caladan
 ```
+
+## Troubleshooting
+
+Weird `lock` issues? Try `sudo pkill -9 nix-daemon` on the build machine
 

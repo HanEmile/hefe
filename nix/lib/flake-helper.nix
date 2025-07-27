@@ -6,6 +6,8 @@
   deploy-rs,
   home-manager,
   darwin,
+  flake-utils,
+  pwndbg,
   ...
 }@inputs:
 
@@ -65,7 +67,7 @@ rec {
             if system == "x86_64-linux" then
               self.nixosModules.x86_64-linux
             else if system == "aarch64-darwin" then
-              ({ })
+             { }
             else
               null
           )
@@ -88,6 +90,8 @@ rec {
                     self.overlays.x86_64-linux
                   else if system == "aarch64-darwin" then
                     self.overlays.aarch64-darwin
+                    # // self.overlays.unstable-darwin
+                    # {}
                   else
                     null
                 )
@@ -95,7 +99,9 @@ rec {
                 # no clue why, but when rebuilding corrino and this not being commented,
                 # something in the hardware.bluetooth module breaks
                 #
-                # (if system == "aarch64-darwin" then self.overlays.unstable-darwin else null)
+                # (if system == "aarch64-darwin"
+                # then self.overlays.unstable-darwin
+                # else null)
 
                 (_: _: { inherit (agenix.packages."x86_64-linux") agenix; })
 
@@ -240,4 +246,35 @@ rec {
 
       # don't build hosts that start with an underscore
       (nixpkgs.lib.filterAttrs (name: host: (builtins.substring 0 1 name) != "_") hosts);
+
+  # A function taking an attribute set of flake templates, importing their
+  # flake.nix/output/packages (if there are any) and returning an attribute set
+  # of their packages (if the template has one or more)
+  template-packages =
+    builtins.mapAttrs (name: value:
+      (((import ../../nix/templates/${name}/flake.nix).outputs)
+        { inherit nixpkgs flake-utils pwndbg; })
+        .packages or { }
+    );
+
+  # TODO(emile): templates
+  # apply the above function to the templates
+  # templates = template-packages self.templates;
+
+  # TODO(emile): templates
+  # Merge template packages into root packages with template prefix
+  # merged-template-packages =
+  #   system:
+  #   let
+  #     lib = nixpkgs.lib;
+  #   in
+  #   lib.foldl (
+  #     acc: tplName:
+  #     let
+  #       tplPkgs = templates.${tplName}.${system} or { };
+  #       prefixed = lib.mapAttrs' (pkgName: pkg: lib.nameValuePair "${tplName}-${pkgName}" pkg) tplPkgs;
+  #     in
+  #     acc // prefixed
+  #   ) { } (builtins.attrNames templates);
+  
 }

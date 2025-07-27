@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   home = {
@@ -50,7 +50,7 @@
         fi
       '';
 
-      initExtraBeforeCompInit = ''
+      initContent = lib.mkOrder 550 ''
         ${builtins.readFile ./session_variables.zsh}
         ${builtins.readFile ./functions.zsh}
 
@@ -88,10 +88,8 @@
     kitty = {
       enable = true;
 
-      # package = pkgs.kitty;
-
       font = {
-        name = "Iosevka Nerd Font";
+        name = "Berkeley Mono";
         size = 13;
       };
 
@@ -104,9 +102,6 @@
         tab_bar_edge = "top";
         tab_bar_style = "slant";
         tab_bar_min_tabs = 1;
-
-        # tab_title_template = "{index}[{layout_name[0:2]}]: {title.replace('emile', 'e')[title.rfind('/')+1:]}";
-        # tab_title_template = "{index}[{layout_name[0:2]}]: {title.replace('emile', 'e')}";
         tab_title_template = "{index} {title.replace('emile', 'e')}";
 
         editor = "/Users/emile/.cargo/bin/hx";
@@ -186,7 +181,7 @@
     nixos-rebuild
 
     # editor
-    unstable-darwin.helix
+    unstable.helix
 
     ## formatter
     nixfmt-rfc-style # official formatter for nix code
@@ -194,9 +189,9 @@
     ## language server
     # nodePackages_latest.typescript-language-server # js / typescript
     nil # nix 
-    nodePackages.yaml-language-server # yaml
+    # nodePackages.yaml-language-server # yaml
     python312Packages.python-lsp-server # python
-    gopls # golang
+    # gopls # golang
 
     # binary foo
     radare2
@@ -211,8 +206,8 @@
 
     # go foo
     go
-    delve
-    gotools
+    # delve
+    # gotools
 
     # c foo
     cmake
@@ -260,13 +255,23 @@
 
     taskwarrior3
 
-    drawio
+    # drawio
 
     # cargo rustup
     cargo
 
+    utm
+
+    #nmap ffuf
+    #typst
+    #age
+    #ffmpeg
+    #exiftool
+
     # custom
-    libc-database
+    # libc-database
+
+    # unstable.duckdb
 
     # blender
 

@@ -17,14 +17,13 @@ update:
 	time nix flake update --commit-lock-file
 
 switch-caladan:
-	time nix run https://github.com/LnL7/nix-darwin/archive/master.tar.gz -- switch --flake .#caladan
+	time sudo nix run https://github.com/LnL7/nix-darwin/archive/master.tar.gz -- switch --flake .#caladan
 
 build-corrino:
 	time nix run nixpkgs#nix-output-monitor build .#nixosConfigurations.${HOSTNAME}.config.system.build.toplevel
 
 deploy: # build
 	time nix run -- nixpkgs#nixos-rebuild switch \
-		-vvv \
 		--fast \
 		--build-host root@${BUILDHOST} \
 		--target-host root@${HOSTNAME} \

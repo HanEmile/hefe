@@ -230,7 +230,6 @@ in
       openFirewall = true;
       settings = {
         global = {
-
           ## Browsing/Identification ###
           "workgroup" = "Pacific";
           "server string" = "lampadas";
@@ -322,18 +321,6 @@ in
           "force user" = "emile";
           "guest ok" = "no";
           "read only" = "no";
-
-          # "fruit:aapl" = "yes";
-          # "fruit:copyfile" = "yes";
-          # "fruit:delete_empty_adfiles" = "yes";
-          # "fruit:metadata" = "stream";
-          # "fruit:posix_rename" = "yes";
-          # "fruit:time machine" = "yes";
-          # "fruit:veto_appledouble" = "no";
-          # "fruit:wipe_intentionally_left_blank_rfork" = "yes";
-          # "fruit:nfs_aces" = "no";
-          # "fruit:zero_file_id" = "yes";
-          # "fruit:encoding" = "native";
         };
 
         public = {

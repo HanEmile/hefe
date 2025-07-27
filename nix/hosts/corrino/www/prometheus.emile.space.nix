@@ -38,15 +38,43 @@
           enable = true;
           port = config.emile.ports.prometheus.exporter.nginx;
         };
+        restic = {
+          enable = true;
+          # repository = "sftp:u331921@u331921.your-storagebox.de:/home/backup";
+          repository = "/mnt/storagebox-bx11/corrino";
+          port = config.emile.ports.prometheus.exporter.restic;
+          passwordFile = config.age.secrets.restic_password.path;
+        };
       };
       scrapeConfigs = [
         {
           job_name = "corrino";
           static_configs = [
-            { targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.node.port}" ]; }
-            { targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.systemd.port}" ]; }
-            { targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.smartctl.port}" ]; }
-            { targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.nginx.port}" ]; }
+            {
+              targets = [
+                "127.0.0.1:${toString config.services.prometheus.exporters.node.port}"
+              ];
+            }
+            {
+              targets = [
+                "127.0.0.1:${toString config.services.prometheus.exporters.systemd.port}"
+              ];
+            }
+            {
+              targets = [
+                "127.0.0.1:${toString config.services.prometheus.exporters.smartctl.port}"
+              ];
+            }
+            {
+              targets = [
+                "127.0.0.1:${toString config.services.prometheus.exporters.nginx.port}"
+              ];
+            }
+            {
+              targets = [
+                "127.0.0.1:${toString config.services.prometheus.exporters.restic.port}"
+              ];
+            }
           ];
         }
         {

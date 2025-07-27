@@ -1,13 +1,14 @@
 {
   inputs = {
-    nixpkgs.url = "git+ssh://git@github.com/nixos/nixpkgs.git?shallow=1&ref=nixos-24.11";
+    # nixpkgs.url = "git+ssh://git@github.com/nixos/nixpkgs.git?shallow=1&ref=nixos-24.11";
+    nixpkgs.url = "git+ssh://git@github.com/nixos/nixpkgs.git?shallow=1&ref=nixos-25.05";
     nixpkgs-unstable.url = "git+https://github.com/nixos/nixpkgs?ref=nixpkgs-unstable";
 
     # nix darwin version must match nixpkgs version:
     #   nixpkgs:    nixos-xx.yy
-    #   nix-darwin: nix-darwin-xx.yy
+    #   darwin:     nix-darwin-xx.yy
     # with xx.yy being the same
-    darwin.url = "git+https://github.com/lnl7/nix-darwin?ref=nix-darwin-24.11";
+    darwin.url = "git+https://github.com/lnl7/nix-darwin?ref=nix-darwin-25.05";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     deploy-rs.url = "git+https://github.com/serokell/deploy-rs?ref=master";
@@ -16,7 +17,7 @@
     agenix.url = "git+https://github.com/ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url = "git+https://github.com/nix-community/home-manager?ref=release-24.11";
+    home-manager.url = "git+https://github.com/nix-community/home-manager?ref=release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     naersk.url = "git+https://github.com/nix-community/naersk";
@@ -24,7 +25,9 @@
 
     flake-utils.url = "git+https://github.com/numtide/flake-utils";
 
-    # hefe-internal.url = "git+file:///Users/emile/hefe-internal";
+    pwndbg.url = "git+ssh://git@github.com/pwndbg/pwndbg";
+
+    hefe-internal.url = "git+file:///Users/emile/hefe-internal";
     # hefe-internal.url = "git+ssh://git@git.emile.space/hefe-internal";
 
     # nix registry add flake:mylocalrepo git+file:///path/to/local/repo
@@ -43,42 +46,13 @@
       home-manager, # manage my home envs
       naersk, # build rust stuff
       flake-utils, # common flake utils
-      # hefe-internal,    # internal tooling
+      pwndbg, # fancy gdbinit
+      hefe-internal,    # internal tooling
       ...
     }@inputs:
     let
       lib = import ./nix/lib inputs;
       helper = lib.flake-helper;
-
-      # TODO(emile): move all these functions into the helper, keeping the flake.nix clean
-
-      # A function taking an attribute set of flake templates, importing their
-      # flake.nix/output/packages (if there are any) and returning an attribute set
-      # of their packages (if the template has one or more)
-      template-packages =
-        builtins.mapAttrs (name: value:
-          (((import ./nix/templates/${name}/flake.nix).outputs)
-            { inherit nixpkgs flake-utils; })
-            .packages or { }
-        );
-
-      # apply the above function to the templates
-      templates = template-packages self.templates;
-
-      # Merge template packages into root packages with template prefix
-      merged-template-packages =
-        system:
-        let
-          lib = nixpkgs.lib;
-        in
-        lib.foldl (
-          acc: tplName:
-          let
-            tplPkgs = templates.${tplName}.${system} or { };
-            prefixed = lib.mapAttrs' (pkgName: pkg: lib.nameValuePair "${tplName}-${pkgName}" pkg) tplPkgs;
-          in
-          acc // prefixed
-        ) { } (builtins.attrNames templates);
     in
     {
       hosts = {
@@ -109,16 +83,16 @@
           ip = "corrino";
           description = "Hetzner AX41 dual 512GB NVME";
           modules = [
-            # hefe-internal.nixosModules.corrino
+            hefe-internal.nixosModules.corrino
             (
               { self, ... }:
               {
                 nixpkgs.overlays = [
-                  (final: prev: {
-                    inherit (self.packages.x86_64-linux)
-                      goapp-frontend
-                      ;
-                  })
+                  # (final: prev: {
+                  #   inherit (self.packages.x86_64-linux)
+                  #     goapp-frontend
+                  #     ;
+                  # })
                 ];
               }
             )
@@ -168,8 +142,16 @@
         #   description = "lankiveil bmc";
         # };
 
-        # kaitain = {};
-        # ecaz = {};
+        # kaitain = {
+        #   system = "x86_64-darwin";
+        #   description = "mac mini";
+        # };
+
+        # ecaz = {
+        #   system = "x86_64-linux";
+        #   description = "pi4";
+        # };
+
         # gamont = {};
 
         # futher names: https://neoencyclopedia.fandom.com/wiki/List_of_Dune_planets
@@ -211,12 +193,11 @@
 
         # no clue why, but when rebuilding corrino and this not being commented,
         # something in the hardware.bluetooth module breaks
-        #
         # unstable-darwin = final: prev: {
-        #   unstable-darwin = import nixpkgs-unstable {
-        #     system = "aarch64-darwin";
-        #     config.allowUnfree = true;
-        #   };
+        unstable-darwin = import nixpkgs-unstable {
+          system = "aarch64-darwin";
+          config.allowUnfree = true;
+        };
         # };
       };
 
@@ -236,12 +217,13 @@
                 inherit system;
                 overlays = [
                   (
-                    if system == "x86_64-linux" then
-                      self.overlays.x86_64-linux
-                    else if system == "aarch64-darwin" then
-                      self.overlays.aarch64-darwin
-                    else
-                      null
+                    self.overlays.${system}
+                    # if system == "x86_64-linux" then
+                    #   self.overlays.x86_64-linux
+                    # else if system == "aarch64-darwin" then
+                    #   self.overlays.aarch64-darwin
+                    # else
+                    #   null
                   )
                   # some arguments for packages
                   (_: _: { inherit naersk; })
@@ -250,44 +232,53 @@
             in
             # take all the packages exposed from templates and add them to
             # the packages exposed by this flake
-            merged-template-packages system
-            // {
-              inherit (pkgs) vokobe r2wars-web remarvin;
+              
+            # TODO(emile): templates
+            #helper.merged-template-packages system
+            # //
+            {
+              inherit (pkgs)
+                vokobe
+                r2wars-web
+                # remarvin
+                # glibc-all-in-one
+                ;
             }
           );
 
       hydraJobs = {
         inherit (self) packages;
-        nixosConfigurations = helper.buildHosts self.nixosConfigurations;
-        templates = template-packages self.templates;
+        # nixosConfigurations = helper.buildHosts self.nixosConfigurations;
+        # templates = helper.template-packages self.templates;
       };
 
-      templates = {
-        # ; nix nix registry add hefe /Users/emile/Documents/hefe
-        # ; nix flake init -t hefe#ctf
-        ctf = {
-          description = "A basic ctf env with pwn, rev, ... tools";
-          path = ./nix/templates/ctf;
-          welcomeText = ''
-            # CTF flake template
+      # TODO(emile): templates
+      # templates = {
+      #   # ; nix nix registry add hefe /Users/emile/Documents/hefe
+      #   # ; nix flake init -t hefe#ctf
+      #   ctf = {
+      #     description = "A basic ctf env with pwn, rev, ... tools";
+      #     path = ./nix/templates/ctf;
+      #     welcomeText = ''
+      #       # CTF flake template
 
-            Run `nix develop` to get a shell with pwntools, pwndbg, pycryptodome, ...
+      #       Run `nix develop` to get a shell with pwntools, pwndbg, pycryptodome, ...
 
-            Add packages in the flake as you like.
-          '';
-        };
-        goapp = {
-          description = "A basic golang service";
-          path = ./nix/templates/goapp;
-          welcomeText = ''
-            # A basic golang service
+      #       Add packages in the flake as you like.
+      #     '';
+      #   };
+      #   goapp = {
+      #     description = "A basic golang service";
+      #     path = ./nix/templates/goapp;
+      #     welcomeText = ''
+      #       # A basic golang service
              
-            - using gorilla/mux
-          '';
-        };
+      #       - using gorilla/mux
+      #     '';
+      #   };
 
-        # checks = builtins.mapAttrs (system: deployLib:
-        #     deployLib.deployChecks self.deploy) deploy-rs.lib;
-      };
+      #   # checks = builtins.mapAttrs (system: deployLib:
+      #   #     deployLib.deployChecks self.deploy) deploy-rs.lib;
+      # };
     };
 }

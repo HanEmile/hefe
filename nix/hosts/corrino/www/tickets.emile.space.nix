@@ -18,7 +18,7 @@
       enable = true;
       package = pkgs.pretix;
       plugins = with config.services.pretix.package.plugins; [
-        passbook
+        # passbook
         pages
       ];
       user = "pretix";

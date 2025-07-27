@@ -630,7 +630,13 @@ in
     extraGroups = [ "gitea" ];
     home = "/var/lib/git";
     uid = lib.mkForce 127;
+    # shell = "${pkgs.git}/bin/git-shell";
+    #   openssh.authorizedKeys.keys = [
+    #     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPZi43zHEsoWaQomLGaftPE5k0RqVrZyiTtGqZlpWsew emile@caladan
+    # "
+    # ];
   };
+  
   users.groups.git = {
     gid = lib.mkForce 127;
   };

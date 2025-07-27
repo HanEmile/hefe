@@ -2,7 +2,7 @@
 # $1 = hostname
 # $2 = secretname (with .age suffix)
 
-set -xe
+# set -xe
 
 if [ $# -lt 2 ]; then
     # TODO: print usage

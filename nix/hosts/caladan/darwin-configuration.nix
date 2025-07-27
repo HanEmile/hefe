@@ -1,7 +1,9 @@
 { pkgs, lib, ... }:
 
 {
-  imports = [ ./overlay.nix ];
+  imports = [
+    ./overlay.nix
+  ];
 
   system.stateVersion = 5;
 
@@ -27,9 +29,17 @@
   # users.users."_nixbld3".uid = 307;
   # users.users."_nixbld4".uid = 308;
   # users.users."_nixbld5".uid = 309;
+  
+  # virtualisation.multipass = {
+  #   enable = true;
+  #   package = pkgs.multipass;
+  #   logLevel = "debug";
+  # };
+
+  ids.gids.nixbld = 30000;
 
   nix = {
-    useDaemon = true;
+    # useDaemon = true;
     # package = pkgs.nixFlakes;
     extraOptions =
       ''
@@ -115,10 +125,11 @@
     allowUnsupportedSystem = true;
   };
 
-  services.nix-daemon.enable = true;
+  # services.nix-daemon.enable = true;
 
   # <3
-  security.pam.enableSudoTouchIdAuth = true;
+  # security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   environment = {
     systemPackages = [ ]; # set via home-manager

@@ -4,6 +4,7 @@
 
   # short forms
   tf = "terraform";
+  m = "multipass";
 
   r2help = ''r2 -qq -c "?*~..." --'';
   mosh = "mosh --no-init";

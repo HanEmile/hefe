@@ -13,7 +13,7 @@ pkgs.stdenv.mkDerivation rec {
     owner = "niklasb";
     repo = "libc-database";
     rev = version;
-    sha256 = "Zysjhr76TenMarnoKo+M8DrTNbsnaXSoFZO1puPVoxU=";
+    sha256 = "sha256-Zysjhr76TenMarnoKo+M8DrTNbsnaXSoFZO1puPVoxU=";
   };
 
   # not building, we just want to download the repo

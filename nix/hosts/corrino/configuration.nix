@@ -25,9 +25,11 @@ in
     # ./vm.nix
 
     ./www/git
-    ./www/nix-cache
+    #./www/nix-cache
 
-    ./www/goapp.emile.space.nix
+    # doesn't find the goapp-frontend package, some issue with the overlay being applied, at least
+    # thats what I think the problem is
+    # ./www/goapp.emile.space.nix
 
     # screego
 
@@ -35,12 +37,10 @@ in
     ./www/emile.space.nix
     ./www/tmp.emile.space.nix
     ./www/hydra.emile.space.nix
-    ./www/netbox.emile.space.nix
+    # ./www/netbox.emile.space.nix
     ./www/stats.emile.space.nix
-    # ./www/grafana.emile.space.nix
+    ./www/grafana.emile.space.nix
     # ./www/prometheus.emile.space.nix
-    # ./www/loki.emile.space.nix
-    # ./www/promtail.emile.space.nix
 
     ./www/photo
 
@@ -51,16 +51,19 @@ in
     ./www/md.emile.space.nix
     ./www/social.emile.space.nix
     ./www/sso.emile.space.nix
-    ./www/s3.emile.space.nix
+    # ./www/s3.emile.space.nix
     # ./www/cs.emile.space.nix
-    ./www/irc.emile.space.nix
+    # ./www/irc.emile.space.nix
+    # ./www/cl.emile.space.nix
     # ./www/db.emile.space.nix
 
-    # ./www/ctf.emile.space.nix
+    #./www/ctf.emile.space.nix
     # ./www/magic-hash.emile.space.nix
 
+    ./www/mc.emile.space.nix
+
     # gemini
-    ./gemini/emile.space.nix
+    # ./gemini/emile.space.nix
 
     # general purpose modules
 
@@ -160,9 +163,7 @@ in
       '';
     };
 
-    supportedFilesystems = {
-      "cifs" = true;
-    };
+    supportedFilesystems = [ "cifs" ];
   };
 
   time.timeZone = "Europe/Berlin";
@@ -221,40 +222,40 @@ in
   };
 
   # create a oneshot job to authenticate to Tailscale
-  systemd.services.tailscale-autoconnect = {
-    description = "Automatic connection to Tailscale";
+  # systemd.services.tailscale-autoconnect = {
+  #   description = "Automatic connection to Tailscale";
 
-    # make sure tailscale is running before trying to connect to tailscale
-    after = [
-      "network-pre.target"
-      "tailscale.service"
-    ];
-    wants = [
-      "network-pre.target"
-      "tailscale.service"
-    ];
-    wantedBy = [ "multi-user.target" ];
+  #   # make sure tailscale is running before trying to connect to tailscale
+  #   after = [
+  #     "network-pre.target"
+  #     "tailscale.service"
+  #   ];
+  #   wants = [
+  #     "network-pre.target"
+  #     "tailscale.service"
+  #   ];
+  #   wantedBy = [ "multi-user.target" ];
 
-    # set this service as a oneshot job
-    serviceConfig.Type = "oneshot";
+  #   # set this service as a oneshot job
+  #   serviceConfig.Type = "oneshot";
 
-    # have the job run this shell script
-    script = with pkgs; ''
-      # wait for tailscaled to settle
-      sleep 2
+  #   # have the job run this shell script
+  #   script = with pkgs; ''
+  #     # wait for tailscaled to settle
+  #     sleep 2
 
-      # check if we are already authenticated to tailscale
-      status="$(${tailscale}/bin/tailscale status -json | ${jq}/bin/jq -r .BackendState)"
-      if [ $status = "Running" ]; then # if so, then do nothing
-        exit 0
-      fi
+  #     # check if we are already authenticated to tailscale
+  #     status="$(${tailscale}/bin/tailscale status -json | ${jq}/bin/jq -r .BackendState)"
+  #     if [ $status = "Running" ]; then # if so, then do nothing
+  #       exit 0
+  #     fi
 
-      # otherwise authenticate with tailscale
-      ${tailscale}/bin/tailscale up \
-        --advertise-exit-node --exit-node
-    '';
-    # -authkey ${config.age.secrets.tailscale_authkey}
-  };
+  #     # otherwise authenticate with tailscale
+  #     ${tailscale}/bin/tailscale up \
+  #       --advertise-exit-node --exit-node
+  #   '';
+  #   # -authkey ${config.age.secrets.tailscale_authkey}
+  # };
 
   networking = {
     hostName = "corrino";
@@ -315,6 +316,7 @@ in
         80
         443 # normal web
         config.emile.ports.gitDaemon
+        8085
       ];
       allowedUDPPorts = [
         # 51820 # wireguard
@@ -406,6 +408,9 @@ in
         "docker"
         "libvirtd"
       ];
+      packages = with pkgs; [
+        docker
+      ];
     };
 
     tmpuser1 = {
@@ -441,6 +446,27 @@ in
       # use corrino as a subnet router and an exit node
       useRoutingFeatures = "both";
     };
+
+    restic.backups."corrino" = {
+      repository = "/mnt/storagebox-bx11/corrino";
+      passwordFile = config.age.secrets.restic_password.path;
+      initialize = true;
+      pruneOpts = [
+        "--keep-daily 7"
+        "--keep-weekly 5"
+        "--keep-monthly 12"
+        "--keep-yearly 75"
+      ];
+    };
+    # restic.server = {
+    #   enable = true;
+    #   prometheus = true;
+    #   package = pkgs.restic-rest-server;
+    #   extraFlags = [ "--no-auth" ];
+    #   listenAddress = "127.0.0.1:${toString config.emile.ports.restic}";
+    #   dataDir = "/var/lib/restic";
+    #   appendOnly = true;
+    # };
   };
 
   nix = {
@@ -470,38 +496,38 @@ in
       allowed-uris = https://github.com/ https://git.emile.space/ git+https://github.com/
     '';
 
-    buildMachines = [
-      {
-        hostName = "localhost";
-        system = "x86_64-linux";
-        protocol = "ssh-ng";
-        maxJobs = 8;
-        supportedFeatures = [
-          "nixos-test"
-          "benchmark"
-          "big-parallel"
-          "kvm"
-        ];
-      }
-      {
-        hostName = "caladan.pinto-pike.ts.net";
-        sshUser = "hydra";
-        sshKey = "/var/lib/hydra/.ssh/id_ed25519";
-        system = "aarch64-darwin";
-        protocol = "ssh-ng";
-        maxJobs = 1;
-        speedFactor = 2;
-        supportedFeatures = [
-          "nixos-test"
-          "benchmark"
-          "big-parallel"
-          "kvm"
-        ];
-        mandatoryFeatures = [ ];
-      }
-    ];
+    # buildMachines = [
+    #   {
+    #     hostName = "localhost";
+    #     system = "x86_64-linux";
+    #     protocol = "ssh-ng";
+    #     maxJobs = 8;
+    #     supportedFeatures = [
+    #       "nixos-test"
+    #       "benchmark"
+    #       "big-parallel"
+    #       "kvm"
+    #     ];
+    #   }
+    #   {
+    #     hostName = "caladan.pinto-pike.ts.net";
+    #     sshUser = "hydra";
+    #     sshKey = "/var/lib/hydra/.ssh/id_ed25519";
+    #     system = "aarch64-darwin";
+    #     protocol = "ssh-ng";
+    #     maxJobs = 1;
+    #     speedFactor = 2;
+    #     supportedFeatures = [
+    #       "nixos-test"
+    #       "benchmark"
+    #       "big-parallel"
+    #       "kvm"
+    #     ];
+    #     mandatoryFeatures = [ ];
+    #   }
+    # ];
 
-    distributedBuilds = true;
+    # distributedBuilds = true;
   };
 
   nixpkgs.config = {
@@ -519,22 +545,22 @@ in
   };
 
   virtualisation = {
-    # docker.enable = true;
+    docker.enable = true;
     libvirtd = {
       enable = true;
       qemu = {
         package = pkgs.qemu_kvm;
         runAsRoot = true;
         swtpm.enable = true;
-        ovmf = {
-          enable = true;
-          packages = [
-            (pkgs.unstable.OVMF.override {
-              secureBoot = true;
-              tpmSupport = true;
-            }).fd
-          ];
-        };
+        # ovmf = {
+        #   enable = true;
+        #   packages = [
+        #     (pkgs.unstable.OVMF.override {
+        #       secureBoot = true;
+        #       tpmSupport = true;
+        #     }).fd
+        #   ];
+        # };
       };
     };
     podman = {

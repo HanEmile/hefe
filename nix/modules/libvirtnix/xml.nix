@@ -32,14 +32,27 @@
   closing ? true, # add a closing tag
 }:
 let
-  args_str =
-    " " + lib.strings.concatStrings (lib.strings.intersperse " " (map (x: "${x.key}='${x.val}'") args));
+
+  # filter out all values missing a key
+  # this allows passing empty args such as `{}` which then get discarded
+  filteredArgs = (builtins.filter (x: x ? key) args);
+
+  # convert the list of attr sets into a list of strings
+  mappedArgs = (map (x: "${x.key}='${x.val}'") filteredArgs);
+
+  # [ "A" "B" "C" ] => [ "A" " " "B" " " "C" ]
+  spacedArgs = lib.strings.intersperse "" mappedArgs;
+
+  # [ "A" " " "B" " " "C" ] => "A B C"
+  joinedArgs = lib.strings.concatStrings spacedArgs;
+
+  # prefix the args with a space when inserting
+  args_str = lib.optionalString (filteredArgs != [ ]) (" " + joinedArgs);
+
   child_evaled = lib.strings.concatStrings children;
 
   cond = condition: value: if condition then value else "";
 
   closingTag = if closing == true then "</${name}>" else "";
 in
-"<${name}${
-  lib.optionalString (args != [ ]) args_str
-}${cond (closing == false) "/"}>${value}${child_evaled}${lib.optionalString (closing) closingTag}"
+"<${name}${args_str}${cond (closing == false) "/"}>${value}${child_evaled}${lib.optionalString (closing) closingTag}"

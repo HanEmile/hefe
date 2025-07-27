@@ -38,13 +38,17 @@
     };
   };
 
+  age.secrets.gotosocial_oidc_client_secret.owner = "authelia-main";
+  age.secrets.gotosocial_oidc_client_secret.group = "authelia-main";
+  
   # auth via authelia
   services.authelia.instances.main.settings.identity_providers.oidc.clients = [
     {
-      id = "gotosocial";
+      client_id = "gotosocial";
 
       # ; nix run nixpkgs#authelia -- crypto hash generate pbkdf2 --variant sha512 --random --random.length 72 --random.charset rfc3986
-      secret = "$pbkdf2-sha512$310000$oDpZ5FuO965TbjPoophJXw$dbkAwWFvLN1h1Zh9US2ZOE5ilPRdEHMdGF/x0uorou2UqURrXF0KQmXxsV38F2yYMS7u/ecramKlvfMwsqHOcg";
+      client_secret = "{{ secret \"${config.age.secrets.gotosocial_oidc_client_secret.path}\" }}";
+
       public = false;
       authorization_policy = "two_factor";
       redirect_uris = [ "https://social.emile.space/auth/callback" ];
@@ -92,5 +96,22 @@
     serviceConfig = {
       Restart = "on-failure";
     };
+  };
+
+  services.restic.backups."corrino" = {
+    paths = [ "/var/lib/gotosocial" ];
+  };
+
+  services.restic.backups."gotosocial" = {
+    repository = "/mnt/storagebox-bx11/gotosocial";
+    paths = [ "/var/lib/gotosocial" ];
+    passwordFile = config.age.secrets.restic_password.path;
+    initialize = true;
+    pruneOpts = [
+      "--keep-daily 7"
+      "--keep-weekly 5"
+      "--keep-monthly 12"
+      "--keep-yearly 75"
+    ];
   };
 }

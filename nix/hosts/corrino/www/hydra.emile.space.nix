@@ -21,9 +21,10 @@
   services.hydra = {
     enable = true;
 
-    package = pkgs.hydra_unstable.overrideAttrs (old: {
-      patches = (if old ? patches then old.patches else [ ]) ++ [ ./hydra.patch ];
-    });
+    #package = pkgs.hydra_unstable.overrideAttrs (old: {
+    #  patches = (if old ? patches then old.patches else [ ]) ++ [ ./hydra.patch ];
+    #});
+    package = pkgs.hydra;
 
     listenHost = "*";
     port = config.emile.ports.hydra;

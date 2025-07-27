@@ -5,16 +5,24 @@
     photo = {
       photoprism = 2342;
       immich = 2343;
+      immich-public-proxy = 2344;
     };
     git = 3000;
     hydra = 3001;
     grafana = 3002;
     md = 3003;
     gotosocial = 3004;
-    immich = 3005;
     monica = 3006;
+    miniflux = 3007;
     harmonia = 5000;
+    garage = {
+      s3 = 6001;
+      web = 6002;
+      rpc = 6003;
+      admin = 6004;
+    };
     irc = {
+      bouncer = 6666;
       clear = 6667;
       ssl = 6697;
     };
@@ -34,8 +42,6 @@
       s3 = 9000;
       web = 9001;
     };
-    promtail = 9033;
-    loki = 9034;
     authelia = 9091;
     gitDaemon = 9418;
     prometheus = {
@@ -45,6 +51,7 @@
         nginx = 9913;
         systemd = 9558;
         smartctl = 9633;
+        restic = 9634;
       };
     };
   };
