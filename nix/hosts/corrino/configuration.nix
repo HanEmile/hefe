@@ -60,7 +60,7 @@ in
     #./www/ctf.emile.space.nix
     # ./www/magic-hash.emile.space.nix
 
-    ./www/mc.emile.space.nix
+    # ./www/mc.emile.space.nix
 
     # gemini
     # ./gemini/emile.space.nix
@@ -68,7 +68,7 @@ in
     # general purpose modules
 
     # r2wars
-    ./www/r2wa.rs.nix
+    # ./www/r2wa.rs.nix
 
     # milliways
     # ./remarvin.nix
@@ -552,15 +552,17 @@ in
         package = pkgs.qemu_kvm;
         runAsRoot = true;
         swtpm.enable = true;
-        # ovmf = {
-        #   enable = true;
-        #   packages = [
-        #     (pkgs.unstable.OVMF.override {
-        #       secureBoot = true;
-        #       tpmSupport = true;
-        #     }).fd
-        #   ];
-        # };
+        ovmf = {
+        enable = true;
+        packages = [
+          (
+            pkgs.OVMF.override {
+              secureBoot = true;
+              tpmSupport = true;
+            }
+          ).fd
+          ];
+        };
       };
     };
     podman = {
