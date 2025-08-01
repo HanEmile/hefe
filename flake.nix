@@ -88,11 +88,9 @@
               { self, ... }:
               {
                 nixpkgs.overlays = [
-                  # (final: prev: {
-                  #   inherit (self.packages.x86_64-linux)
-                  #     goapp-frontend
-                  #     ;
-                  # })
+                  (final: prev: {
+                    inherit (self.packages.x86_64-linux) goapp-frontend;
+                  })
                 ];
               }
             )
@@ -249,36 +247,36 @@
       hydraJobs = {
         inherit (self) packages;
         # nixosConfigurations = helper.buildHosts self.nixosConfigurations;
-        # templates = helper.template-packages self.templates;
+        templates = helper.template-packages self.templates;
       };
 
       # TODO(emile): templates
-      # templates = {
-      #   # ; nix nix registry add hefe /Users/emile/Documents/hefe
-      #   # ; nix flake init -t hefe#ctf
-      #   ctf = {
-      #     description = "A basic ctf env with pwn, rev, ... tools";
-      #     path = ./nix/templates/ctf;
-      #     welcomeText = ''
-      #       # CTF flake template
+      templates = {
+        # ; nix nix registry add hefe /Users/emile/Documents/hefe
+        # ; nix flake init -t hefe#ctf
+        ctf = {
+          description = "A basic ctf env with pwn, rev, ... tools";
+          path = ./nix/templates/ctf;
+          welcomeText = ''
+            # CTF flake template
 
-      #       Run `nix develop` to get a shell with pwntools, pwndbg, pycryptodome, ...
+            Run `nix develop` to get a shell with pwntools, pwndbg, pycryptodome, ...
 
-      #       Add packages in the flake as you like.
-      #     '';
-      #   };
-      #   goapp = {
-      #     description = "A basic golang service";
-      #     path = ./nix/templates/goapp;
-      #     welcomeText = ''
-      #       # A basic golang service
-             
-      #       - using gorilla/mux
-      #     '';
-      #   };
+            Add packages in the flake as you like.
+          '';
+        };
+        goapp = {
+          description = "A basic golang service";
+          path = ./nix/templates/goapp;
+          welcomeText = ''
+            # A basic golang service
+         
+            - using gorilla/mux
+          '';
+        };
 
-      #   # checks = builtins.mapAttrs (system: deployLib:
-      #   #     deployLib.deployChecks self.deploy) deploy-rs.lib;
-      # };
+        # checks = builtins.mapAttrs (system: deployLib:
+        #     deployLib.deployChecks self.deploy) deploy-rs.lib;
+      };
     };
 }
