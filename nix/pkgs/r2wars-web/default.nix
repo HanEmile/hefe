@@ -18,7 +18,7 @@ pkgs.buildGoModule rec {
 
   vendorHash = null;
 
-  CGO_ENABLED = 0;
+  env.CGO_ENABLED = 0;
   subPackages = [ "src" ];
 
   postInstall = ''
